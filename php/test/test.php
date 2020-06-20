@@ -1,6 +1,6 @@
 <?php
 //website url
-$siteURL = "https://lab.daithangminh.vn/home_co/Form/XMLparse/XMLparseForm_getByUrl.php?id=".$data["id"]."&screenshot=true";
+$siteURL = "https://keeview.com/tpn1/form/XMLparse/XMLparseForm_getByUrl.php?id=".$data["id"]."&screenshot=true";
 
 //call Google PageSpeed Insights API
 $gData = file_get_contents("https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$siteURL&screenshot=true");

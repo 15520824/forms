@@ -469,7 +469,7 @@
                                                     on:{
                                                         click:function()
                                                         {
-                                                            var popUp = window.open("http://lab.daithangminh.vn/home_co/Form/listForm/XMLparseFormPreview.php",'');
+                                                            var popUp = window.open("http://lab.daithangminh.vn/home_co/form/XMLparseFormPreview.php",'');
                                                             popUp.xmlData=temp.getValue();
                                                         }
                                                     }

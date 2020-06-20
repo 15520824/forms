@@ -32,6 +32,8 @@ data_module.survey.load = function(isLoadAgain = false) {
           if (message.substr(0, 2) == "ok") {
             var st = EncodingClass.string.toVariable(message.substr(2));
             data_module.survey.items = st;
+            if (data_module.question.itemsAnswer === undefined)
+            data_module.question.itemsAnswer = [];
             resolve(st);
           } else {
             console.log(message);
@@ -1770,17 +1772,10 @@ data_module.img.addOne = function(data) {
             console.log(EncodingClass.string.toVariable(message));
             resolve();
           } else {
-            console.log(message);
-            ModalElement.alert({
-              message: message
-            });
             reject();
             return;
           }
         } else {
-          ModalElement.alert({
-            message: message
-          });
           reject();
           return;
         }
@@ -1916,9 +1911,7 @@ data_module.type.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            data_module.survey.load().then(function() {
               data_module.type.updateRemove(id);
-            });
             resolve();
           } else {
             ModalElement.alert({
@@ -2438,9 +2431,9 @@ data_module.services.load = function(loadAgain = false) {
                                   data_module.services.items[i].srclink = "";
                                   break;
                               case "tit_home_forms":
-                                database.services.items[i].subDNS = "forms";
-                                database.services.items[i].srcimg = "../logo_forms.png";
-                                database.services.items[i].srclink = "http://www.forms.com";
+                                  data_module.services.items[i].subDNS = "forms";
+                                  data_module.services.items[i].srcimg = "../logo_forms.png";
+                                  data_module.services.items[i].srclink = "http://www.forms.com";
                                 break;
                               default:
 

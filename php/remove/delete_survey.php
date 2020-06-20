@@ -30,6 +30,7 @@ else{
 
 
 $currentDir = dirname(dirname(dirname(__FILE__)));
+if(trim($data["image"]!=""))
 if(file_exists($currentDir.trim($data["image"],'.')))
     unlink($currentDir.trim($data["image"],'.'));
 
@@ -45,8 +46,8 @@ if (count($search) > 0){
         if (count($search1) > 0){
             for($j=0;$j<count($search1);$j++)
                 {
-                    $connection->query("DELETE FROM ".$prefix."question WHERE id=".$search[$j]["questionid"]);
-                    $connection->query("DELETE FROM ".$prefix."answer WHERE questionid=".$search[$j]["questionid"]);
+                    $connection->query("DELETE FROM ".$prefix."question WHERE id=".$search1[$j]["questionid"]);
+                    $connection->query("DELETE FROM ".$prefix."answer WHERE questionid=".$search1[$j]["questionid"]);
                 }
         }
     }

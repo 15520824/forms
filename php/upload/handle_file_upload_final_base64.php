@@ -23,7 +23,7 @@
 
     try{
     //website url
-    $siteURL = urlencode("https://lab.daithangminh.vn/home_co/Form/listForm/XMLparseForm_getByUrl.php?id=".$data["id"]);
+    $siteURL = urlencode("https://keeview.com/tpn1/form/XMLparseForm_getByUrl.php?id=".$data["id"]);
 
     //call Google PageSpeed Insights API
     $gData = file_get_contents("https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$siteURL&screenshot=true");

@@ -473,7 +473,7 @@
                  var self=this;
                 return new Promise(function(resolve,reject){
                     
-                    var url = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://lab.daithangminh.vn/home_co/Form/XMLparse/XMLparseForm_getByUrl.php?id='+id+'&screenshot=true'
+                    var url = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://keeview.com/tpn1/form/listForm/XMLparseForm_getByUrl.php?id='+id+'&screenshot=true'
 
                     var xhr = new XMLHttpRequest();
                     var formData = new FormData();

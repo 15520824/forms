@@ -7,7 +7,7 @@ $dbname = "form_test";
 $dbnamelibary = "form_test_libary";
 $dbhomename = "home_lab";
 $username = "root";
-$password = "your_root_password";
+$password = "conga";
 $host = "localhost";
 
 // $defaultdb = DatabaseClass::init($host, $username , $password, $dbname);
