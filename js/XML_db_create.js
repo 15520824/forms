@@ -375,7 +375,6 @@
                                 {
                                     if(!checkIDinArray(id,self.prevAnswer)&&checkIDinArray(id,data_module.question.itemsAnswer[resultQuestion.id])){
                                         data.push({name:"id",value:id});
-
                                         var objectSym=propsAsString(data);
                                         self.prevAnswer.push(objectSym);
                                         if(checkEqualValue(objectSym,data_module.question.itemsAnswer[resultQuestion.id]))
@@ -385,22 +384,35 @@
                                             }));    
                                     }else
                                     {
-                                        promiseAll.push(data_module.answer.addOne(data).then(function(elementID,data){
-                                            document.getElementById(elementID).id=data.id;
-                                            self.prevAnswer.push(data);
-                                        }.bind(null,id)))
+                                        promiseAll.push(new Promise(function(resolveChild,rejectChild){
+                                            data_module.answer.addOne(data).then(function(elementID,data){
+                                                document.getElementById(elementID).id=data.id;
+                                                self.prevAnswer.push(data);
+                                                resolveChild(data);
+                                            }.bind(null,id))
+                                            .catch(function(error){
+                                                console.log(error);
+                                                rejectChild(error);
+                                            });
+                                        }))
                                     }
                                    
                                 }else
                                 {
-                                    promiseAll.push(data_module.answer.addOne(data).then(function(elementID , data){
-                                        document.getElementById(elementID).id=data.id;
-                                        self.prevAnswer.push(data);
-                                    }.bind(null, id)))
+                                    promiseAll.push(new Promise(function(resolveChild,rejectChild){
+                                        data_module.answer.addOne(data).then(function(elementID , data){
+                                            document.getElementById(elementID).id=data.id;
+                                            self.prevAnswer.push(data);
+                                            resolveChild(data);
+                                        }.bind(null, id))
+                                        .catch(function(error){
+                                            console.log(error);
+                                            rejectChild(error);
+                                        })
+                                    }));
                                 }
                             }
                         }
-                        
                         Promise.all(promiseAll).then(function(result){
                             resolve(result);
                         })
@@ -511,6 +523,7 @@
         return xmlDbCreate;
     }
     function checkIDinArray(id,arr){
+    
         for(var i=0;i<arr.length;i++){
             if(id==arr[i].id)
             return true;
@@ -564,7 +577,6 @@
                     if ((object.hasOwnProperty(property)&&object[property]!=="")&&!arr[i].hasOwnProperty(property)
                             ||!object.hasOwnProperty(property)&&(arr[i].hasOwnProperty(property)&&arr[i][property]!==""))
                             {
-                                console.log(property,)
                                 return false;
                             }
                         
