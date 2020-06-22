@@ -305,8 +305,6 @@
         return temp;
       },
       page: function(XML, DOMElement, host) {
-        window.host = host;
-        console.log(host);
         var self = this;
         self.defineHeightHeader = 0;
         self.defineHeightParameterElement = 300;
@@ -1665,9 +1663,6 @@
                         ],
                         on: {
                           click: function() {
-                            console.log(
-                              tempObject.childPointDame.questionPoint.getValue()
-                            );
                             xmlModalFeedback.createModal(
                               document.body,
                               tempObject.childPointDame.questionPoint.setObject,
@@ -1822,7 +1817,6 @@
           function(menuItem) {
             docTypeBtn.text = menuItem.text;
             docTypeBtn.icon = menuItem.icon;
-            console.log(menuItem.value);
             switch (menuItem.value) {
               case 3:
                 type = "multichoice";
@@ -1851,7 +1845,6 @@
               objectValue = tempObject.object;
             }
             xmlComponent.changeTypeObject(objectValue, type);
-            console.log(objectValue, type);
             var result = self.element(objectValue);
             tempObject.parentNode.replaceChild(result, tempObject);
             setTimeout(() => {

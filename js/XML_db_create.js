@@ -564,7 +564,6 @@
                     if ((object.hasOwnProperty(property)&&object[property]!=="")&&!arr[i].hasOwnProperty(property)
                             ||!object.hasOwnProperty(property)&&(arr[i].hasOwnProperty(property)&&arr[i][property]!==""))
                             {
-                                console.log(property,)
                                 return false;
                             }
                         

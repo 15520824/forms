@@ -234,7 +234,6 @@ data_module.survey.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.survey.updateRemove(id);
             resolve();
           } else {
@@ -435,7 +434,6 @@ data_module.form.updateAdd = function(object) {
     var arrSrc = document.getElementsByTagName("img");
     for (var i = 0; i < object["changeImg"].length; i++) {
       for (var j = 0; j < arrSrc.length; j++) {
-        console.log(arrSrc[j].getAttribute("src"));
         if (arrSrc[j].getAttribute("src") !== null)
           if (
             arrSrc[j].getAttribute("src").indexOf(object["changeImg"][i][0]) !==
@@ -466,7 +464,6 @@ data_module.form.removeOne = function(id, surveyid) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.form.updateRemove(id);
             resolve();
           } else {
@@ -499,7 +496,6 @@ data_module.form.updateOne = function(data) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             var st = EncodingClass.string.toVariable(message);
             data_module.form.updateEdit(st);
             resolve(st);
@@ -611,7 +607,6 @@ data_module.question.updateAdd = function(object) {
     var arrSrc = document.getElementsByTagName("img");
     for (var i = 0; i < object["changeImg"].length; i++) {
       for (var j = 0; j < arrSrc.length; j++) {
-        console.log(arrSrc[j].getAttribute("src"));
         if (arrSrc[j].getAttribute("src") !== null)
           if (
             arrSrc[j].getAttribute("src").indexOf(object["changeImg"][i][0]) !==
@@ -642,7 +637,6 @@ data_module.question.removeOne = function(id, formid) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.question.updateRemove(id);
             resolve();
           } else {
@@ -675,7 +669,6 @@ data_module.question.updateOne = function(data) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             var st = EncodingClass.string.toVariable(message);
             data_module.question.updateEdit(st);
             resolve(st);
@@ -815,7 +808,6 @@ data_module.answer.updateAdd = function(object) {
     var arrSrc = document.getElementsByTagName("img");
     for (var i = 0; i < object["changeImg"].length; i++) {
       for (var j = 0; j < arrSrc.length; j++) {
-        console.log(arrSrc[j].getAttribute("src"));
         if (arrSrc[j].getAttribute("src") !== null)
           if (
             arrSrc[j].getAttribute("src").indexOf(object["changeImg"][i][0]) !==
@@ -842,7 +834,6 @@ data_module.answer.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.answer.updateRemove(id);
             resolve();
           } else {
@@ -875,7 +866,6 @@ data_module.answer.updateOne = function(data) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             var st = EncodingClass.string.toVariable(message);
             data_module.answer.updateEdit(st);
             resolve(st);
@@ -1029,7 +1019,6 @@ data_module.link_form_question.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.link_form_question.updateRemove(id);
             resolve();
           } else {
@@ -1209,7 +1198,6 @@ data_module.link_survey_form.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.link_survey_form.updateRemove(id);
             resolve();
           } else {
@@ -1241,7 +1229,6 @@ data_module.link_survey_form.updateOne = function(data) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             var st = EncodingClass.string.toVariable(message);
             data_module.link_survey_form.updateEdit(st);
             resolve();
@@ -1415,7 +1402,6 @@ data_module.record.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.record.updateRemove(id);
             resolve();
           } else {
@@ -1622,7 +1608,6 @@ data_module.record_test.removeOne = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.record_test.updateRemove(id);
             resolve();
           } else {
@@ -1695,7 +1680,6 @@ data_module.img.delete = function(name) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             data_module.img.updateRemove(
               EncodingClass.string.toVariable(message)
             );
@@ -1737,7 +1721,6 @@ data_module.img.deleteAllTrash = function() {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             resolve();
           } else {
             console.log(message);
@@ -1769,7 +1752,6 @@ data_module.img.addOne = function(data) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
-            console.log(EncodingClass.string.toVariable(message));
             resolve();
           } else {
             reject();
@@ -2002,7 +1984,6 @@ data_module.usersList.load = function(loadAgain = false) {
                 if (success) {
                     if (message.substr(0, 2) == "ok") {
                         message = message.substr(2);
-                        console.log(EncodingClass.string.toVariable(message));
                         data_module.usersList.items = EncodingClass.string.toVariable(
                             message);
                         resolve(data_module.usersList.items);
@@ -2070,7 +2051,8 @@ data_module.usersList.addOne = function(data) {
 
 data_module.usersList.updateAdd =function(data){
     data_module.usersList.items.push(data);
-    data_module.usersListHome.checkID[data.id]=data_module.usersList.items.length-1;
+    if(data_module.usersList.checkID!==undefined)
+    data_module.usersList.checkID[data.id]=data_module.usersList.items.length-1;
     //data_module.usersList.getDataID(-1,true)
 }
 
@@ -2086,7 +2068,6 @@ data_module.usersList.removeOne = function(id) {
                 if (success) {
                     if (message.substr(0, 2) == "ok") {
                         message = message.substr(2);
-                        console.log(EncodingClass.string.toVariable(message));
                         data_module.usersList.updateRemove(id);
                         resolve();
                     } else {
@@ -2124,7 +2105,6 @@ data_module.usersList.updateOne = function(data) {
                 if (success) {
                     if (message.substr(0, 2) == "ok") {
                         message = message.substr(2);
-                        console.log(EncodingClass.string.toVariable(message));
                         data_module.usersList.updateEdit(EncodingClass.string.toVariable(
                             message));
                         resolve();
@@ -2164,7 +2144,6 @@ data_module.usersListHome.load = function(loadAgain = false) {
                 if (success) {
                     if (message.substr(0, 2) == "ok") {
                         message = message.substr(2);
-                        console.log(EncodingClass.string.toVariable(message));
                         data_module.usersListHome.items = EncodingClass.string.toVariable(message);
                         resolve();
                     } else {
@@ -2219,7 +2198,7 @@ data_module.usersListHome.addOne = function(data) {
                 if (success) {
                     if (message.substr(0, 2) == "ok") {
                         message = message.substr(2);
-                        data_module.usersList.updateAdd(EncodingClass.string.toVariable(
+                        data_module.usersListHome.updateAdd(EncodingClass.string.toVariable(
                             message));
                         resolve(EncodingClass.string.toVariable(message));
                     } else {
@@ -2239,6 +2218,12 @@ data_module.usersListHome.addOne = function(data) {
             }
         })
     })
+}
+
+data_module.usersListHome.updateAdd =function(data){
+  data_module.usersListHome.items.push(data);
+  if(data_module.usersListHome.checkID!==undefined)
+  data_module.usersListHome.checkID[data.id] = data_module.usersListHome.items.length-1;;
 }
 
 data_module.usersListHome.updateOne = function(data) {

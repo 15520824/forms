@@ -420,7 +420,6 @@ blackTheme.reporter_surveys.performSurvey = function(host,id){
     cloneXmlRequest.readXMLFromDB(id,containerList).then(function(e){
         ModalElement.close(-1);
     })
-    console.log(temp);
     temp.close = function()
     {
         temp.selfRemove();
@@ -1097,7 +1096,7 @@ for (k = 0; k < array.length; k++) {
             onclick: function(tempabc) {
                 return function(event, me) {
                     //to do something o day'
-                    console.log(tempabc)
+
                     var temp1 = formTestComponent.formAddUser(host, tempabc);
                     host.frameList.addChild(temp1);
                     host.frameList.activeFrame(temp1);
@@ -1148,7 +1147,6 @@ for (k = 0; k < array.length; k++) {
         content: con,
         onclick: function(id, host) {
             return function(event, me) {
-                console.log(id)
                 blackTheme.reporter_users.removeUser(host, id);
                 DOMElement.cancelEvent(event);
                 return false;
@@ -1266,6 +1264,7 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
             });
         });
     } else {
+        console.log(host)
         if (host.idAccountHome === -1) {
             var dt = new Date();
             var paramEdit = [
@@ -1313,7 +1312,8 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                         value: host.Password.childNodes[1].value
                     });
                 }
-                data_module.usersListHome.addOne(paramEdit).then(function() {
+                data_module.usersListHome.addOne(paramEdit).then(function(value) {
+                    host.idAccountHome = value.id;
                     var paramEditJD = [{
                             name: "privilege",
                             value: host.AdminTrans.childNodes[1].value + host.AdminAccount.childNodes[1]
@@ -1368,7 +1368,6 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                     value: host.Password.childNodes[1].value
                 });
             data_module.usersListHome.updateOne(paramEdit).then(function() {
-                console.log(host.language.childNodes[1].value)
                 var paramEditJD = [{
                         name: "privilege",
                         value: host.AdminTrans.childNodes[1].value + host.AdminAccount.childNodes[1]

@@ -4,7 +4,7 @@ include_once "../jsencoding.php";
 include_once "../prefix.php";
 include_once "../connection.php";
 
-$connection = DatabaseClass::init($host, $username, $password, $dbname);
+$connection = DatabaseClass::init($host, $username, $password, $dbhomename);
 if ($connection == null){
     echo "Can not connect to database!";
     exit();
@@ -19,7 +19,7 @@ if (isset($_POST["fullname"])) {
 $data["fullname"]=$_POST["fullname"];
 }
 if (isset($_POST["email"])) {
-    $data["email"]=(int)$_POST["email"];
+    $data["email"]=$_POST["email"];
 }
 if (isset($_POST["privilege"])) {
     $data["privilege"]=$_POST["privilege"];

@@ -736,7 +736,6 @@
         temp.setCorrect = function()
         {
           var extra = temp.getValue();
-          console.log(extra.score,temp)
           if(extra.score!=0)
           {
             temp.classList.add("correctTrue");
