@@ -1074,12 +1074,14 @@
         });
       },
       cloneSortQuestion: function(object, childContainer) {
-        var x;
         var self = this;
         for (var i = 0; i < object.childNodes.length; i++) {
           if (object.childNodes[i].tagName === "value") {
             if (object.childNodes[i].childNodes[0] !== undefined) {
               value = object.childNodes[i].childNodes[0].data;
+            }else
+            {
+              value = "";
             }
           }
           if (object.childNodes[i].tagName === "style") {
