@@ -3,10 +3,10 @@ var formTestComponent = {};
 formTestComponent.formAddUser = function (host, param) {
     if (param == -1)
         param = undefined;
+    host.param = param;
     var list=[];
     var isDone;
     host.idAccountHome=-1;
-    console.log(param)
     
     if (param !== undefined){
         host.fullname  = formTestComponent.spanInput(LanguageModule.text("title_full_name"),data_module.usersListHome.getID(param.homeid).fullname);
@@ -89,8 +89,8 @@ formTestComponent.formAddUser = function (host, param) {
         }
         host.fullname  = formTestComponent.spanInput(LanguageModule.text("title_full_name"));
         host.email = formTestComponent.spanInput(LanguageModule.text("title_email"));
-        host.AdminTrans = formTestComponent.spanSelect(LanguageModule.text("title_system_rights"),[{text:LanguageModule.text("txt_yes"),value:1},{text:LanguageModule.text("txt_no"),value:0}]);
-        host.AdminAccount = formTestComponent.spanSelect(LanguageModule.text("title_decentralization"),[{text:LanguageModule.text("txt_yes"),value:1},{text:LanguageModule.text("txt_no"),value:0}]);
+        host.AdminTrans = formTestComponent.spanSelect(LanguageModule.text("title_system_rights"),[{text:LanguageModule.text("txt_yes"),value:1},{text:LanguageModule.text("txt_no"),value:0}],0);
+        host.AdminAccount = formTestComponent.spanSelect(LanguageModule.text("title_decentralization"),[{text:LanguageModule.text("txt_yes"),value:1},{text:LanguageModule.text("txt_no"),value:0},0]);
         host.available = formTestComponent.spanSelect(LanguageModule.text("title_work"),[{text:LanguageModule.text("txt_yes"),value:1},{text:LanguageModule.text("txt_no"),value:0}]);
         host.language = formTestComponent.spanInput(LanguageModule.text("title_language"));
         host.theme = formTestComponent.spanInput(LanguageModule.text("title_theme"));
@@ -199,7 +199,7 @@ formTestComponent.formAddUser = function (host, param) {
                         },
                         on: {
                             click: function (evt) {
-                                blackTheme.reporter_users.UpdataFunction(host,param);
+                                blackTheme.reporter_users.UpdataFunction(host);
                             }
                         },
                         child: [{
@@ -219,7 +219,7 @@ formTestComponent.formAddUser = function (host, param) {
                         },
                         on: {
                             click: function (evt) {
-                                    blackTheme.reporter_users.UpdataFunction(host,param);
+                                    blackTheme.reporter_users.UpdataFunction(host);
                                     if(host.frameList.getAllChild().length===1)
                                     formTest.menu.tabPanel.removeTab(host.holder.id);
                                     else
@@ -371,7 +371,6 @@ formTestComponent.spanAutocompleteBoxInsertDetail = function (host,param = "", l
         on: {
             change: function (event, sender) {
                 if (sender._selectedIndex >= 0) {
-                    var object = sender.adapter.texts[sender._selectedIndex];
                     host.idAccountHome=data_module.usersListHome.getName(selectChoice.value).id;
                     host.fullname.childNodes[1].value=data_module.usersListHome.getName(selectChoice.value).fullname;
                     host.email.childNodes[1].value=data_module.usersListHome.getName(selectChoice.value).email;
@@ -454,6 +453,7 @@ formTestComponent.spanAutocompleteBoxInsertDetail = function (host,param = "", l
             }
         }
     })
+    host.selectChoice = selectChoice;
     return DOMElement.div({
         attrs: {
             className: "autocomplete-div container-form"

@@ -189,14 +189,7 @@
           ],
           on: {
             click: function() {
-              for (var i = 0; i < body.childNodes.length; i++) {
-                if (body.childNodes[i].unfold_more !== undefined)
-                  body.childNodes[i].unfold_more();
-              }
-              this.classList.add("displayNone");
-              if (original !== undefined)
-                original.classList.remove("displayNone");
-              active = original;
+              body.unfold_more();
             }
           }
         });
@@ -220,14 +213,7 @@
           ],
           on: {
             click: function() {
-              for (var i = 0; i < body.childNodes.length; i++) {
-                if (body.childNodes[i].unfold_less !== undefined)
-                  body.childNodes[i].unfold_less();
-              }
-              this.classList.add("displayNone");
-              if (reverse !== undefined)
-                reverse.classList.remove("displayNone");
-              active = reverse;
+              body.unfold_less();
             }
           }
         });
@@ -302,6 +288,31 @@
             active.click();
           }
         };
+
+        body.unfold_more = function()
+        {
+          for (var i = 0; i < body.childNodes.length; i++) {
+            if (body.childNodes[i].unfold_more !== undefined)
+              body.childNodes[i].unfold_more();
+          }
+          reverse.classList.add("displayNone");
+          if (original !== undefined)
+            original.classList.remove("displayNone");
+          active = original;
+        }
+
+        body.unfold_less = function()
+        {
+          for (var i = 0; i < body.childNodes.length; i++) {
+            if (body.childNodes[i].unfold_less !== undefined)
+              body.childNodes[i].unfold_less();
+          }
+          original.classList.add("displayNone");
+          if (reverse !== undefined)
+            reverse.classList.remove("displayNone");
+          active = reverse;
+        }
+
         return temp;
       },
       page: function(XML, DOMElement, host) {
@@ -2498,6 +2509,8 @@
             "freebirdFormeditorViewItemInactive"
           )[0];
         else return;
+        if(el.parentNode.unfold_more!==undefined)
+          el.parentNode.unfold_more();
         var clone;
         if (object !== undefined) clone = self.element(object);
         else
@@ -2630,6 +2643,8 @@
             "freebirdFormeditorViewItemInactive"
           )[0];
         else return;
+        if(el.parentNode.unfold_more!==undefined)
+        el.parentNode.unfold_more();
         var index;
 
         var resultEl = el;

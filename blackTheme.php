@@ -1205,7 +1205,9 @@ for (k = 0; k < array.length; k++) {
 return data;
 };
 
-blackTheme.reporter_users.UpdataFunction = function(host,param) {
+blackTheme.reporter_users.UpdataFunction = function(host) {
+    ModalElement.show_loading();
+    var param = host.param;
     if (param !== undefined) {
         var paramEdit = [{
                 name: "id",
@@ -1221,13 +1223,19 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
             },
         ];
         
-        if (host.Password.childNodes[1].style.display !== "none" && host.Password.childNodes[1].value === host.checkPassword.childNodes[1].value&&host.Password.childNodes[1].value!==""){
+        if (host.Password.style.display !== "none"){
+         if(host.Password.childNodes[1].value === host.checkPassword.childNodes[1].value&&host.Password.childNodes[1].value!=="")
             paramEdit.push({
                 name: "password",
                 value: host.Password.childNodes[1].value
             });
+            else
+            {
+                alert("Mật khẩu không hợp lệ hoặc không trùng khớp");
+                ModalElement.close(-1);
+                return;
+            }
         }
-        console.log(paramEdit)
         data_module.usersListHome.updateOne(paramEdit).then(function() {
             var paramEditJD = [
                 {
@@ -1256,15 +1264,29 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                     value: host.theme.childNodes[1].value
                 },
             ];
-            data_module.usersList.updateOne(paramEditJD).then(function() {
-                if(formTest.reporter_users_information.hosts!==undefined)
-                {
-                    formTest.reporter_users_information.redrawTable(host);
-                }
+            data_module.usersList.updateOne(paramEditJD).then(function(value) {
+                Object.assign(host.param,value);
+                host.check.childNodes[1].childNodes[0].setAttribute("disabled","");
+                host.check.childNodes[1].style.backgroundColor = "#ebebe4";
+                formTest.reporter_users_information.redrawTable(host);
+                ModalElement.close(-1);
             });
         });
     } else {
-        console.log(host)
+        if(data_module.usersListHome.getName(host.selectChoice.value)!==undefined)
+        {
+            host.idAccountHome=data_module.usersListHome.getName(host.selectChoice.value).id;
+            for(var i =0;i<data_module.usersList.items.length;i++)
+            {
+                if(data_module.usersList.items[i].homeid == host.idAccountHome)
+                {
+                alert("Account này đã sử dụng");
+                ModalElement.close(-1);
+                return;
+                }
+            }
+        }
+       
         if (host.idAccountHome === -1) {
             var dt = new Date();
             var paramEdit = [
@@ -1305,13 +1327,20 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                     value: dt.getYear(),
                 }
             ];
-            if (host.Password.childNodes[1].style.display !== "none" && host.Password.childNodes[1].value === host
-                .checkPassword.childNodes[1].value){
+            if (host.Password.style.display !== "none"){
+                if( host.Password.childNodes[1].value === host.checkPassword.childNodes[1].value&& host.Password.childNodes[1].value!=="")
                     paramEdit.push({
                         name: "password",
                         value: host.Password.childNodes[1].value
                     });
-                }
+                    else
+                    {
+                        alert("Mật khẩu không hợp lệ hoặc không trùng khớp");
+                        ModalElement.close(-1);
+                        return;
+                    }
+            }
+               
                 data_module.usersListHome.addOne(paramEdit).then(function(value) {
                     host.idAccountHome = value.id;
                     var paramEditJD = [{
@@ -1336,16 +1365,17 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                             value: host.idAccountHome
                         },
                         {
-                            name: "id",
-                            value: host.idAccountHome
-                        },
-                        {
                             name: "theme",
                             value: host.theme.childNodes[1].value
                         },
                     ];
-                data_module.usersList.addOne(paramEditJD).then(function() {
+                data_module.usersList.addOne(paramEditJD).then(function(value) {
                     formTest.reporter_users_information.redrawTable(host);
+                    host.param = value;
+                    host.param.id = value.id;
+                    host.check.childNodes[1].childNodes[0].setAttribute("disabled","");
+                    host.check.childNodes[1].style.backgroundColor = "#ebebe4";
+                    ModalElement.close(-1);
                 });
             });
         } else {
@@ -1362,11 +1392,21 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                     value: host.email.childNodes[1].value
                 },
             ];
-            if (host.Password.childNodes[1].style.display !== "none" && host.Password.childNodes[1].value === host.checkPassword.childNodes[1].value && host.Password.childNodes[1].value!=="")
+            if (host.Password.style.display !== "none" )
+            {
+                if(host.Password.childNodes[1].value === host.checkPassword.childNodes[1].value && host.Password.childNodes[1].value!=="")
                 paramEdit.push({
                     name: "password",
                     value: host.Password.childNodes[1].value
-                });
+                })
+                else
+                {
+                    alert("Mật khẩu không hợp lệ hoặc không trùng khớp");
+                    ModalElement.close(-1);
+                    return;
+                }
+            }
+                
             data_module.usersListHome.updateOne(paramEdit).then(function() {
                 var paramEditJD = [{
                         name: "privilege",
@@ -1390,16 +1430,17 @@ blackTheme.reporter_users.UpdataFunction = function(host,param) {
                         value: host.idAccountHome
                     },
                     {
-                        name: "id",
-                        value: host.idAccountHome
-                    },
-                    {
                         name: "theme",
                         value: host.theme.childNodes[1].value
                     },
                 ]
-                data_module.usersList.addOne(paramEditJD).then(function() {
+                data_module.usersList.addOne(paramEditJD).then(function(value) {
                     formTest.reporter_users_information.redrawTable(host);
+                    host.param = value;
+                    host.param.id = value.id;
+                    host.check.childNodes[1].childNodes[0].setAttribute("disabled","");
+                     host.check.childNodes[1].style.backgroundColor = "#ebebe4";
+                    ModalElement.close(-1);
                 })
             });
         }

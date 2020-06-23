@@ -31,7 +31,7 @@ if (isset($_POST["theme"])) {
     $data["theme"]=(int)$_POST["theme"];
 }
 
-$connection->insert($prefix.'users', $data);
+$data["id"] = $connection->insert($prefix.'users', $data);
 $data["privupdate"]=new Datetime("now");
 echo "ok";
 

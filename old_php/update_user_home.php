@@ -36,7 +36,7 @@ if(sizeof($result) > 0)
 {
     $connection->update($prefixhome.'users', $data);
 }else{
-    $connection->insert($prefixhome.'users', $data);
+    $data["id"] = $connection->insert($prefixhome.'users', $data);
 }
 
 echo "ok";
