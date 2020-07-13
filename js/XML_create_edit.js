@@ -2133,8 +2133,10 @@
       },
       onchangeTabPointBack: function(el) {
         if (el === undefined) return;
-        while (!el.classList.contains("freebirdFormeditorViewItemcardRoot"))
+        while (el.classList!==undefined&&!el.classList.contains("freebirdFormeditorViewItemcardRoot"))
           el = el.parentNode;
+        if(el.classList===undefined)
+          return;
         if (el.mode === 0) return;
         el.childTrueDame.setObject(
           absol.XML.parse(el.childPointDame.getValue())

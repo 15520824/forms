@@ -511,6 +511,11 @@
         return xmlDbCreate;
     }
     function checkIDinArray(id,arr){
+        if(arr == undefined)
+        {
+            arr = [];
+            return false;
+        }
         for(var i=0;i<arr.length;i++){
             if(id==arr[i].id)
             return true;
