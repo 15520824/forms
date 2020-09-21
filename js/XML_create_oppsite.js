@@ -1462,7 +1462,7 @@
                   class: "freebirdFormeditorViewQuestionFooterAssessmentIcons",
                   child: [
                     {
-                      tag: "iconbutton",
+                      tag: "i2flexiconbutton",
                       class: [
                         "quantumWizButtonEl",
                         "quantumWizButtonPaperbuttonEl",
@@ -1564,7 +1564,7 @@
                   class: "freebirdFormeditorViewQuestionFooterAssessmentIcons",
                   child: [
                     {
-                      tag: "iconbutton",
+                      tag: "i2flexiconbutton",
                       class: [
                         "quantumWizButtonEl",
                         "quantumWizButtonPaperbuttonEl",

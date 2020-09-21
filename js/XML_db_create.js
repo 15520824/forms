@@ -43,7 +43,8 @@
                             if(id!==undefined&&id[0]!=='t')
                             {
                                 data.push({name:"id",value:id});
-                                promise = data_module.survey.updateOne(data).then(function(resultDocument){
+                                promise = data_module.survey.updateOne(data)
+                                promise.then(function(resultDocument){
                                     data_module.img.addOne([{name:"id",value:resultDocument.id}]);
                                     promiseAllLink.push(self.deleteOtherForm(resultDocument.id));
                                     for(var i=0;i<result.length;i++){
@@ -381,22 +382,27 @@
                                         if(checkEqualValue(objectSym,data_module.question.itemsAnswer[resultQuestion.id]))
                                             promiseAll.push(Promise.resolve(objectSym))
                                         else
-                                            promiseAll.push(data_module.answer.updateOne(data).then(function(data){
-                                            }));    
+                                        {
+                                            promiseAll.push(data_module.answer.updateOne(data));    
+                                        }
                                     }else
                                     {
-                                        promiseAll.push(data_module.answer.addOne(data).then(function(elementID,data){
+                                        var tempX = data_module.answer.addOne(data);
+                                        tempX.then(function(elementID,data){
                                             document.getElementById(elementID).id=data.id;
                                             self.prevAnswer.push(data);
-                                        }.bind(null,id)))
+                                        }.bind(null,id));
+                                        promiseAll.push(tempX)
                                     }
                                    
                                 }else
                                 {
-                                    promiseAll.push(data_module.answer.addOne(data).then(function(elementID , data){
+                                    var tempX = data_module.answer.addOne(data);
+                                    tempX.then(function(elementID , data){
                                         document.getElementById(elementID).id=data.id;
                                         self.prevAnswer.push(data);
-                                    }.bind(null, id)))
+                                    }.bind(null, id));
+                                    promiseAll.push(tempX);
                                 }
                             }
                         }

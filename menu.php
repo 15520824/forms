@@ -9,10 +9,7 @@ formTest.menu.hostPage = {};
 
 formTest.menu.tabPanel = absol.buildDom({
     tag: "tabview",
-    style: {
-        width: "100%",
-        height: "calc(100vh - 65px)"
-    },
+    class:"main-tabview",
     on: {
         activetab: function (event) {
             // formTest.menu.onChange(index);
@@ -33,13 +30,13 @@ formTest.menu.loadPage = function (taskid) {
         holder: holder
     };
     switch (taskid) {
-        case 1:
-            holder.name = "Quản lý bài kiểm tra";
+        case 11:
+            holder.name = "Danh mục bài kiểm tra";
             formTest.menu.tabPanel.addChild(holder);
             formTest.reporter_surveys.init(host, 1);
             break;
-        case 4:
-            holder.name = "Quản lý loại câu hỏi";
+        case 12:
+            holder.name = "Danh mục nhóm bài kiểm tra";
             formTest.menu.tabPanel.addChild(holder);
             formTest.reporter_type_surveys.init(host, 1);
             break;
@@ -48,7 +45,7 @@ formTest.menu.loadPage = function (taskid) {
         //     formTest.menu.tabPanel.addChild(holder);
         //     formTest.reporter_record.init(host,1);
         //     break;
-        case 2:
+        case 991:
             holder.name = "Hồ sơ cá nhân";
             formTest.menu.tabPanel.addChild(holder);
             var promiseAll = [];
@@ -59,12 +56,12 @@ formTest.menu.loadPage = function (taskid) {
                 formTest.menu.showProfile(host);
             })
             break;
-        case 3:
+        case 31:
             holder.name = "Người dùng";
             formTest.menu.tabPanel.addChild(holder);
             formTest.menu.showListUser(host);
             break;
-        case 6:
+        case 992:
             var promiseAll = [];
             promiseAll.push(data_module.usersListHome.load());
             Promise.all(promiseAll).then(function () {
@@ -146,28 +143,82 @@ formTest.menu.init = function (holder) {
                                 return;
                             }
                             formTest.menu.userContent = content;
-                            var menuItems = [{
-                                text: "Quản lý bài kiểm tra",
-                                pageIndex: 1
-                            },
-                            {
-                                text: "Quản lý loại bài kiểm tra",
-                                pageIndex: 4
-                            },
-                            {
-                                text: "Xem kết quả bài khảo sát",
-                                pageIndex: 6
-                            },
-                            {
-                                text: "Người dùng",
-                                pageIndex: 3
-                            }
-                            ];
+                            var menuItems = [
+                                    {
+                                        tag:"div",
+                                        class:"card-header-logo-ctn",
+                                        child:[
+                                            {
+                                                tag:"img",
+                                                props:{
+                                                    id:"company_logo_img",
+                                                    src:"../logo_forms.png"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        text: "Danh mục",
+                                        pageIndex: 1,
+                                        items:[
+                                            {
+                                                text: "Bài kiểm tra",
+                                                pageIndex: 11
+                                            },
+                                            {
+                                                text: "Nhóm bài kiểm tra",
+                                                pageIndex: 12
+                                            },
+                                            {
+                                                text: "Đợt bài kiểm tra",
+                                                pageIndex: 13
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        text: "Báo cáo",
+                                        pageIndex: 2,
+                                        items:[
+                                            {
+                                                text: "Đợt kiểm tra",
+                                                pageIndex: 21
+                                            },
+                                            {
+                                                text: "Thí sinh",
+                                                pageIndex: 22
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        text: "Hệ thống",
+                                        pageIndex: 3,
+                                        items:[
+                                            {
+                                                text: "Người dùng",
+                                                pageIndex: 31
+                                            }
+                                        ]
+                                    }
+                                ]
+                            // var menuItems = [{
+                            //     text: "Quản lý bài kiểm tra",
+                            //     pageIndex: 1
+                            // },
+                            // {
+                            //     text: "Quản lý loại bài kiểm tra",
+                            //     pageIndex: 4
+                            // },
+                            // {
+                            //     text: "Xem kết quả bài khảo sát",
+                            //     pageIndex: 6
+                            // },
+                            // {
+                            //     text: "Người dùng",
+                            //     pageIndex: 3
+                            // }
+                            // ];
                             var hmenuElement = absol.buildDom({
-                                tag: 'hmenu',
-                                style: {
-                                    paddingLeft: "10px"
-                                },
+                                tag: 'vrootmenu',
                                 props: {
                                     items: menuItems
                                 },
@@ -193,7 +244,7 @@ formTest.menu.init = function (holder) {
                                 }),
                                 content: "Hồ sơ cá nhân",
                                 onclick: function (index) {
-                                    formTest.menu.loadPage(2);
+                                    formTest.menu.loadPage(991);
                                 }
                             },
                             {
@@ -429,8 +480,7 @@ formTest.menu.init = function (holder) {
                                     });
                                 }
                             }
-                            holder.appendChild(
-                                DOMElement.div({
+                            var leftHolder = DOMElement.div({
                                     attrs: {
                                         style: {
                                             width: "100%",
@@ -438,256 +488,276 @@ formTest.menu.init = function (holder) {
                                         }
                                     },
                                     children: [
-                                        DOMElement.table({
-                                            attrs: {
-                                                width: "100%"
-                                            },
-                                            data: [
-                                                [
-                                                    {
-                                                        attrs: {
-                                                            style: {
-                                                                width: "50px",
-                                                                textAlign: "center",
-                                                                height: "10px"
-                                                            }
-                                                        },
-                                                        children: [
-                                                            DOMElement.i({
-                                                                attrs: {
-                                                                    className: "material-icons",
-                                                                    style: {
-                                                                        height: "30px",
-                                                                        cursor: "pointer",
-                                                                        paddingRight: "5px",
-                                                                        color: "black"
-                                                                    },
-                                                                    onclick: function (event, me) {
-                                                                        formTest.menu
-                                                                            .showMenuTab(
-                                                                                holder);
-                                                                    }
-                                                                },
-                                                                text: "reorder"
-                                                            })
-                                                        ]
-                                                    },
-                                                    DOMElement.div({
-                                                        attrs: {
-                                                            style: {
-                                                                position: "relative",
-                                                                maxHeight: "200px"
-                                                            }
-                                                        },
-                                                        children: [DOMElement.div({
-                                                            attrs: {
-                                                                id: "box_menutab",
-                                                                style: {
-                                                                    position: "absolute",
-                                                                    zIndex: 1001,
-                                                                    left: "0px",
-                                                                    top: "25px",
-                                                                    backgroundColor: "#ffffff",
-                                                                    border: "1px solid #d6d6d6",
-                                                                    zIndex: "1001",
-                                                                    borderRadius: "3px",
-                                                                    boxShadow: "2.8px 2.8px 12px 0 rgba(7, 7, 7, 1)",
-                                                                    visibility: "hidden"
-                                                                }
-                                                            },
-                                                            children: DOMElement.table({
-                                                                attrs: {
-                                                                    style: {
-                                                                        width: "100%",
-                                                                        cursor: "pointer"
-                                                                    }
-                                                                },
-                                                                data: [
-                                                                    dataMenuTab1,
-                                                                    dataMenuTab2
-                                                                ]
-                                                            })
-                                                        })]
-                                                    }),
-                                                    {
-                                                        attrs: {
-                                                            style: {
-                                                                borderLeft: "1px solid #aaaaaa",
-                                                                height: "50px",
-                                                                width: "20px"
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        attrs: {
-                                                            style: {
-                                                                textAlign: "center",
-                                                                paddingTop: "10px",
-                                                                paddingBottom: "10px",
-                                                                height: "50px",
-                                                                width: "30px"
-                                                            }
-                                                        },
-                                                        children: [DOMElement.img({
-                                                            attrs: {
-                                                                id: "company_logo_img",
-                                                                src: "../logo_forms.png",
-                                                                style: {
-                                                                    maxHeight: "30px"
-                                                                }
-                                                            }
-                                                        })]
-                                                    },
-                                                    {
-                                                        attrs: {
-                                                            style: {
-                                                                borderRight: "1px solid #aaaaaa",
-                                                                height: "50px",
-                                                                width: "20px"
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        attrs: {
-                                                            id: "title_page_init",
-                                                            style: {
-                                                                color: "black",
-                                                                font: "16px Helvetica, Arial, sans-serif",
-                                                                fontWeight: "bold",
-                                                                whiteSpace: "nowrap",
-                                                                textAlign: "left",
-                                                                height: "40px",
-                                                                verticalAlign: "middle",
-                                                                paddingLeft: "10px",
-                                                                display: 'none'
+                                        hmenuElement,
+                                        // DOMElement.table({
+                                        //     attrs: {
+                                        //         width: "100%"
+                                        //     },
+                                        //     data: [
+                                        //         [
+                                        //             {
+                                        //                 attrs: {
+                                        //                     style: {
+                                        //                         width: "50px",
+                                        //                         textAlign: "center",
+                                        //                         height: "10px"
+                                        //                     }
+                                        //                 },
+                                        //                 children: [
+                                        //                     DOMElement.i({
+                                        //                         attrs: {
+                                        //                             className: "material-icons",
+                                        //                             style: {
+                                        //                                 height: "30px",
+                                        //                                 cursor: "pointer",
+                                        //                                 paddingRight: "5px",
+                                        //                                 color: "black"
+                                        //                             },
+                                        //                             onclick: function (event, me) {
+                                        //                                 formTest.menu
+                                        //                                     .showMenuTab(
+                                        //                                         holder);
+                                        //                             }
+                                        //                         },
+                                        //                         text: "reorder"
+                                        //                     })
+                                        //                 ]
+                                        //             },
+                                        //             DOMElement.div({
+                                        //                 attrs: {
+                                        //                     style: {
+                                        //                         position: "relative",
+                                        //                         maxHeight: "200px"
+                                        //                     }
+                                        //                 },
+                                        //                 children: [DOMElement.div({
+                                        //                     attrs: {
+                                        //                         id: "box_menutab",
+                                        //                         style: {
+                                        //                             position: "absolute",
+                                        //                             zIndex: 1001,
+                                        //                             left: "0px",
+                                        //                             top: "25px",
+                                        //                             backgroundColor: "#ffffff",
+                                        //                             border: "1px solid #d6d6d6",
+                                        //                             zIndex: "1001",
+                                        //                             borderRadius: "3px",
+                                        //                             boxShadow: "2.8px 2.8px 12px 0 rgba(7, 7, 7, 1)",
+                                        //                             visibility: "hidden"
+                                        //                         }
+                                        //                     },
+                                        //                     children: DOMElement.table({
+                                        //                         attrs: {
+                                        //                             style: {
+                                        //                                 width: "100%",
+                                        //                                 cursor: "pointer"
+                                        //                             }
+                                        //                         },
+                                        //                         data: [
+                                        //                             dataMenuTab1,
+                                        //                             dataMenuTab2
+                                        //                         ]
+                                        //                     })
+                                        //                 })]
+                                        //             }),
+                                        //             {
+                                        //                 attrs: {
+                                        //                     style: {
+                                        //                         borderLeft: "1px solid #aaaaaa",
+                                        //                         height: "50px",
+                                        //                         width: "20px"
+                                        //                     }
+                                        //                 }
+                                        //             },
+                                        //             {
+                                        //                 attrs: {
+                                        //                     style: {
+                                        //                         textAlign: "center",
+                                        //                         paddingTop: "10px",
+                                        //                         paddingBottom: "10px",
+                                        //                         height: "50px",
+                                        //                         width: "30px"
+                                        //                     }
+                                        //                 },
+                                        //                 children: [DOMElement.img({
+                                        //                     attrs: {
+                                        //                         id: "company_logo_img",
+                                        //                         src: "../logo_forms.png",
+                                        //                         style: {
+                                        //                             maxHeight: "30px"
+                                        //                         }
+                                        //                     }
+                                        //                 })]
+                                        //             },
+                                        //             {
+                                        //                 attrs: {
+                                        //                     style: {
+                                        //                         borderRight: "1px solid #aaaaaa",
+                                        //                         height: "50px",
+                                        //                         width: "20px"
+                                        //                     }
+                                        //                 }
+                                        //             },
+                                        //             {
+                                        //                 attrs: {
+                                        //                     id: "title_page_init",
+                                        //                     style: {
+                                        //                         color: "black",
+                                        //                         font: "16px Helvetica, Arial, sans-serif",
+                                        //                         fontWeight: "bold",
+                                        //                         whiteSpace: "nowrap",
+                                        //                         textAlign: "left",
+                                        //                         height: "40px",
+                                        //                         verticalAlign: "middle",
+                                        //                         paddingLeft: "10px",
+                                        //                         display: 'none'
 
-                                                            }
-                                                        },
-                                                        children: [DOMElement.textNode()]
-                                                    },
-                                                    hmenuElement,
-                                                    {
-                                                        attrs: {
-                                                            style: {
-                                                                width: "10px"
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        attrs: {
-                                                            align: "right",
-                                                            style: {
-                                                                width: "208px",
-                                                                //borderLeft: "1px solid #aaaaaa"
-                                                            }
-                                                        },
-                                                        children: [
-                                                            DOMElement.table({
-                                                                attrs: {
-                                                                    align: "left"
-                                                                },
-                                                                data: [
-                                                                    [
+                                        //                     }
+                                        //                 },
+                                        //                 children: [DOMElement.textNode()]
+                                        //             },
+                                        //             {
+                                        //                 attrs: {
+                                        //                     style: {
+                                        //                         width: "10px"
+                                        //                     }
+                                        //                 }
+                                        //             },
+                                        //             {
+                                        //                 attrs: {
+                                        //                     align: "right",
+                                        //                     style: {
+                                        //                         width: "208px",
+                                        //                         //borderLeft: "1px solid #aaaaaa"
+                                        //                     }
+                                        //                 },
+                                        //                 children: [
+                                        //                     DOMElement.table({
+                                        //                         attrs: {
+                                        //                             align: "left"
+                                        //                         },
+                                        //                         data: [
+                                        //                             [
 
-                                                                        DOMElement
-                                                                            .i({
-                                                                                attrs: {
-                                                                                    className: "material-icons",
-                                                                                    style: {
-                                                                                        fontSize: "30px",
-                                                                                        color: "#ff3823"
-                                                                                    },
-                                                                                },
+                                        //                                 DOMElement
+                                        //                                     .i({
+                                        //                                         attrs: {
+                                        //                                             className: "material-icons",
+                                        //                                             style: {
+                                        //                                                 fontSize: "30px",
+                                        //                                                 color: "#ff3823"
+                                        //                                             },
+                                        //                                         },
 
-                                                                                text: "comment"
-                                                                            }),
-                                                                        {
-                                                                            attrs: {
-                                                                                style: {
-                                                                                    width: "10px",
-                                                                                    borderRight: "1px solid rgb(170, 170, 170)"
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        {
-                                                                            attrs: {
-                                                                                style: {
-                                                                                    width: "10px"
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        DOMElement
-                                                                            .i({
-                                                                                attrs: {
-                                                                                    className: "material-icons",
-                                                                                    style: {
-                                                                                        fontSize: "30px",
-                                                                                        color: "#7a7a7a"
-                                                                                    },
-                                                                                },
+                                        //                                         text: "comment"
+                                        //                                     }),
+                                        //                                 {
+                                        //                                     attrs: {
+                                        //                                         style: {
+                                        //                                             width: "10px",
+                                        //                                             borderRight: "1px solid rgb(170, 170, 170)"
+                                        //                                         }
+                                        //                                     }
+                                        //                                 },
+                                        //                                 {
+                                        //                                     attrs: {
+                                        //                                         style: {
+                                        //                                             width: "10px"
+                                        //                                         }
+                                        //                                     }
+                                        //                                 },
+                                        //                                 DOMElement
+                                        //                                     .i({
+                                        //                                         attrs: {
+                                        //                                             className: "material-icons",
+                                        //                                             style: {
+                                        //                                                 fontSize: "30px",
+                                        //                                                 color: "#7a7a7a"
+                                        //                                             },
+                                        //                                         },
 
-                                                                                text: "help"
-                                                                            }),
-                                                                        {
-                                                                            attrs: {
-                                                                                style: {
-                                                                                    width: "10px"
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        DOMElement
-                                                                            .i({
-                                                                                attrs: {
-                                                                                    className: "material-icons " +
-                                                                                        DOMElement
-                                                                                            .dropdownclass
-                                                                                            .button,
-                                                                                    style: {
-                                                                                        fontSize: "40px",
-                                                                                        cursor: "pointer"
-                                                                                    },
-                                                                                    onclick: function (host) {
-                                                                                        return function (event, me) {
-                                                                                            host.toggle();
-                                                                                            DOMElement.cancelEvent(event);
-                                                                                            return false;
-                                                                                        }
-                                                                                    }
-                                                                                        (
-                                                                                            h1)
-                                                                                },
-                                                                                text: "account_circle"
-                                                                            }),
-                                                                        {
-                                                                            attrs: {
-                                                                                style: {
-                                                                                    width: "10px"
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        temText,
-                                                                        h1
-                                                                    ]
-                                                                ]
-                                                            })
-                                                        ]
-                                                    }
-                                                ]
-                                            ]
-                                        })
+                                        //                                         text: "help"
+                                        //                                     }),
+                                        //                                 {
+                                        //                                     attrs: {
+                                        //                                         style: {
+                                        //                                             width: "10px"
+                                        //                                         }
+                                        //                                     }
+                                        //                                 },
+                                        //                                 DOMElement
+                                        //                                     .i({
+                                        //                                         attrs: {
+                                        //                                             className: "material-icons " +
+                                        //                                                 DOMElement
+                                        //                                                     .dropdownclass
+                                        //                                                     .button,
+                                        //                                             style: {
+                                        //                                                 fontSize: "40px",
+                                        //                                                 cursor: "pointer"
+                                        //                                             },
+                                        //                                             onclick: function (host) {
+                                        //                                                 return function (event, me) {
+                                        //                                                     host.toggle();
+                                        //                                                     DOMElement.cancelEvent(event);
+                                        //                                                     return false;
+                                        //                                                 }
+                                        //                                             }
+                                        //                                                 (
+                                        //                                                     h1)
+                                        //                                         },
+                                        //                                         text: "account_circle"
+                                        //                                     }),
+                                        //                                 {
+                                        //                                     attrs: {
+                                        //                                         style: {
+                                        //                                             width: "10px"
+                                        //                                         }
+                                        //                                     }
+                                        //                                 },
+                                        //                                 temText,
+                                        //                                 h1
+                                        //                             ]
+                                        //                         ]
+                                        //                     })
+                                        //                 ]
+                                        //             }
+                                        //         ]
+                                        //     ]
+                                        // })
                                     ]
-                                })
-                            );
-                            holder.appendChild(DOMElement.div({
-                                attrs: {
-                                    style: {
-                                        backgroundColor: "#f7f6f6",
-                                        paddingTop: "10px"
-                                    }
-                                },
-                                children: [formTest.menu.tabPanel]
-                            }));
-                            formTest.menu.loadPage(1);
+                            })
+                            var rightHolder = formTest.menu.tabPanel;
+                            absol.buildDom({
+                                elt: holder,
+                                child:[
+                                        {
+                                            tag:"div",
+                                            class:"mainstream-left",
+                                            child:[
+                                                leftHolder
+                                            ]
+                                        },
+                                        {
+                                            tag:"div",
+                                            class:"mainstream-right",
+                                            child:[
+                                                rightHolder
+                                            ]
+                                        },
+                                    ]
+                            })
+                           
+                            // holder.appendChild(DOMElement.div({
+                            //     attrs: {
+                            //         style: {
+                            //             backgroundColor: "#f7f6f6",
+                            //             paddingTop: "10px"
+                            //         }
+                            //     },
+                            //     children: []
+                            // }));
+                            formTest.menu.loadPage(11);
                         } else {
                             ModalElement.alert({
                                 message: message
@@ -923,7 +993,7 @@ formTest.menu.showProfile = function (host) {
                             },
                             data: [[
                                 absol.buildDom({
-                                    tag: "iconbutton",
+                                    tag: "i2flexiconbutton",
                                     on: {
                                         click: function (host) {
                                             return function () {
@@ -951,7 +1021,7 @@ formTest.menu.showProfile = function (host) {
                                     }
                                 },
                                 absol.buildDom({
-                                    tag: "iconbutton",
+                                    tag: "i2flexiconbutton",
                                     on: {
                                         click: function (host) {
                                             return function () {
@@ -1073,7 +1143,7 @@ formTest.menu.showListUser = function (host) {
                             },
                             data: [[
                                 absol.buildDom({
-                                    tag: "iconbutton",
+                                    tag: "i2flexiconbutton",
                                     on: {
                                         click: function (host) {
                                             return function () {
@@ -1101,7 +1171,7 @@ formTest.menu.showListUser = function (host) {
                                     }
                                 },
                                 absol.buildDom({
-                                    tag: "iconbutton",
+                                    tag: "i2flexiconbutton",
                                     on: {
                                         click: function (host) {
                                             return function () {

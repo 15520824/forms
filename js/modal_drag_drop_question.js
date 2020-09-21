@@ -480,7 +480,7 @@
                     if(event.itemElt._data.typeList == 0){
                       ModalElement.show_loading();
                       var params =[
-                        {name:"prefix",value:""},
+                        {name:"prefix",value:formTest.prefixhome},
                         {name:"dbname",value: formTest.dbnamelibary},
                         {name:"id",value: me.value.replace(formTest.dbnamelibary,"")}
                       ]
@@ -543,6 +543,7 @@
       },
       getXMLSurvey: function() {
         var self = this;
+       
         return new Promise(function(resolve, reject) {
           var temp = document.getElementsByClassName("on-hold");
           var id;
@@ -550,6 +551,7 @@
             temp = temp[0];
             id = temp.id;
           } else reject();
+          var typeList = temp.typeList;
           while (
             !temp.parentNode.classList.contains(
               "modal-upload-XML-body-drop-area-main"
@@ -557,7 +559,7 @@
           ) {
             temp = temp.parentNode;
           }
-          if(temp.typeList === 0){
+          if(typeList == 1){
             ModalElement.show_loading();
             xmlDbLoad.loadSurvey(id,false,false).then(function(result) {
               ModalElement.close(-1);
@@ -567,7 +569,7 @@
           }
           else{
             var params = [
-              {name:"prefix",value:""},
+              {name:"prefix",value:formTest.prefixhome},
               {name:"dbname",value: formTest.dbnamelibary},
               {name:"id",value: id}
             ]

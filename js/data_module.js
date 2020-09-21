@@ -486,7 +486,6 @@ data_module.form.removeOne = function(id, surveyid) {
 };
 
 data_module.form.updateOne = function(data) {
-  console.log(data);
   return new Promise(function(resolve, reject) {
     
     FormClass.api_call({
@@ -712,7 +711,6 @@ data_module.answer.load = function(id) {
           if (message.substr(0, 2) == "ok") {
             var st = EncodingClass.string.toVariable(message.substr(2));
             data_module.answer.items.concat(st);
-            console.log(st, "douma");
             resolve();
           } else {
             ModalElement.alert({
@@ -749,7 +747,6 @@ data_module.answer.loadByQuestion = function(id) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             var st = EncodingClass.string.toVariable(message.substr(2));
-            console.log(st)
             resolve(st);
           } else {
             ModalElement.alert({
@@ -1121,6 +1118,7 @@ data_module.link_survey_form.loadBySurvey = function(id) {
           value: id
         }
       ];
+      console.log(id)
     FormClass.api_call({
       url: "./php/load/load_link_survey_form_by_survey.php",
       params: id,
@@ -2337,7 +2335,6 @@ data_module.company.load = function(loadAgain = false) {
                       message = message.substr(2);
                       var temp = EncodingClass.string
                           .toVariable(message);
-                      console.log(temp)
                       temp = temp[0];
                       data_module.company.item = temp;
                       data_module.company.item.nameCompany = temp.name;

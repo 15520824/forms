@@ -166,7 +166,7 @@ formTestComponent.formAddUser = function (host, param) {
                 class: 'absol-single-page-header',
                 child:[
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         style: {
                         },
                         on: {
@@ -192,7 +192,7 @@ formTestComponent.formAddUser = function (host, param) {
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         class:"info",
                         style: {
                             marginLeft: "10px"
@@ -213,7 +213,7 @@ formTestComponent.formAddUser = function (host, param) {
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         style: {
                             marginLeft: "10px"
                         },
@@ -367,6 +367,7 @@ formTestComponent.spanAutocompleteBoxInsertDetail = function (host,param = "", l
         },
         style: {
             backgroundColor: "white",
+            padding:0
         },
         on: {
             change: function (event, sender) {
@@ -456,7 +457,7 @@ formTestComponent.spanAutocompleteBoxInsertDetail = function (host,param = "", l
     host.selectChoice = selectChoice;
     return DOMElement.div({
         attrs: {
-            className: "autocomplete-div container-form"
+            className: "autocomplete-div container-form",
         },
         children: [
             DOMElement.span({
@@ -525,3 +526,28 @@ formTestComponent.formatDate = function(date)
     tempString+=date.getFullYear();
     return tempString;
 }
+
+
+function I2FlexiconButton(){
+
+}
+
+I2FlexiconButton.tag = 'I2FlexiconButton'.toLowerCase();
+
+I2FlexiconButton.prototype.addChild = function(child){
+    if (child.classList.contains('mdi') ||child.classList.contains('material-icons') ){
+        this.icon = child;
+    }
+    else if (child.tagName == "SPAN"){
+        this.text = child.innerHTML;
+    }
+    else {
+        this.super(child);
+    }
+};
+
+I2FlexiconButton.render = function(){
+    return absol._('flexiconbutton');
+};
+
+absol.coreDom.install(I2FlexiconButton);

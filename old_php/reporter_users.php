@@ -29,7 +29,7 @@ formTest.reporter_users.init = function(host, mode) {
             child: [{
                     class: 'absol-single-page-header',
                     child: [{
-                            tag: "iconbutton",
+                            tag: "i2flexiconbutton",
                             on: {
                                 click: function(host) {
                                     return function() {
@@ -50,7 +50,7 @@ formTest.reporter_users.init = function(host, mode) {
                             ]
                         },
                         {
-                            tag: "iconbutton",
+                            tag: "i2flexiconbutton",
                             class: "info",
                             on: {
                                 click: function(host) {

@@ -25,6 +25,8 @@
     include_once "reporter_record_information.php";
     include_once "reporter_feedback.php";
     include_once "reporter_feedback_information.php";
+    include_once "reporter_examinations.php";
+    include_once "reporter_examinations_information.php";
     include_once "languagemodule.php";
     include_once "./old_php/reporter_users.php";
     include_once "./old_php/reporter_users_information.php";
@@ -44,7 +46,7 @@
         exit();
     }
     $conn = DatabaseClass::init($host, $username , $password, $dbname);
-    $result = $conn->load($prefix."users", "(homeid = ".$_SESSION[$prefixhome."userid"].")", "id");
+    $result = $conn->load($prefix."users", "homeid = ".$_SESSION[$prefixhome."userid"]);
     if ((count($result) == 0)){
         $_SESSION[$prefix.'userid'] = 0;
         $x = $_SERVER['SERVER_NAME']."/".substr($temp, 0, $temp2);
@@ -65,8 +67,21 @@
             font-size: inherit;
         }
         </style>
-        <script src="js/component.js?time=<?php echo time(); ?>"></script>
-        <script src="js/formTestComponent.js?time=<?php echo time(); ?>"></script>
+        <script src="absol/absol_full.js?timestamp=<?php  echo stat('absol/absol_full.js')['mtime'];?>"></script>
+        <script src="js/component.js?timestamp=<?php  echo stat('js/component.js')['mtime'];?>"></script>
+        <script src="js/formTestComponent.js?timestamp=<?php  echo stat('js/formTestComponent.js')['mtime'];?>"></script>
+        <script src="js/modal_drag_drop_image.js?timestamp=<?php  echo stat('js/modal_drag_drop_image.js')['mtime'];?>"></script>
+        <script src="js/modal_drag_drop_question.js?timestamp=<?php  echo stat('js/modal_drag_drop_question.js')['mtime'];?>"></script>
+        <script src="js/modal_feedback_correct_or_incorrect.js?timestamp=<?php  echo stat('js/modal_feedback_correct_or_incorrect.js')['mtime'];?>"></script>
+        <script src="js/data_module.js?timestamp=<?php  echo stat('js/data_module.js')['mtime'];?>"></script>
+        <script src="js/XML_db_load.js?timestamp=<?php  echo stat('js/XML_db_load.js')['mtime'];?>"></script>
+        <script src="js/XML_db_create.js?timestamp=<?php  echo stat('js/XML_db_create.js')['mtime'];?>"></script>
+        <script src="js/XML_create_edit.js?timestamp=<?php  echo stat('js/XML_create_edit.js')['mtime'];?>"></script>
+        <script src="js/XML_list_create.js?timestamp=<?php  echo stat('js/XML_list_create.js')['mtime'];?>"></script>
+        <script src="js/XML.js?timestamp=<?php  echo stat('js/XML.js')['mtime'];?>"></script>
+        <script src="js/XML_db_record.js?timestamp=<?php  echo stat('js/XML_db_record.js')['mtime'];?>"></script>
+
+        <!-- <script src="js/formTestComponent.js?time=<?php echo time(); ?>"></script>
         <script src="js/modal_drag_drop_image.js?time=<?php echo time(); ?>"></script>
         <script src="js/modal_drag_drop_question.js?time=<?php echo time(); ?>"></script>
         <script src="js/modal_feedback_correct_or_incorrect.js?time=<?php echo time(); ?>"></script>
@@ -76,11 +91,10 @@
         <script src="js/XML_create_edit.js?time=<?php echo time(); ?>"></script>
         <script src="js/XML_list_create.js?time=<?php echo time(); ?>"></script>
         <script src="js/XML.js?time=<?php echo time(); ?>"></script>
-        <script src="js/XML_db_record.js?time=<?php echo time(); ?>"></script>
+        <script src="js/XML_db_record.js?time=<?php echo time(); ?>"></script> -->
 
         <script>
             <?php
-                    include_once "absol/absol_full.php";
                     include_once "module_define.php";
                     include_once "module_style.php";
             ?>
@@ -119,6 +133,8 @@
                 reporter_record_information: {},
                 reporter_feedback: {},
                 reporter_feedback_information: {},
+                reporter_examinations: {},
+                reporter_examinations_information: {},
                 reporter_users:{},
                 reporter_users_information:{}
             };
@@ -152,11 +168,16 @@
         write_reporter_record_information_script();
         write_reporter_feedback_script();
         write_reporter_feedback_information_script();
+        write_reporter_examinations_script();
+        write_reporter_examinations_information_script();
         write_reporter_users_script();
         write_reporter_users_information_script();
         ?>
         <link rel="icon" href="favicon.ico">
+        <link rel="stylesheet" href="css/new_layout.css">
+        <link rel="stylesheet" href="css/config_format.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <!-- <link rel="stylesheet" href=" /css/font-awesome/font-awesome.css"> -->
         <link rel="stylesheet" href="css/form.css">
         <link rel="stylesheet" href="css/form_create_edit.css">
         <link rel="stylesheet" href="css/list.css">
@@ -213,7 +234,7 @@
                             },
                             children: [
                                 absol.buildDom({
-                                tag: "iconbutton",
+                                tag: "i2flexiconbutton",
                                 on: {
                                     click: function() {
                                         return function (event, me) {
@@ -238,7 +259,10 @@
                         overflow: params.overflow
                     });
                 };
-                var holder = DOMElement.div({});
+                var holder = absol.buildDom({
+                    tag:"div",
+                    class:"mainstream"
+                })
                 DOMElement.bodyElement.appendChild(holder);
    
                     ModalElement.question = function (params) {
@@ -291,7 +315,7 @@
                                     },
                                     children: [
                                         absol.buildDom({
-                                            tag: "iconbutton",
+                                            tag: "i2flexiconbutton",
                                             on: {
                                                 click: function(func) {
                                                     return function (event, me) {
@@ -323,7 +347,7 @@
                                     },
                                     children: [
                                         absol.buildDom({
-                                            tag: "iconbutton",
+                                            tag: "i2flexiconbutton",
                                             on: {
                                                 click: function(func) {
                                                     return function (event, me) {
@@ -354,6 +378,7 @@
                 };
                     formTest.menu.init(holder);
                     formTest.prefix = "<?php if (isset($prefix)) {echo $prefix;}?>";
+                    formTest.prefixhome = "<?php if (isset($prefixhome)) {echo $prefixhome;}?>";
                     formTest.dbname = "<?php if (isset($dbname)) {echo $dbname;}?>";
                     formTest.dbnamelibary = "<?php if (isset($dbnamelibary)) {echo $dbnamelibary;}?>";
             };

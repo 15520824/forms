@@ -142,6 +142,11 @@
     margin-bottom: 10px;
 }
 
+.freebirdFormeditorViewHeaderTopRow>div{
+    flex-grow: 2;
+    display: flex;
+}
+
 .freebirdFormeditorViewHeaderLeft {
     -webkit-box-align: center;
     box-align: center;
@@ -315,6 +320,8 @@
     margin-top:auto;
     margin-bottom:auto;
     min-width: 150px;
+    display: flex;
+    flex-shrink: 0;
 }
 
 .freebirdFormeditorViewTabTitleLabel:not(:first-child){
@@ -1961,6 +1968,10 @@
     resize: none;
     width:374px;
     height:30px;
+}
+
+.absol-autocomplete-input.auto-properties>input{
+    padding: 5px;
 }
 
 .container-form{

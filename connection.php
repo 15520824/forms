@@ -3,7 +3,7 @@
 include_once "prefix.php";
 // include_once "jsdb.php";
 
-$dbname = "form_test";
+$dbname = "form_lab";
 $dbnamelibary = "form_test_libary";
 $dbhomename = "home_lab";
 $username = "root";

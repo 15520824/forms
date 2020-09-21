@@ -25,7 +25,7 @@ formTest.reporter_feedback.init = function(host, mode) {
     Promise.all(promiseAll).then(function() {
         var prevButton,nextButton;
         prevButton = absol.buildDom({
-                                tag: "iconbutton",
+                                tag: "i2flexiconbutton",
                                 on: {
                                     click: function() {
                                         host.page.prevPage();
@@ -43,7 +43,7 @@ formTest.reporter_feedback.init = function(host, mode) {
                                 ]
                         })
         nextButton = absol.buildDom({
-                                tag: "iconbutton",
+                                tag: "i2flexiconbutton",
                                 on: {
                                     click: function() {
                                         host.page.nextPage();
@@ -83,7 +83,7 @@ formTest.reporter_feedback.init = function(host, mode) {
                     class: 'absol-single-page-header',
                     child: [
                         {
-                                tag: "iconbutton",
+                                tag: "i2flexiconbutton",
                                 on: {
                                     click: function(host) {
                                         return function() {

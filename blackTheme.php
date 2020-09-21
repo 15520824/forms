@@ -259,7 +259,7 @@ blackTheme.reporter_surveys.addSurvey = function(host,id){
                 class: 'absol-single-page-header',
                 child:[
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 temp.selfRemove();
@@ -267,18 +267,19 @@ blackTheme.reporter_surveys.addSurvey = function(host,id){
                                 host.frameList.activeFrame(arr[arr.length-1]);
                             }
                         },
-                        child: [{
+                        props: {
+                            icon: {
                                 tag: 'i',
                                 class: 'material-icons',
                                 props: {
                                     innerHTML: 'close'
                                 },
                             },
-                            '<span>' + "Đóng" + '</span>'
-                        ]
+                            text:  "Đóng"
+                        }
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         class:"info",
                         on: {
                             click: function(evt) {
@@ -310,7 +311,7 @@ blackTheme.reporter_surveys.addSurvey = function(host,id){
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 if(containerList.childNodes[0]!==undefined)
@@ -345,12 +346,12 @@ blackTheme.reporter_surveys.addSurvey = function(host,id){
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 if(containerList.childNodes[0]!==undefined)
                                 {
-                                    var popUp = window.open("http://lab.daithangminh.vn/home_co/form/XMLparseFormPreview.php",'');
+                                    var popUp = window.open("https://keeview.com/tpn1/form/XMLparseFormPreview.php",'');
                                     popUp.xmlData=containerList.childNodes[0].getValue();
                                 } 
                             }
@@ -393,7 +394,7 @@ blackTheme.reporter_surveys.performSurvey = function(host,id){
                 class: 'absol-single-page-header',
                 child:[
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 temp.close();
@@ -439,7 +440,7 @@ blackTheme.reporter_surveys.updateSurvey = function(host, param) {
                 class: 'absol-single-page-header',
                 child:[
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 temp.selfRemove();
@@ -458,7 +459,7 @@ blackTheme.reporter_surveys.updateSurvey = function(host, param) {
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 var paramEdit = [{
@@ -488,7 +489,7 @@ blackTheme.reporter_surveys.updateSurvey = function(host, param) {
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 var paramEdit = [{
@@ -713,7 +714,7 @@ blackTheme.reporter_type_surveys.addType = function(host){
                 class: 'absol-single-page-header',
                 child:[
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 temp.selfRemove();
@@ -732,7 +733,7 @@ blackTheme.reporter_type_surveys.addType = function(host){
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 var paramEdit = [
@@ -763,7 +764,7 @@ blackTheme.reporter_type_surveys.addType = function(host){
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 var paramEdit = [
@@ -827,7 +828,7 @@ blackTheme.reporter_type_surveys.updateType = function(host, param) {
                 class: 'absol-single-page-header',
                 child:[
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 temp.selfRemove();
@@ -846,7 +847,7 @@ blackTheme.reporter_type_surveys.updateType = function(host, param) {
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 var paramEdit = [{
@@ -880,7 +881,7 @@ blackTheme.reporter_type_surveys.updateType = function(host, param) {
                         ]
                     },
                     {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
                                 var paramEdit = [{

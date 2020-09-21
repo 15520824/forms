@@ -512,28 +512,34 @@
                   class: "freebirdFormeditorViewHeaderTopRow",
                   child: [
                     {
-                      tag: "div",
-                      class: "freebirdFormeditorViewHeaderLeft",
-                      child: [
+                      tag:"div",
+                      class: "freebirdFormeditorViewHeaderTopRow-cellName",
+                      child:[
                         {
                           tag: "div",
-                          class: "freebirdFormeditorViewTabTitleLabel",
-                          props: {
-                            innerHTML: "Tên bài khảo sát"
-                          }
-                        },
-                        surveyTitle
-                      ]
-                    },
-                    {
-                      tag: "div",
-                      class: "freebirdFormeditorViewHeaderRight",
-                      child: [
-                        {
-                          tag: "div",
-                          class: ["freebirdFormeditorViewHeaderHeaderActions"],
+                          class: "freebirdFormeditorViewHeaderLeft",
                           child: [
-                            
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewTabTitleLabel",
+                              props: {
+                                innerHTML: "Tên bài khảo sát"
+                              }
+                            },
+                            surveyTitle
+                          ]
+                        },
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewHeaderRight",
+                          child: [
+                            {
+                              tag: "div",
+                              class: ["freebirdFormeditorViewHeaderHeaderActions"],
+                              child: [
+                                
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -545,13 +551,43 @@
                   class:"freebirdFormeditorViewHeaderTopRow",
                   child:[
                     {
-                              tag: "div",
-                              class: "freebirdFormeditorViewTabTitleLabel",
-                              props: {
-                                innerHTML: "Tên loại khảo sát"
-                              }
-                            },
-                    surveyType
+                      tag:"div",
+                      class: "freebirdFormeditorViewHeaderTopRow-cellName1",
+                      child:[
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewTabTitleLabel",
+                          props: {
+                            innerHTML: "Tên loại khảo sát"
+                          }
+                        },
+                        surveyType
+                      ]
+                    }
+                  ]
+                },
+                {
+                  tag:"div",
+                  class:"freebirdFormeditorViewHeaderTopRow"
+                },
+                {
+                  tag:"div",
+                  class:"freebirdFormeditorViewHeaderTopRow",
+                  child:[
+                    {
+                      tag:"div",
+                      class: "freebirdFormeditorViewHeaderTopRow-cellName2",
+                      child:[
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewTabTitleLabel",
+                          props: {
+                            innerHTML: "Hiện kết quả :"
+                          }
+                        },
+                        ShowFeedback
+                      ]
+                    }
                   ]
                 },
                 {
@@ -559,27 +595,19 @@
                   class:"freebirdFormeditorViewHeaderTopRow",
                   child:[
                     {
-                      tag: "div",
-                      class: "freebirdFormeditorViewTabTitleLabel",
-                      props: {
-                        innerHTML: "Hiện kết quả :"
-                      }
-                    },
-                    ShowFeedback
-                  ]
-                },
-                {
-                  tag:"div",
-                  class:"freebirdFormeditorViewHeaderTopRow",
-                  child:[
-                    {
-                      tag: "div",
-                      class: "freebirdFormeditorViewTabTitleLabel",
-                      props: {
-                        innerHTML: "Hiển thị nhận xét trả lời"
-                      }
-                    },
-                    ShowResult
+                      tag:"div",
+                      class: "freebirdFormeditorViewHeaderTopRow-cellName3",
+                      child:[
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewTabTitleLabel",
+                          props: {
+                            innerHTML: "Hiển thị nhận xét trả lời"
+                          }
+                        },
+                        ShowResult
+                      ]
+                    }
                   ]
                 }
               ]
@@ -1497,7 +1525,7 @@
                 ],
                 child: [
                   {
-                    tag: "iconbutton",
+                    tag: "i2flexiconbutton",
                     class: [
                       "quantumWizButtonEl",
                       "quantumWizButtonPaperbuttonEl",
@@ -1654,7 +1682,7 @@
                     ],
                     child: [
                       {
-                        tag: "iconbutton",
+                        tag: "i2flexiconbutton",
                         class: [
                           "quantumWizButtonEl",
                           "quantumWizButtonPaperbuttonEl",
@@ -1887,7 +1915,7 @@
                   class: "freebirdFormeditorViewQuestionFooterAssessmentIcons",
                   child: [
                     {
-                      tag: "iconbutton",
+                      tag: "i2flexiconbutton",
                       class: [
                         "quantumWizButtonEl",
                         "quantumWizButtonPaperbuttonEl",
@@ -2518,7 +2546,7 @@
         else
           clone = self.element(
             absol.XML.parse(
-              "<test><question><type>text</type><style></style><value></value><important>0</important></question> <answer><type>shortanswer</type><selection><type>input</type><style></style><placeholder>Câu trả lời của bạn</placeholder><value></value></selection></answer></test>"
+              "<test><question><id>939</id><type>text</type><style></style><value></value><important>0</important><sum>0</sum></question><answer><type>multichoice</type><selection><id>4130</id><style></style><value></value></selection></answer></test>"
             )
           );
         if (!el.classList.contains("freebirdFormeditorViewPagePageFields")) {

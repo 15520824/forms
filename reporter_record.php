@@ -29,7 +29,7 @@ formTest.reporter_record.init = function(host, mode) {
                     class: 'absol-single-page-header',
                     child: [
                         {
-                                tag: "iconbutton",
+                                tag: "i2flexiconbutton",
                                 on: {
                                     click: function(host) {
                                         return function() {

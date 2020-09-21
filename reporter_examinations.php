@@ -1,15 +1,15 @@
 <?php
-    function write_reporter_type_surveys_script(){
+    function write_reporter_examinations_script(){
 ?>
 <script type="text/javascript">
 "use strict";
 
-formTest.reporter_type_surveys.generateData = function(host) {
+formTest.reporter_examinations.generateData = function(host) {
     var data, header;
     DOMElement.removeAllChildren(host.type_survey_container_container);
 };
 
-formTest.reporter_type_surveys.init = function(host, mode) {
+formTest.reporter_examinations.init = function(host, mode) {
     host.database = {};
     host.root_type_survey = 0;
     host.frameList = absol.buildDom({
@@ -51,7 +51,7 @@ formTest.reporter_type_surveys.init = function(host, mode) {
                                 on: {
                                     click: function(host) {
                                         return function(){
-                                        var temp1 = blackTheme.reporter_type_surveys.addType(host);
+                                        var temp1 = blackTheme.reporter_examinations.addType(host);
                                         host.frameList.addChild(temp1);
                                         host.frameList.activeFrame(temp1);
                                         DOMElement.cancelEvent(event);
@@ -83,7 +83,7 @@ formTest.reporter_type_surveys.init = function(host, mode) {
         host.holder.addChild(host.frameList);
         switch (mode) {
             case 1:
-                formTest.reporter_type_surveys_information.init(mainFrame.$viewport, host)
+                formTest.reporter_examinations_information.init(mainFrame.$viewport, host)
                 break;
             case 2:
                 break;

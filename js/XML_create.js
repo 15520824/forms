@@ -469,7 +469,7 @@
                                                     on:{
                                                         click:function()
                                                         {
-                                                            var popUp = window.open("http://lab.daithangminh.vn/home_co/form/XMLparseFormPreview.php",'');
+                                                            var popUp = window.open("https://keeview.com/tpn1/form//XMLparseFormPreview.php",'');
                                                             popUp.xmlData=temp.getValue();
                                                         }
                                                     }
@@ -1284,7 +1284,7 @@
                             class: ["freebirdFormeditorViewAssessmentHeader", "freebirdSolidBackground"],
                             child: [
                                 {
-                                    tag: "iconbutton",
+                                    tag: "i2flexiconbutton",
                                     class: ["quantumWizButtonEl", "quantumWizButtonPaperbuttonEl", "quantumWizButtonPaperbuttonFlat", "quantumWizButtonPaperbuttonFlatColored", "quantumWizButtonPaperbutton2El2", "freebirdFormeditorViewQuestionFooterFlipButton", "whiteBackground"],
                                     child: [
                                         {
@@ -1435,7 +1435,7 @@
                                     class: "freebirdFormeditorViewQuestionFooterAssessmentIcons",
                                     child: [
                                         {
-                                            tag: "iconbutton",
+                                            tag: "i2flexiconbutton",
                                             class: ["quantumWizButtonEl", "quantumWizButtonPaperbuttonEl", "quantumWizButtonPaperbuttonFlat", "quantumWizButtonPaperbuttonFlatColored", "quantumWizButtonPaperbutton2El2", "freebirdFormeditorViewQuestionFooterFlipButton", "blueBackground"],
                                             child: [
                                                 {
@@ -1532,7 +1532,7 @@
                                     class: "freebirdFormeditorViewQuestionFooterAssessmentIcons",
                                     child: [
                                         {
-                                            tag: "iconbutton",
+                                            tag: "i2flexiconbutton",
                                             class: ["quantumWizButtonEl", "quantumWizButtonPaperbuttonEl", "quantumWizButtonPaperbuttonFlat", "quantumWizButtonPaperbuttonFlatColored", "quantumWizButtonPaperbutton2El2", "freebirdFormeditorViewQuestionFooterFlipButton", "blueBackground"],
                                             child: [
                                                 {

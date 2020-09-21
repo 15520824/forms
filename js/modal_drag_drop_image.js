@@ -529,7 +529,8 @@
             self.imgDelete.push(imgUrl.getAttribute("src"));
           }
           var el = img;
-          while (!el.classList.contains("true-dame")) el = el.parentNode;
+          while (el&&!el.classList.contains("true-dame")) el = el.parentNode;
+          if(el&&el.click)
           el.click();
         });
         img.getValue = function() {

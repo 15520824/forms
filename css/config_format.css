@@ -1,0 +1,90 @@
+body {
+    --body-height: calc(100vh);
+    --font-size-right-mouse-menu: 14px;
+    --font-size-label: 14px;
+    --font: 14px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-size-title: 14px;
+    --font-weight-title: bold;
+    --font-size-table-header: 12px;
+    --font-weight-table-header: bold;
+    --control-height: 30px;
+    --control-verticle-distance-1: 10px;
+    --control-horizontal-distance-1: 10px;
+    --control-verticle-distance-2: 20px;
+    --control-horizontal-distance-2: 20px;
+    --control-border: 1px solid #d6d6d6;
+    --control-border-alert: 1px solid red;
+    --switch-fontsize: 18px;
+    --footer-margin: 200px;
+
+    --a-color: #1464f6;
+
+    --disabled-backgroudcolor: #ebebe4;
+
+    --searchbox-width: 200px;
+
+    --button-height: 30px;
+    --button-min-width: 110px;
+    --button-round-coner: 3px;
+    --button-border: 1px solid #c0c0c0;
+    --button-background-color_1: #ebebeb;
+    --button-background-color_2: #d6d6d6;
+    --button-background-color_3: #c9f1fd;
+    --button-background-color_4: #91e4fb;
+    --button-title-font-size: 12px;
+    --button-title-font-weight: bold;
+
+    --icon-fontsize: 20px;
+    --icon-fontsize-cover: 30px;
+    --icon-background-cover-hover: #91e4fb;
+    --icon-horizontal-distance: 20px;
+    --icon-remove-background-cover-hover: red;
+    --icon-remove-color-hover: white;
+
+    --table-title-font-size: 12px;
+    --table-title-font-weight: bold;
+    --table-first-row-color: xxx;
+    --table-odd-row-color: white;
+    --table-even-row-color: #f7f6f6;
+    --table-last-row-color: xxx;
+    --table-row-distance: 10px;
+    --table-background-color: #f7f6f6;
+    --table-edit-background-color: xxx;
+    --table-view-background-color: #f7f6f6;
+    --table-disable-background-color: xxx;
+    --table-row-height: 40px;
+    --table-row-boder-size: 0px;
+    --table-row-boder-color: xxx;
+
+    --tab-padding-top: 20px;
+    --tab-padding-left: 20px;
+    --tab-padding-right: 20px;
+
+    --chat-bar-col-width: 0px;
+    --chat-desktop-list-message-width: 360px;
+    --chat-desktop-gallery: 340px;
+
+    --chat-mobile-list-message-width: 100%;
+    --chat-desktop-gallery: 340px;
+    /* menu new theme */
+    --main-menu-width: unset;
+    --header-height: 50px;
+
+    --menu-background-color: rgb(35, 49, 81);
+    --menu-background-hover: rgb(18, 25, 41);
+    --header-background-color: rgb(35, 49, 81);
+    --tab-button-background-color: rgb(35, 49, 81);
+    --tab-button-background-color-hover: rgb(59, 77, 121);
+    --tab-button-font-color-hover: white;
+    --tab-active-background-color: white;
+    --tab-active-font-color: rgb(28, 120, 179);
+    --menu-font-color: rgb(92, 209, 246);
+    --menu-font-color-hover: white;
+    --tab-font-color: rgb(92, 209, 246);
+    --tab-font-color-hover: white;
+    --logo-background: rgb(18, 25, 41);
+    --main-menu-item-height: 40px;
+    --backgroud-image-body: url(https://data.1freewallpapers.com/download/cool-nature.jpg);
+
+    --icon-close-table-font-size: 18px;
+}
