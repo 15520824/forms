@@ -1803,11 +1803,9 @@
     resize: none;
     width:374px;
     height:30px;
-    margin-left: 10px;
 }
 
 .container-form{
-    display: table-row;
     min-width: 374px;
 }
 

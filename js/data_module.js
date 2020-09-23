@@ -16,7 +16,8 @@ var data_module = {
   countriesList:{},
   register:{},
   company:{},
-  services:{}
+  services:{},
+  examinations:{}
 };
 
 ////////////////////survey//////////////////////
@@ -184,7 +185,7 @@ data_module.survey.getTypeFromItems = function(arr){
 
 data_module.survey.addOne = function(data) {
   return new Promise(function(resolve, reject) {
-    
+    data.push({name:"userid",value:window.userid});
     FormClass.api_call({
       url: "./php/insert/insert_new_suvey.php",
       params: data,
@@ -1932,7 +1933,7 @@ data_module.type.updateRemove = function(id) {
 
 data_module.type.addOne = function(data) {
   return new Promise(function(resolve, reject) {
-    
+    data.push({name:"userid",value:window.userid});
     FormClass.api_call({
       url: "./php/insert/insert_new_type.php",
       params: data,
@@ -1967,6 +1968,203 @@ data_module.type.addOne = function(data) {
 data_module.type.updateAdd = function(object) {
   data_module.type.items.push(object);
   formTest.reporter_type_surveys_information.redrawTable();
+};
+
+
+/////////////////////examinations/////////////////////
+data_module.examinations.load = function(data=[]) {
+  return new Promise(function(resolve, reject) {
+    FormClass.api_call({
+      url: "./php/load/load_examinations_all.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            data_module.examinations.items = st;
+            resolve(st);
+          } else {
+            console.log(message);
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.examinations.loadLibary = function(data=[]) {
+  return new Promise(function(resolve, reject) {
+    FormClass.api_call({
+      url: "./php/load/load_examinations_all_libary.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            resolve(st);
+          } else {
+            console.log(message);
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.examinations.getById = function(id) {
+  for (var i = 0; i < data_module.examinations.items.length; i++) {
+    if (id == data_module.examinations.items[i].id) return data_module.examinations.items[i];
+  }
+  return;
+};
+data_module.examinations.updateOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/update/update_examinations.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.examinations.updateEdit(
+              EncodingClass.string.toVariable(message)
+            );
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+data_module.examinations.updateEdit = function(object) {
+  for (var i = 0; i < data_module.examinations.items.length; i++) {
+    if (object.id == data_module.examinations.items[i].id) {
+      data_module.examinations.items[i] = object;
+      formTest.reporter_examinationss_information.redrawTable();
+      return;
+    }
+  }
+};
+
+data_module.examinations.removeOne = function(id) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/remove/delete_examinations.php",
+      params: [
+        {
+          name: "id",
+          value: id
+        }
+      ],
+      func: (success, message) => {
+        
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+              data_module.examinations.updateRemove(id);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.examinations.updateRemove = function(id) {
+  for (var i = 0; i < data_module.examinations.items.length; i++) {
+    if (data_module.examinations.items[i].id === id) {
+      data_module.examinations.items.splice(i, 1);
+      formTest.reporter_examinations_information.redrawTable();
+      return;
+    }
+  }
+};
+
+data_module.examinations.addOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    data.push({name:"userid",value:window.userid});
+    FormClass.api_call({
+      url: "./php/insert/insert_new_examinations.php",
+      params: data,
+      func: (success, message) => {
+        
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.examinations.updateAdd(
+              EncodingClass.string.toVariable(message)
+            );
+            resolve(EncodingClass.string.toVariable(message));
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.examinations.updateAdd = function(object) {
+  data_module.examinations.items.push(object);
+  formTest.reporter_examinations_information.redrawTable();
 };
 
 
@@ -2018,6 +2216,7 @@ data_module.usersList.getID = function(id,checkAgain=false)
 
 data_module.usersList.addOne = function(data) {
     return new Promise(function(resolve, reject) {
+        data.push({name:"userid",value:window.userid});
         FormClass.api_call({
             url: "./old_php/insert_new_user.php",
             params: data,

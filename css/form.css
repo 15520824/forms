@@ -216,6 +216,7 @@ body {
 .freebirdFormviewerViewItemsRadioLabel {
     line-height: 135%;
     min-width: 0%;
+    font-weight: normal;
 }
 
 [aria-checked="true"] .quantumWizTogglePaperradioOnRadio {

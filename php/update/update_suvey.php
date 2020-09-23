@@ -38,6 +38,18 @@ if (isset($_POST["show_result"])) {
     $data["show_result"]=$_POST["show_result"];
 }
 
+if (isset($_POST["practice"])) {
+    $data["practice"]=$_POST["practice"];
+}
+
+if (isset($_POST["available"])) {
+    $data["available"]=$_POST["available"];
+}
+
+$datetime_variable = new DateTime();
+
+$data["lastmodifiedtime"] = $datetime_variable;
+
 $connection->update($prefix.'survey', $data);
 
 echo "ok";

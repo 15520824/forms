@@ -133,6 +133,7 @@
 .freebirdHeaderMastWithOverlay {
     margin-bottom: 10px;
     margin-right: 10px;
+    padding-bottom: 0;
 }
 
 .freebirdFormeditorViewHeaderTopRow {
@@ -1955,6 +1956,8 @@
     vertical-align: middle;
     resize: none;
     width: 374px;
+    margin-left: 0;
+    height: unset;
 }
 
 .auto-properties{
@@ -1975,6 +1978,7 @@
 }
 
 .container-form{
+    display: block;
     min-width: 374px;
 }
 
@@ -2012,4 +2016,3 @@
 .selected .freebirdFormeditorViewItemPictureButton{
     visibility: visible !important;
 }
-

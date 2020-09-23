@@ -10,6 +10,12 @@ if ($connection == null){
     exit();
 }
 
+if (!isset($_SESSION[$prefixhome."userid"])) {
+    echo "Bạn đã đăng xuất, bạn cần đăng nhập lại để tiếp tục sử dụng phần mềm
+Để đăng nhập lại bạn nhấn F5 hoặc tải lại trang web";
+    exit();
+}
+
 $data = array(
 );
 if (isset($_POST["homeid"])) {

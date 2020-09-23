@@ -22,6 +22,11 @@ if (isset($_POST["note"])) {
     $data["note"]=$_POST["note"];
 }
 
+if (isset($_POST["userid"])) {
+    $data["userid"]=$_POST["userid"];
+}
+
+
 $data["id"] = $connection->insert($prefix.'type_survey', $data);
 
 echo "ok";

@@ -1,4 +1,4 @@
-(function(root, UMDCE) {
+(function (root, UMDCE) {
   if (typeof define === "function" && define.amd) define([], UMDCE);
   else if (typeof module === "object" && module.exports)
     module.exports = UMDCE();
@@ -46,13 +46,13 @@
       //         self.readMultiFileSequentially(file, DOMElement, ++i);
       //     })
       // },
-      readXMLFromDB: function(id, DOMElement, host) {
+      readXMLFromDB: function (id, DOMElement, host) {
         var self = this;
-        return xmlDbLoad.loadSurvey(id).then(function(result) {
+        return xmlDbLoad.loadSurvey(id).then(function (result) {
           self.page(result, DOMElement, host);
         });
       },
-      extract: function(object, DOMElement, i) {
+      extract: function (object, DOMElement, i) {
         var self = this;
         if (DOMElement === undefined) return;
         var temp;
@@ -71,12 +71,12 @@
                       tag: "span",
                       class: "freebirdFormeditorViewPageGoToPageSelectLabel",
                       props: {
-                        innerHTML: "Sau phần " + i
-                      }
-                    }
-                  ]
-                }
-              ]
+                        innerHTML: "Sau phần " + i,
+                      },
+                    },
+                  ],
+                },
+              ],
             });
             DOMElement.appendChild(temp.pageBreakSTT);
           }
@@ -92,30 +92,30 @@
 
         if (object.tagName === "document") return temp;
       },
-      document: function(object, index, element = []) {
+      document: function (object, index, element = []) {
         var self = this;
         var svg = vchart._(
           '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 10 10" class="freebirdMaterialHeaderbannerSectionTriangle"><polygon class="freebirdSolidFill" points="0,0 10,0 0,10"></polygon></svg>'
         );
         var body = absol.buildDom({
           tag: "div",
-          class: ["freebirdFormeditorViewPageDocument"]
+          class: ["freebirdFormeditorViewPageDocument"],
         });
 
         var pageBreak = absol.buildDom({
           tag: "div",
           class: "freebirdMaterialHeaderbannerSectionText",
           props: {
-            innerHTML: "Phần " + (index + 1) + " / " + this.arrPage.length
-          }
+            innerHTML: "Phần " + (index + 1) + " / " + this.arrPage.length,
+          },
         });
 
         var menuProps = {
           items: [
             { text: "Sao chép phần", cmd: "duplicate" },
             { text: "Di chuyển phần", cmd: "move" },
-            { text: "Xóa phần", cmd: "delete" }
-          ]
+            { text: "Xóa phần", cmd: "delete" },
+          ],
         };
         var temp;
 
@@ -125,37 +125,37 @@
             "quantumWizMenuPapermenuiconbuttonEl",
             "quantumWizButtonEl",
             "quantumWizButtonPapericonbuttonEl",
-            "quantumWizButtonPapericonbuttonLight"
+            "quantumWizButtonPapericonbuttonLight",
           ],
           child: [
             {
               tag: "i",
               class: ["material-icons", "icon-ceneter"],
               props: {
-                innerHTML: "more_vert"
-              }
-            }
+                innerHTML: "more_vert",
+              },
+            },
           ],
           on: {
-            click: function() {
+            click: function () {
               if (
                 temp !== temp.parentNode.childNodes[0] &&
                 menuProps.items.length === 3
               )
                 menuProps.items.push({
                   text: "Hợp nhất với phần trên",
-                  cmd: "merge"
+                  cmd: "merge",
                 });
               else if (
                 temp === temp.parentNode.childNodes[0] &&
                 menuProps.items.length === 4
               )
                 menuProps.items.pop();
-            }
-          }
+            },
+          },
         });
 
-        absol.QuickMenu.showWhenClick(buttonPage, menuProps, [2], function(
+        absol.QuickMenu.showWhenClick(buttonPage, menuProps, [2], function (
           menuItem
         ) {
           if (menuItem.cmd === "duplicate") {
@@ -176,22 +176,22 @@
             "quantumWizButtonEl",
             "quantumWizButtonPapericonbuttonEl",
             "quantumWizButtonPapericonbuttonLight",
-            "displayNone"
+            "displayNone",
           ],
           child: [
             {
               tag: "i",
               class: ["material-icons", "icon-ceneter"],
               props: {
-                innerHTML: "unfold_more"
-              }
-            }
+                innerHTML: "unfold_more",
+              },
+            },
           ],
           on: {
-            click: function() {
+            click: function () {
               body.unfold_more();
-            }
-          }
+            },
+          },
         });
 
         var original = absol.buildDom({
@@ -200,22 +200,22 @@
             "quantumWizMenuPapermenuiconbuttonEl",
             "quantumWizButtonEl",
             "quantumWizButtonPapericonbuttonEl",
-            "quantumWizButtonPapericonbuttonLight"
+            "quantumWizButtonPapericonbuttonLight",
           ],
           child: [
             {
               tag: "i",
               class: ["material-icons", "icon-ceneter"],
               props: {
-                innerHTML: "unfold_less"
-              }
-            }
+                innerHTML: "unfold_less",
+              },
+            },
           ],
           on: {
-            click: function() {
+            click: function () {
               body.unfold_less();
-            }
-          }
+            },
+          },
         });
 
         temp = absol.buildDom({
@@ -234,25 +234,25 @@
                       tag: "div",
                       class: [
                         "freebirdMaterialHeaderbannerLabelTextContainer",
-                        "freebirdSolidBackground"
+                        "freebirdSolidBackground",
                       ],
-                      child: [pageBreak]
+                      child: [pageBreak],
                     },
                     {
                       tag: "div",
                       class:
                         "freebirdMaterialHeaderbannerSectionTriangleContainer",
-                      child: [svg]
-                    }
-                  ]
+                      child: [svg],
+                    },
+                  ],
                 },
                 original,
                 reverse,
-                buttonPage
-              ]
+                buttonPage,
+              ],
             },
-            body
-          ]
+            body,
+          ],
         });
         temp.pageBreak = pageBreak;
         window.arrPage = self.arrPage;
@@ -275,7 +275,7 @@
           self.arrPage.tempUpdteSTT();
         }
 
-        temp.getValue = function() {
+        temp.getValue = function () {
           return (
             "<document>" +
             temp._title.getValue() +
@@ -283,39 +283,35 @@
             "</document>"
           );
         };
-        temp.reverse = function() {
+        temp.reverse = function () {
           if (active !== undefined) {
             active.click();
           }
         };
 
-        body.unfold_more = function()
-        {
+        body.unfold_more = function () {
           for (var i = 0; i < body.childNodes.length; i++) {
             if (body.childNodes[i].unfold_more !== undefined)
               body.childNodes[i].unfold_more();
           }
           reverse.classList.add("displayNone");
-          if (original !== undefined)
-            original.classList.remove("displayNone");
+          if (original !== undefined) original.classList.remove("displayNone");
           active = original;
-        }
+        };
 
-        body.unfold_less = function()
-        {
+        body.unfold_less = function () {
           for (var i = 0; i < body.childNodes.length; i++) {
             if (body.childNodes[i].unfold_less !== undefined)
               body.childNodes[i].unfold_less();
           }
           original.classList.add("displayNone");
-          if (reverse !== undefined)
-            reverse.classList.remove("displayNone");
+          if (reverse !== undefined) reverse.classList.remove("displayNone");
           active = reverse;
-        }
+        };
 
         return temp;
       },
-      page: function(XML, DOMElement, host) {
+      page: function (XML, DOMElement, host) {
         var self = this;
         self.defineHeightHeader = 0;
         self.defineHeightParameterElement = 300;
@@ -324,33 +320,33 @@
         if (object.tagName !== "survey") return;
         var content = absol.buildDom({
           tag: "div",
-          class: "freebirdFormeditorViewEditingsurfaceEl"
+          class: "freebirdFormeditorViewEditingsurfaceEl",
         });
         var statictabParams = {
           tag: "statictabbar",
           attr: {
-            "data-group": "group1"
+            "data-group": "group1",
           },
           props: {
             items: [
               {
                 text: "Câu hỏi",
-                value: "question"
-              }
+                value: "question",
+              },
             ],
-            value: "question"
+            value: "question",
           },
           on: {
-            change: function() {
+            change: function () {
               var self = this;
-              absol.$('statictabbar[data-group="group1"]', false, function(e) {
+              absol.$('statictabbar[data-group="group1"]', false, function (e) {
                 if (e != self) {
                   e.value = self.value;
                 }
                 return false;
               });
-            }
-          }
+            },
+          },
         };
         var sumPoint = absol.buildDom({
           tag: "div",
@@ -359,17 +355,17 @@
             {
               tag: "div",
               props: {
-                innerHTML: 0
-              }
+                innerHTML: 0,
+              },
             },
             {
               tag: "div",
               class: "freebirdFormeditorViewTabMobilePointLabel",
               props: {
-                innerHTML: "Tổng điểm"
-              }
-            }
-          ]
+                innerHTML: "Tổng điểm",
+              },
+            },
+          ],
         });
         var sumQuestion = absol.buildDom({
           tag: "div",
@@ -378,33 +374,33 @@
             {
               tag: "div",
               props: {
-                innerHTML: 0
-              }
+                innerHTML: 0,
+              },
             },
             {
               tag: "div",
               class: "freebirdFormeditorViewTabMobilePointLabel",
               props: {
-                innerHTML: "Tổng số câu hỏi"
-              }
-            }
-          ]
+                innerHTML: "Tổng số câu hỏi",
+              },
+            },
+          ],
         });
         var surveyTitle = xmlComponent.input_autoresize({
           value: xmlComponent.getDataformObject(object, "value"),
-          placeholder: "Mẫu không có tiêu đề"
+          placeholder: "Mẫu không có tiêu đề",
         });
         self.processBar = absol.buildDom({
           tag: "div",
           class: [
             "freebirdFormeditorViewHeaderSaveIndicator",
-            "freebirdMutedText"
+            "freebirdMutedText",
           ],
           props: {
-            innerHTML: "Đã hoàn tất lưu lại"
-          }
+            innerHTML: "Đã hoàn tất lưu lại",
+          },
         });
-        var type,show_result,show_feedback;
+        var type, show_result, show_feedback,practice,available;
         var checkType = data_module.survey.getByID(
           xmlComponent.getDataformObject(object, "id")
         );
@@ -412,19 +408,21 @@
           type = checkType.type;
           show_result = checkType.show_result;
           show_feedback = checkType.show_feedback;
+          practice = checkType.practice;
+          available = checkType.available;
         }
         var surveyType = absol.buildDom({
           tag: "selectmenu",
           props: {
             enableSearch: true,
             value: type,
-            items: data_module.type.items.map(function(u, i) {
+            items: data_module.type.items.map(function (u, i) {
               return {
                 text: u.value,
-                value: u.id
+                value: u.id,
               };
-            })
-          }
+            }),
+          },
         });
         var ShowResult = absol.buildDom({
           tag: "selectmenu",
@@ -433,9 +431,9 @@
             items: [
               { text: "Không", value: 0 },
               { text: "Sau khi khảo sát", value: 1 },
-              { text: "Sau khi đánh giá của giảng viên", value: 2 }
-            ]
-          }
+              { text: "Sau khi đánh giá của giảng viên", value: 2 },
+            ],
+          },
         });
         var ShowFeedback = absol.buildDom({
           tag: "selectmenu",
@@ -444,9 +442,9 @@
             items: [
               { text: "Không", value: 0 },
               { text: "Sau khi khảo sát", value: 1 },
-              { text: "Sau khi đánh giá của giảng viên", value: 2 }
-            ]
-          }
+              { text: "Sau khi đánh giá của giảng viên", value: 2 },
+            ],
+          },
         });
         var frameListChild = host.frameList.getAllChild();
         frameListChild[frameListChild.length - 1].$header.addChild(
@@ -462,13 +460,13 @@
                     tag: "div",
                     class: "freebirdFormeditorViewTabPointLabel",
                     props: {
-                      innerHTML: "Tổng điểm"
-                    }
+                      innerHTML: "Tổng điểm",
+                    },
                   },
-                  sumPoint
-                ]
-              }
-            ]
+                  sumPoint,
+                ],
+              },
+            ],
           })
         );
         frameListChild[frameListChild.length - 1].$header.addChild(
@@ -484,27 +482,27 @@
                     tag: "div",
                     class: "freebirdFormeditorViewTabPointLabel",
                     props: {
-                      innerHTML: "Tổng số câu hỏi"
-                    }
+                      innerHTML: "Tổng số câu hỏi",
+                    },
                   },
-                  sumQuestion
-                ]
-              }
-            ]
+                  sumQuestion,
+                ],
+              },
+            ],
           })
         );
         var temp = absol.buildDom({
           tag: "div",
           class: "PageView",
           style: {
-            paddingTop: self.defineHeightHeader + "px"
+            paddingTop: self.defineHeightHeader + "px",
           },
           child: [
             {
               tag: "div",
               class: [
                 "freebirdFormeditorViewHeaderHeaderMast",
-                "freebirdHeaderMastWithOverlay"
+                "freebirdHeaderMastWithOverlay",
               ],
               child: [
                 {
@@ -512,9 +510,9 @@
                   class: "freebirdFormeditorViewHeaderTopRow",
                   child: [
                     {
-                      tag:"div",
+                      tag: "div",
                       class: "freebirdFormeditorViewHeaderTopRow-cellName",
-                      child:[
+                      child: [
                         {
                           tag: "div",
                           class: "freebirdFormeditorViewHeaderLeft",
@@ -523,103 +521,193 @@
                               tag: "div",
                               class: "freebirdFormeditorViewTabTitleLabel",
                               props: {
-                                innerHTML: "Tên bài khảo sát"
-                              }
+                                innerHTML: "Tên bài khảo sát",
+                              },
                             },
-                            surveyTitle
+                            surveyTitle,
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  tag: "div",
+                  class: "freebirdFormeditorViewHeaderTopRow",
+                  child: [
+                    {
+                      tag: "div",
+                      class: "freebirdFormeditorViewHeaderTopRow-cellName1",
+                      child: [
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewTabTitleLabel",
+                          props: {
+                            innerHTML: "Tên loại khảo sát",
+                          },
+                        },
+                        surveyType,
+                      ],
+                    },
+                  ],
+                },
+                {
+                  tag: "div",
+                  class: "freebirdFormeditorViewHeaderTopRow",
+                  child: [
+                    {
+                      tag:"div",
+                      class: "freebirdFormeditorViewHeaderTopRowContainerLeft",
+                      child:[
+                        {
+                          tag:"div",
+                          class: "freebirdFormeditorViewHeaderTopRowContainerTop",
+                          child:[
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewHeaderTopRow",
+                              child: [
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName3",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Hiển thị nhận xét trả lời",
+                                      },
+                                    },
+                                    ShowResult,
+                                  ],
+                                },
+                              ],
+                            },
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewHeaderTopRow",
+                              child: [
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName2",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Hiện kết quả :",
+                                      },
+                                    },
+                                    ShowFeedback,
+                                  ],
+                                },
+                              ],
+                            },
+                            
                           ]
                         },
                         {
-                          tag: "div",
-                          class: "freebirdFormeditorViewHeaderRight",
-                          child: [
+                          tag:"div",
+                          class: "freebirdFormeditorViewHeaderTopRowContainerBottom",
+                          child:[
                             {
                               tag: "div",
-                              class: ["freebirdFormeditorViewHeaderHeaderActions"],
+                              class: "freebirdFormeditorViewHeaderTopRow",
                               child: [
-                                
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName5",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Bài tập :",
+                                      },
+                                    },
+                                    {
+                                      tag: "switch",
+                                      class: ["quantumWizTogglePapertoggleEl"],
+                                      props: {
+                                        id:"check-survey-practice",
+                                        checked:practice==1?true:false
+                                      },
+                                    }
+                                  ],
+                                },
                               ]
-                            }
+                            },
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewHeaderTopRow",
+                              child: [
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName6",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Hoạt động :",
+                                      },
+                                    },
+                                    {
+                                      tag: "switch",
+                                      class: ["quantumWizTogglePapertoggleEl"],
+                                      props: {
+                                        id:"check-survey-available",
+                                        checked:available==1?true:false
+                                      },
+                                    }
+                                  ],
+                                },
+                              ],
+                            },
                           ]
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  tag:"div",
-                  class:"freebirdFormeditorViewHeaderTopRow",
-                  child:[
+                    },
                     {
-                      tag:"div",
-                      class: "freebirdFormeditorViewHeaderTopRow-cellName1",
-                      child:[
+                      tag: "div",
+                      class: "freebirdFormeditorViewHeaderTopRowContainerRight",
+                      child: [
                         {
                           tag: "div",
-                          class: "freebirdFormeditorViewTabTitleLabel",
-                          props: {
-                            innerHTML: "Tên loại khảo sát"
-                          }
+                          class: "freebirdFormeditorViewHeaderTopRow-cellName4",
+                          child: [
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewTabTitleLabel",
+                              props: {
+                                innerHTML: "Tham gia ra đề :",
+                              },
+                            },
+                            {
+                              tag:"selectbox",
+                              class: "freebirdFormeditorViewTabTitleSelectBox",
+                              props:{
+                                items:[]
+                              }
+                            }
+                          ],
                         },
-                        surveyType
-                      ]
-                    }
-                  ]
-                },
-                {
-                  tag:"div",
-                  class:"freebirdFormeditorViewHeaderTopRow"
-                },
-                {
-                  tag:"div",
-                  class:"freebirdFormeditorViewHeaderTopRow",
-                  child:[
-                    {
-                      tag:"div",
-                      class: "freebirdFormeditorViewHeaderTopRow-cellName2",
-                      child:[
-                        {
-                          tag: "div",
-                          class: "freebirdFormeditorViewTabTitleLabel",
-                          props: {
-                            innerHTML: "Hiện kết quả :"
-                          }
-                        },
-                        ShowFeedback
-                      ]
-                    }
-                  ]
-                },
-                {
-                  tag:"div",
-                  class:"freebirdFormeditorViewHeaderTopRow",
-                  child:[
-                    {
-                      tag:"div",
-                      class: "freebirdFormeditorViewHeaderTopRow-cellName3",
-                      child:[
-                        {
-                          tag: "div",
-                          class: "freebirdFormeditorViewTabTitleLabel",
-                          props: {
-                            innerHTML: "Hiển thị nhận xét trả lời"
-                          }
-                        },
-                        ShowResult
-                      ]
-                    }
-                  ]
+                      ],
+                    },
+                  ],
                 }
-              ]
+              ],
             },
-            content
-          ]
+            content,
+          ],
         });
         var id = xmlComponent.getDataformObject(object, "id");
         if (id !== undefined) {
           temp.id = id;
         }
-        temp.getValue = function() {
+        var practiceElement = absol.$("#check-survey-practice",temp);
+        var availableElement = absol.$("#check-survey-available",temp);
+        temp.getValue = function () {
           var result = "<survey>";
           if (temp.id !== undefined && temp.id !== "")
             result += "<id>" + temp.id + "</id>";
@@ -633,6 +721,8 @@
           result += "<type>" + surveyType.value + "</type>";
           result += "<show_feedback>" + ShowFeedback.value + "</show_feedback>";
           result += "<show_result>" + ShowResult.value + "</show_result>";
+          result += "<practice>" + (practiceElement.checked==true?1:0) + "</practice>";
+          result += "<available>" + (availableElement.checked==true?1:0) + "</available>";
           result += "<value>" + surveyTitle.getValue() + "</value>";
           for (var i = 0; i < self.arrPage.length; i++) {
             result += self.arrPage[i].getValue();
@@ -643,7 +733,7 @@
         self.pageView = temp;
         var body = absol.buildDom({
           tag: "div",
-          class: "freebirdFormeditorViewPageRoot"
+          class: "freebirdFormeditorViewPageRoot",
         });
         var listButton = absol.buildDom({
           tag: "div",
@@ -688,10 +778,10 @@
                   ["freebirdFormeditorViewFatMenuItem"],
                   self.functionBreakPage,
                   self
-                )
-              ]
-            }
-          ]
+                ),
+              ],
+            },
+          ],
         });
         var form = absol.buildDom({
           tag: "div",
@@ -701,21 +791,21 @@
               tag: "div",
               class: [
                 "freebirdFormeditorViewEditingsurfacePanel",
-                "freebirdFormeditorViewEditingsurfaceisSelected"
+                "freebirdFormeditorViewEditingsurfaceisSelected",
               ],
               child: [
                 {
                   tag: "div",
                   class: [
                     "freebirdFormeditorViewFatRoot",
-                    "freebirdFormeditorViewFatDesktop"
+                    "freebirdFormeditorViewFatDesktop",
                   ],
-                  child: [listButton]
+                  child: [listButton],
                 },
-                body
-              ]
-            }
-          ]
+                body,
+              ],
+            },
+          ],
         });
         var el = DOMElement;
         while (!el.classList.contains("update-catergory")) {
@@ -723,7 +813,7 @@
         }
         self.modal = el;
         self.functionScroller(listButton);
-        temp.addEventListener("scroll", function(e) {
+        temp.addEventListener("scroll", function (e) {
           self.functionScroller();
         });
         content.appendChild(form);
@@ -736,7 +826,7 @@
         for (var i = 0; i < object.childNodes.length; i++)
           if (object.childNodes[i].tagName === "document")
             self.arrPage.length++;
-        self.arrPage.tempUpdteSTT = function() {
+        self.arrPage.tempUpdteSTT = function () {
           for (var i = 0; i < self.arrPage.length; i++) {
             if (self.arrPage[i].pageBreak !== undefined)
               self.arrPage[i].pageBreak.innerHTML =
@@ -755,7 +845,7 @@
         }
         return body;
       },
-      title: function(object, index) {
+      title: function (object, index) {
         var self = this;
         var header, description;
         for (var i = 0; i < object.childNodes.length; i++) {
@@ -763,7 +853,7 @@
             header = absol.buildDom({
               tag: "div",
               class: "freebirdFormeditorViewPageSectionTitleRow",
-              child: []
+              child: [],
             });
             object.childNodes.push(
               absol.XML.parse("<placeholder>Tiêu đề biểu mẫu</placeholder>")
@@ -773,7 +863,7 @@
               ["freebirdFormeditorViewPageTitleInput"],
               1
             );
-            temp1.functionChangeSize = function() {
+            temp1.functionChangeSize = function () {
               self.functionScroller();
             };
             header.appendChild(temp1);
@@ -784,15 +874,15 @@
               class: "freebirdFormeditorViewPageSectionDescriptionRow",
               child: [],
               on: {
-                click: function() {
+                click: function () {
                   // var query = document.getElementsByClassName(
                   //   "insert-picture-focus"
                   // );
                   // if (query.length == 1)
                   //   query[0].classList.remove("insert-picture-focus");
                   // this.classList.add("insert-picture-focus");
-                }
-              }
+                },
+              },
             });
 
             for (var j = 0; j < object.childNodes[i].childNodes.length; j++) {
@@ -811,11 +901,11 @@
                     ["freebirdFormeditorViewPageDescriptionInput"],
                     1
                   );
-                  input.functionChangeSize = function() {
+                  input.functionChangeSize = function () {
                     self.functionScroller();
                   };
                   var functionGet = input.getValue;
-                  input.getValue = function() {
+                  input.getValue = function () {
                     return "<content>" + functionGet() + "</content>";
                   };
                   description.appendChild(input);
@@ -841,21 +931,21 @@
           arrClass = [
             "freebirdFormeditorViewPagePageFields",
             "firstPage",
-            "hasSectionTab"
+            "hasSectionTab",
           ];
         else
           arrClass = [
             "freebirdFormeditorViewPagePageFields",
             "firstPage",
             "hasSectionTab",
-            "freebirdFormeditorViewItemInactive"
+            "freebirdFormeditorViewItemInactive",
           ];
         var temp = absol.buildDom({
           tag: "div",
           class: arrClass,
           on: {
-            click: (function() {
-              return function() {
+            click: (function () {
+              return function () {
                 var temxp = document.getElementsByClassName(
                   "freebirdFormeditorViewItemInactive"
                 )[0];
@@ -866,16 +956,16 @@
                 this.classList.add("freebirdFormeditorViewItemInactive");
                 self.functionScroller();
               };
-            })()
+            })(),
           },
           child: [
             this.cusorroot(),
             {
               tag: "div",
               class: "freebirdFormeditorViewPageTitleAndDescription",
-              child: [header, description]
-            }
-          ]
+              child: [header, description],
+            },
+          ],
         });
         var id = xmlComponent.getDataformObject(object, "id");
         if (id !== undefined) {
@@ -884,7 +974,7 @@
         temp.header = header;
         temp.description = description;
         self.arrPage[index]._title = temp;
-        temp.getValue = function() {
+        temp.getValue = function () {
           var result = "<title>";
           if (temp.id !== "") {
             result += "<id>" + temp.id + "</id>";
@@ -910,27 +1000,27 @@
           result += "</title>";
           return result;
         };
-        temp.unfold_less = function() {
+        temp.unfold_less = function () {
           temp.click();
         };
-        temp.unfold_more = function() {};
+        temp.unfold_more = function () {};
         return temp;
       },
-      body: function(object, index) {
+      body: function (object, index) {
         var self = this;
         var temp = absol.buildDom({
           tag: "draggablevstack",
           class: ["freebirdFormviewerViewItemList"],
           props: {
-            role: "list"
-          }
+            role: "list",
+          },
         });
         if (object.childNodes !== undefined)
           for (var i = 0; i < object.childNodes.length; i++) {
             temp.appendChild(this.element(object.childNodes[i], index));
           }
         this.arrPage[index]._body = temp;
-        temp.getValue = function() {
+        temp.getValue = function () {
           var result = "<body>";
           if (temp !== undefined) {
             for (var i = 0; i < temp.childNodes.length; i++) {
@@ -940,7 +1030,7 @@
           result += "</body>";
           return result;
         };
-        temp.unfold_less = function() {
+        temp.unfold_less = function () {
           if (temp.classList.contains("more")) temp.classList.remove("more");
           temp.classList.add("less");
           for (var i = 0; i < temp.childNodes.length; i++) {
@@ -949,7 +1039,7 @@
             }
           }
         };
-        temp.unfold_more = function() {
+        temp.unfold_more = function () {
           if (temp.classList.contains("less")) temp.classList.remove("less");
           temp.classList.add("more");
           for (var i = 0; i < temp.childNodes.length; i++) {
@@ -961,13 +1051,13 @@
         self.arrPage[index].arrElement = temp;
         return temp;
       },
-      element: function(object) {
+      element: function (object) {
         var self = this;
         if (object.childNodes === undefined) return undefined;
         var childContainer = absol.buildDom({
           tag: "div",
           class: "freebirdFormeditorViewItemContent",
-          child: []
+          child: [],
         });
         var temp = absol.buildDom({
           tag: "div",
@@ -980,13 +1070,13 @@
                 {
                   tag: "div",
                   class: "freebirdFormeditorViewItemContentWrapper",
-                  child: [childContainer]
-                }
-              ]
-            }
+                  child: [childContainer],
+                },
+              ],
+            },
           ],
           on: {
-            click: function(event) {
+            click: function (event) {
               var temxp = document.getElementsByClassName(
                 "freebirdFormeditorViewItemInactive"
               )[0];
@@ -1014,8 +1104,8 @@
                   }
               }
               if (checkValue == false) temp.prevObject = undefined;
-            }
-          }
+            },
+          },
         });
         var importantType = false;
         var type;
@@ -1056,7 +1146,7 @@
 
         temp.object = object;
         temp.childContainer = childContainer;
-        temp.getValue = function() {
+        temp.getValue = function () {
           var result;
           if (temp.mode === 0) {
             result = childTrueDame.getValue();
@@ -1066,7 +1156,7 @@
           temp.object = absol.XML.parse(result);
           return result;
         };
-        temp.setObject = function(object) {
+        temp.setObject = function (object) {
           temp.object = object;
           for (var i = 0; i < object.childNodes.length; i++) {
             if (object.childNodes[i].tagName === "question")
@@ -1074,14 +1164,14 @@
           }
           temp.answer.setObject(object);
         };
-        temp.unfold_less = function() {
+        temp.unfold_less = function () {
           temp.childContainer.classList.add("displayNone");
           temp.cloneSortQuestion = self.cloneSortQuestion(
             absol.XML.parse(temp.childTrueDame.getQuestion().getValue()),
             temp
           );
         };
-        temp.unfold_more = function() {
+        temp.unfold_more = function () {
           if (temp.cloneSortQuestion !== undefined) {
             var a = temp.cloneSortQuestion;
             var b = temp.cloneSortQuestion.scrollerTab;
@@ -1094,7 +1184,7 @@
         temp.mode = 0;
         return temp;
       },
-      cusorroot: function() {
+      cusorroot: function () {
         return absol.buildDom({
           tag: "div",
           class: "freebirdFormeditorViewCursorRoot",
@@ -1105,21 +1195,20 @@
               child: [
                 {
                   tag: "div",
-                  class: "freebirdFormeditorViewCursorColor"
-                }
-              ]
-            }
-          ]
+                  class: "freebirdFormeditorViewCursorColor",
+                },
+              ],
+            },
+          ],
         });
       },
-      cloneSortQuestion: function(object, childContainer) {
+      cloneSortQuestion: function (object, childContainer) {
         var self = this;
         for (var i = 0; i < object.childNodes.length; i++) {
           if (object.childNodes[i].tagName === "value") {
             if (object.childNodes[i].childNodes[0] !== undefined) {
               value = object.childNodes[i].childNodes[0].data;
-            }else
-            {
+            } else {
               value = "";
             }
           }
@@ -1133,8 +1222,8 @@
           class: ["freebirdFormeditorViewItemMinimized"],
           props: {
             dir: "auto",
-            innerHTML: value
-          }
+            innerHTML: value,
+          },
         });
         if (xmlComponent.getDataformObject(object, "important") === "1") {
           textValue.appendChild(
@@ -1143,29 +1232,29 @@
               class: "freebirdFormviewerViewItemsItemRequiredAsterisk",
               props: {
                 ariaLabel: "Câu hỏi bắt buộc",
-                innerHTML: "*"
-              }
+                innerHTML: "*",
+              },
             })
           );
         }
         var temp = absol.buildDom({
           tag: "div",
           class: ["freebirdFormeditorViewItemContent", "drag-zone"],
-          child: [textValue]
+          child: [textValue],
         });
         childContainer.appendChild(scrollerTab);
-        scrollerTab.onclick = function(event) {
+        scrollerTab.onclick = function (event) {
           var el = temp;
           while (!el.classList.contains("freebirdFormeditorViewPagePageCard")) {
             el = el.parentNode;
             if (el.classList.contains("freebirdFormeditorViewItemcardRoot")) {
               var EX = el;
-              setTimeout(function() {
+              setTimeout(function () {
                 var elementPosition = EX.getBoundingClientRect().top;
                 var offsetPosition = elementPosition - self.defineHeightHeader;
                 window.scrollTo({
                   top: offsetPosition,
-                  behavior: "smooth"
+                  behavior: "smooth",
                 });
               }, 100);
             }
@@ -1176,7 +1265,7 @@
         childContainer.appendChild(temp);
         return temp;
       },
-      elementTrue: function(
+      elementTrue: function (
         object,
         tempObject,
         point = 0,
@@ -1187,7 +1276,7 @@
         var childTrueDame = absol.buildDom({
           tag: "div",
           class: "true-dame",
-          child: [this.cusorroot()]
+          child: [this.cusorroot()],
         });
         var question, answer;
         for (var i = 0; i < object.childNodes.length; i++) {
@@ -1217,35 +1306,35 @@
             );
           }
         }
-        childTrueDame.requestUpdateSize = function() {
+        childTrueDame.requestUpdateSize = function () {
           if (question.requestUpdateSize !== undefined)
             question.requestUpdateSize();
 
           if (answer.requestUpdateSize !== undefined)
             answer.requestUpdateSize();
         };
-        childTrueDame.setObject = function(object) {
+        childTrueDame.setObject = function (object) {
           for (var i = 0; i < object.childNodes.length; i++) {
             if (object.childNodes[i].tagName === "question")
               question.setObject(object.childNodes[i]);
           }
           answer.setObject(object);
         };
-        childTrueDame.getSum = function() {
+        childTrueDame.getSum = function () {
           return question.header.sum;
         };
-        childTrueDame.getfooterElement = function() {
+        childTrueDame.getfooterElement = function () {
           return answer.footerElement;
         };
-        childTrueDame.getValue = function() {
+        childTrueDame.getValue = function () {
           return "<test>" + question.getValue() + answer.getValue() + "</test>";
         };
-        childTrueDame.getQuestion = function() {
+        childTrueDame.getQuestion = function () {
           return question;
         };
         return childTrueDame;
       },
-      elementPoint: function(
+      elementPoint: function (
         object,
         tempObject,
         point = 0,
@@ -1256,7 +1345,7 @@
         var childPointDame = absol.buildDom({
           tag: "div",
           class: ["point-dame", "displayNone"],
-          child: [this.cusorroot()]
+          child: [this.cusorroot()],
         });
         var questionPoint, answerPoint;
 
@@ -1278,7 +1367,7 @@
             );
           }
         }
-        childPointDame.getValue = function() {
+        childPointDame.getValue = function () {
           return (
             "<test>" +
             childPointDame.questionPoint.getValue() +
@@ -1286,7 +1375,7 @@
             "</test>"
           );
         };
-        childPointDame.setObject = function(object) {
+        childPointDame.setObject = function (object) {
           for (var i = 0; i < object.childNodes.length; i++) {
             if (object.childNodes[i].tagName === "question") {
               if (
@@ -1314,12 +1403,12 @@
             }
           }
         };
-        childPointDame.getfooterElement = function() {
+        childPointDame.getfooterElement = function () {
           return childPointDame.answerPoint.footerElementPoint;
         };
         return childPointDame;
       },
-      question: function(object, childContainer, tempObject, point, type) {
+      question: function (object, childContainer, tempObject, point, type) {
         var self = this;
         var value = "";
         object.childNodes.push(
@@ -1339,9 +1428,9 @@
                   tag: "div",
                   class: [
                     "freebirdFormeditorViewQuestionFooterPointsText",
-                    "freebirdFormeditorViewQuestionFooterMedium"
+                    "freebirdFormeditorViewQuestionFooterMedium",
                   ],
-                  child: []
+                  child: [],
                 },
                 {
                   tag: "div",
@@ -1350,23 +1439,23 @@
                     {
                       tag: "div",
                       class: "freebirdFormeditorViewItemTitleInputWrapper",
-                      child: [x]
-                    }
-                  ]
-                }
-              ]
-            }
+                      child: [x],
+                    },
+                  ],
+                },
+              ],
+            },
           ],
           on: {
-            click: function() {
+            click: function () {
               // var query = document.getElementsByClassName(
               //   "insert-picture-focus"
               // );
               // if (query.length == 1)
               //   query[0].classList.remove("insert-picture-focus");
               // this.classList.add("insert-picture-focus");
-            }
-          }
+            },
+          },
         });
 
         var id = xmlComponent.getDataformObject(object, "id");
@@ -1400,10 +1489,10 @@
         temp.header = x;
         var scrollerTab = xmlComponent.holdmoveVer();
         childContainer.appendChild(scrollerTab);
-        temp.requestUpdateSize = function() {
+        temp.requestUpdateSize = function () {
           temp.header.requestUpdateSize();
         };
-        temp.getValue = function() {
+        temp.getValue = function () {
           var result = "<question>";
           if (temp.id != "") result += "<id>" + temp.id + "</id>";
           else {
@@ -1446,7 +1535,7 @@
           result += "</question>";
           return result;
         };
-        temp.setObject = function(object) {
+        temp.setObject = function (object) {
           var sum = xmlComponent.getDataformObject(object, "sum");
           if (sum != undefined && sum != "undefined") temp.sum = sum;
           else temp.sum = 0;
@@ -1465,13 +1554,13 @@
             temp.incorrect = incorrect;
           else temp.incorrect = "";
         };
-        temp.focus = function() {
+        temp.focus = function () {
           x.focus();
         };
 
         return temp;
       },
-      questionPoint: function(object, childContainer, tempParent, point = 0) {
+      questionPoint: function (object, childContainer, tempParent, point = 0) {
         var x;
         var self = this;
         var questionPoint = {};
@@ -1521,7 +1610,7 @@
                 tag: "div",
                 class: [
                   "freebirdFormeditorViewAssessmentHeader",
-                  "freebirdSolidBackground"
+                  "freebirdSolidBackground",
                 ],
                 child: [
                   {
@@ -1533,28 +1622,28 @@
                       "quantumWizButtonPaperbuttonFlatColored",
                       "quantumWizButtonPaperbutton2El2",
                       "freebirdFormeditorViewQuestionFooterFlipButton",
-                      "whiteBackground"
+                      "whiteBackground",
                     ],
                     child: [
                       {
                         tag: "i",
                         class: "material-icons",
                         props: {
-                          innerHTML: "assignment_turned_in"
+                          innerHTML: "assignment_turned_in",
                         },
                         style: {
-                          fontSize: "30px"
-                        }
+                          fontSize: "30px",
+                        },
                       },
-                      "<span>" + "Nhập kết quả" + "</span>"
+                      "<span>" + "Nhập kết quả" + "</span>",
                     ],
                     style: {
-                      pointerEvents: "none"
-                    }
-                  }
-                ]
-              }
-            ]
+                      pointerEvents: "none",
+                    },
+                  },
+                ],
+              },
+            ],
           });
           childContainer.appendChild(temp);
           childContainer.appendChild(x);
@@ -1564,12 +1653,12 @@
 
         childContainer.questionPoint = questionPoint;
 
-        questionPoint.setObject = function(value = "", value1 = "") {
+        questionPoint.setObject = function (value = "", value1 = "") {
           childContainer.correct = value;
           childContainer.incorrect = value1;
         };
 
-        questionPoint.getValue = function() {
+        questionPoint.getValue = function () {
           var string = questionPoint.question.getValue(
             absol.XML.stringify(object)
           );
@@ -1605,7 +1694,7 @@
         };
         return questionPoint;
       },
-      answer: function(
+      answer: function (
         object,
         childContainer,
         tempObject,
@@ -1630,7 +1719,7 @@
         );
         childContainer.appendChild(temp.footerElement);
         var functionSetObject = temp.setObject;
-        temp.setObject = function(object) {
+        temp.setObject = function (object) {
           for (var i = 0; i < object.childNodes.length; i++) {
             if (object.childNodes[i].tagName === "question")
               temp.footerElement.setObject(
@@ -1643,9 +1732,9 @@
         };
         return temp;
       },
-      answerPoint: function(object, childContainer, tempObject, point = 0) {
+      answerPoint: function (object, childContainer, tempObject, point = 0) {
         var result = absol.buildDom({
-          tag: "div"
+          tag: "div",
         });
         var type;
         var temp;
@@ -1664,21 +1753,21 @@
             tag: "div",
             class: [
               "freebirdFormeditorViewAssessmentFooterFooterRow",
-              "feedBack"
+              "feedBack",
             ],
             child: [
               {
                 tag: "div",
                 class: [
                   "freebirdFormeditorViewAssessmentFooterFooterLeft",
-                  "feedBackLeft"
+                  "feedBackLeft",
                 ],
                 child: [
                   {
                     tag: "div",
                     class: [
                       "freebirdFormeditorViewQuestionFooterAssessmentIcons",
-                      "feedBackLeftIcon"
+                      "feedBackLeftIcon",
                     ],
                     child: [
                       {
@@ -1690,20 +1779,20 @@
                           "quantumWizButtonPaperbuttonFlatColored",
                           "quantumWizButtonPaperbutton2El2",
                           "freebirdFormeditorViewQuestionFooterFlipButton",
-                          "blueBackground"
+                          "blueBackground",
                         ],
                         child: [
                           {
                             tag: "i",
                             class: "material-icons",
                             props: {
-                              innerHTML: "assignment"
-                            }
+                              innerHTML: "assignment",
+                            },
                           },
-                          "<span>" + "Thêm phản hồi trả lời" + "</span>"
+                          "<span>" + "Thêm phản hồi trả lời" + "</span>",
                         ],
                         on: {
-                          click: function() {
+                          click: function () {
                             xmlModalFeedback.createModal(
                               document.body,
                               tempObject.childPointDame.questionPoint.setObject,
@@ -1711,17 +1800,17 @@
                                 tempObject.childPointDame.questionPoint.getValue()
                               )
                             );
-                          }
-                        }
-                      }
+                          },
+                        },
+                      },
                     ],
                     style: {
-                      margin: "auto"
-                    }
-                  }
-                ]
-              }
-            ]
+                      margin: "auto",
+                    },
+                  },
+                ],
+              },
+            ],
           });
           result.appendChild(feedBackAnswer);
         }
@@ -1729,7 +1818,7 @@
         result.footerElementPoint = this.footerElementPoint(point);
         result.appendChild(result.footerElementPoint);
 
-        result.getValue = function() {
+        result.getValue = function () {
           return temp.getValue();
         };
         if (childContainer.answerPoint !== undefined) {
@@ -1743,7 +1832,7 @@
         childContainer.answerPoint = result;
         return result;
       },
-      footerElement: function(
+      footerElement: function (
         object,
         childContainer,
         tempObject,
@@ -1755,12 +1844,12 @@
         var propsSwitch;
         if (importantType)
           propsSwitch = {
-            checked: true
+            checked: true,
           };
         var switchBar = absol.buildDom({
           tag: "switch",
           class: ["quantumWizTogglePapertoggleEl"],
-          props: propsSwitch
+          props: propsSwitch,
         });
 
         if (point == undefined || point == "undefined") point = 0;
@@ -1768,14 +1857,14 @@
           tag: "div",
           class: [
             "freebirdFormeditorViewQuestionFooterPointsText",
-            "freebirdFormeditorViewQuestionFooterMedium"
+            "freebirdFormeditorViewQuestionFooterMedium",
           ],
           props: {
-            innerHTML: point + " điểm"
+            innerHTML: point + " điểm",
           },
           style: {
-            marginRight: "30px"
-          }
+            marginRight: "30px",
+          },
         });
 
         switch (type) {
@@ -1803,23 +1892,23 @@
             {
               text: "Trả lời ngắn",
               icon: "span.mdi.mdi-text-short",
-              value: 0
+              value: 0,
             },
             {
               text: "Đoạn",
               icon: "span.mdi.mdi-text",
-              value: 1
+              value: 1,
             },
             "=================================",
             {
               text: "Trắc nghiệm",
               icon: "span.mdi.mdi-radiobox-marked",
-              value: 3
+              value: 3,
             },
             {
               text: "Menu thả xuống",
               icon: "span.mdi.mdi-checkbox-marked",
-              value: 4
+              value: 4,
             },
             // {
             //     text: 'Hộp kiểm',
@@ -1835,27 +1924,27 @@
             {
               text: "Trắc nghiệm trọng số",
               icon: "span.mdi.mdi-radiobox-marked",
-              value: 6
+              value: 6,
             },
             {
               text: "Phạm vi tuyến tính",
               icon: "span.mdi.mdi-ray-start-end",
-              value: 7
-            }
-          ]
+              value: 7,
+            },
+          ],
         };
 
         var docTypeBtn = absol._({
           tag: "menubutton",
           class: "standard-alone",
-          props: docTypeMemuProps.items[type]
+          props: docTypeMemuProps.items[type],
         });
         docTypeBtn.$arrow.addClass("mdi").addClass("mdi-menu-down");
         absol.QuickMenu.showWhenClick(
           docTypeBtn,
           docTypeMemuProps,
           [5],
-          function(menuItem) {
+          function (menuItem) {
             docTypeBtn.text = menuItem.text;
             docTypeBtn.icon = menuItem.icon;
             switch (menuItem.value) {
@@ -1923,44 +2012,44 @@
                         "quantumWizButtonPaperbuttonFlatColored",
                         "quantumWizButtonPaperbutton2El2",
                         "freebirdFormeditorViewQuestionFooterFlipButton",
-                        "blueBackground"
+                        "blueBackground",
                       ],
                       child: [
                         {
                           tag: "i",
                           class: "material-icons",
                           props: {
-                            innerHTML: "edit"
+                            innerHTML: "edit",
                           },
                           style: {
-                            fontSize: "30px"
-                          }
+                            fontSize: "30px",
+                          },
                         },
-                        "<span>" + "Đáp án" + "</span>"
+                        "<span>" + "Đáp án" + "</span>",
                       ],
                       on: {
-                        click: function() {
+                        click: function () {
                           self.onchangeTabPoint(temp);
                           absol.Tooltip.closeTooltip(this.session);
                         },
-                        mouseover: function() {
+                        mouseover: function () {
                           this.session = absol.Tooltip.show(
                             this,
                             hovertext.text,
                             hovertext.align
                           );
                         },
-                        mouseout: function() {
+                        mouseout: function () {
                           absol.Tooltip.closeTooltip(this.session);
-                        }
-                      }
-                    }
+                        },
+                      },
+                    },
                   ],
                   style: {
-                    margin: "auto"
-                  }
-                }
-              ]
+                    margin: "auto",
+                  },
+                },
+              ],
             },
             {
               tag: "div",
@@ -1984,8 +2073,8 @@
                   tag: "div",
                   class: [
                     "freebirdFormeditorViewQuestionFooterFooterSeparator",
-                    "freebirdFormeditorViewQuestionFooterMedium"
-                  ]
+                    "freebirdFormeditorViewQuestionFooterMedium",
+                  ],
                 },
                 {
                   tag: "div",
@@ -1996,47 +2085,47 @@
                       tag: "span",
                       class: "freebirdFormeditorViewQuestionFooterToggleLabel",
                       props: {
-                        innerHTML: "Bắt buộc"
-                      }
+                        innerHTML: "Bắt buộc",
+                      },
                     },
-                    switchBar
-                  ]
+                    switchBar,
+                  ],
                 },
                 {
                   tag: "div",
                   class: [
                     "freebirdFormeditorViewQuestionFooterFooterSeparator",
-                    "freebirdFormeditorViewQuestionFooterMedium"
-                  ]
+                    "freebirdFormeditorViewQuestionFooterMedium",
+                  ],
                 },
                 {
                   tag: "div",
                   class: "freebirdFormeditorViewItemTypechooserTypeChooser",
-                  child: [docTypeBtn]
+                  child: [docTypeBtn],
                 },
                 {
                   tag: "div",
                   class: [
                     "freebirdFormeditorViewQuestionFooterFooterSeparator",
-                    "freebirdFormeditorViewQuestionFooterMedium"
-                  ]
+                    "freebirdFormeditorViewQuestionFooterMedium",
+                  ],
                 },
-                notePoint
-              ]
-            }
-          ]
+                notePoint,
+              ],
+            },
+          ],
         });
-        temp.getValue = function() {
+        temp.getValue = function () {
           return "<important>" + Number(switchBar.checked) + "</important>";
         };
-        temp.setObject = function(sum) {
+        temp.setObject = function (sum) {
           if (sum != undefined && sum != "undefined")
             notePoint.innerHTML = sum + " điểm";
           else notePoint.innerHTML = 0 + " điểm";
         };
         return temp;
       },
-      footerElementPoint: function(point = 0) {
+      footerElementPoint: function (point = 0) {
         var self = this;
         var hovertext = {};
         hovertext.text = "Xong";
@@ -2066,11 +2155,11 @@
                         "quantumWizButtonPaperbuttonFlat",
                         "quantumWizButtonPaperbuttonFlatColored",
                         "quantumWizButtonPaperbutton2El2",
-                        "quantumWizDialogPaperdialogDialogButton"
+                        "quantumWizDialogPaperdialogDialogButton",
                       ],
                       style: {
                         border: "1px solid rgb(169, 169, 169)",
-                        width: "90px"
+                        width: "90px",
                       },
                       child: [
                         {
@@ -2081,38 +2170,38 @@
                               tag: "span",
                               class: "quantumWizButtonPaperbuttonLabel",
                               style: {
-                                color: "#2196F3"
+                                color: "#2196F3",
                               },
                               props: {
-                                innerHTML: "Xong"
-                              }
-                            }
-                          ]
-                        }
+                                innerHTML: "Xong",
+                              },
+                            },
+                          ],
+                        },
                       ],
                       on: {
-                        click: function() {
+                        click: function () {
                           self.onchangeTabPointBack(temp);
                           absol.Tooltip.closeTooltip(this.session);
                         },
-                        mouseover: function() {
+                        mouseover: function () {
                           this.session = absol.Tooltip.show(
                             this,
                             hovertext.text,
                             hovertext.align
                           );
                         },
-                        mouseout: function() {
+                        mouseout: function () {
                           absol.Tooltip.closeTooltip(this.session);
-                        }
-                      }
-                    }
+                        },
+                      },
+                    },
                   ],
                   style: {
-                    margin: "auto"
-                  }
-                }
-              ]
+                    margin: "auto",
+                  },
+                },
+              ],
             },
             {
               tag: "div",
@@ -2133,23 +2222,23 @@
                           class:
                             "freebirdFormeditorViewAssessmentWidgetsPointsLabel",
                           props: {
-                            innerHTML: "điểm"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                            innerHTML: "điểm",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
-        temp.getValue = function() {
+        temp.getValue = function () {
           return input.getValue();
         };
         return temp;
       },
-      onchangeTabPoint: function(el) {
+      onchangeTabPoint: function (el) {
         while (!el.classList.contains("freebirdFormeditorViewItemcardRoot"))
           el = el.parentNode;
         el.getValue();
@@ -2159,12 +2248,14 @@
         el.childPointDame.classList.remove("displayNone");
         el.mode = 1;
       },
-      onchangeTabPointBack: function(el) {
+      onchangeTabPointBack: function (el) {
         if (el === undefined) return;
-        while (el.classList!==undefined&&!el.classList.contains("freebirdFormeditorViewItemcardRoot"))
+        while (
+          el.classList !== undefined &&
+          !el.classList.contains("freebirdFormeditorViewItemcardRoot")
+        )
           el = el.parentNode;
-        if(el.classList===undefined)
-          return;
+        if (el.classList === undefined) return;
         if (el.mode === 0) return;
         el.childTrueDame.setObject(
           absol.XML.parse(el.childPointDame.getValue())
@@ -2173,19 +2264,19 @@
         el.childPointDame.classList.add("displayNone");
         el.mode = 0;
       },
-      elementTabSortElement: function(object) {
+      elementTabSortElement: function (object) {
         var x;
         var temp = absol.buildDom({
           tag: "draggablevstack",
           class: ["docssharedWizOmnilistItemRoot"],
           style: {
-            maxHeight: window.innerHeight * 0.5 + "px"
+            maxHeight: window.innerHeight * 0.5 + "px",
           },
           on: {
-            change: function(evt) {
+            change: function (evt) {
               temp.updateSTT();
-            }
-          }
+            },
+          },
         });
         var self = this;
         for (var i = 0; i < this.arrPage.length; i++) {
@@ -2193,15 +2284,15 @@
             tag: "div",
             class: "freebirdFormeditorDialogReorderPosition",
             props: {
-              innerHTML: "Phần " + (i + 1) + " / " + self.arrPage.length
-            }
+              innerHTML: "Phần " + (i + 1) + " / " + self.arrPage.length,
+            },
           });
           x = absol.buildDom({
             tag: "div",
             class: [
               "docssharedWizOmnilistItemRoot",
               "omnilist-dragtarget",
-              "freebirdFormeditorDialogReorderSection"
+              "freebirdFormeditorDialogReorderSection",
             ],
             child: [
               {
@@ -2213,7 +2304,7 @@
                     tag: "div",
                     class: [
                       "docssharedWizOmnilistMorselRoot",
-                      "freebirdFormeditorDialogReorderSectionBody"
+                      "freebirdFormeditorDialogReorderSectionBody",
                     ],
                     child: [
                       {
@@ -2226,11 +2317,11 @@
                             props: {
                               innerHTML: self.arrPage[
                                 i
-                              ]._title.header.childNodes[0].getPureValue()
-                            }
+                              ]._title.header.childNodes[0].getPureValue(),
+                            },
                           },
-                          STT
-                        ]
+                          STT,
+                        ],
                       },
                       {
                         tag: "div",
@@ -2249,16 +2340,16 @@
                             ["rightControl"],
                             self.functionMoveDownPage,
                             self
-                          )
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
+                          ),
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
             on: {
-              click: function() {
+              click: function () {
                 if (
                   temp.me !== undefined &&
                   temp.me.classList.contains("isFocused")
@@ -2267,14 +2358,14 @@
                 }
                 temp.me = this;
                 this.classList.add("isFocused");
-              }
-            }
+              },
+            },
           });
           x.STT = STT;
           x.id = i;
           temp.addChild(x);
         }
-        temp.updateSTT = function() {
+        temp.updateSTT = function () {
           for (var i = 0; i < temp.children.length; i++) {
             temp.children[i].STT.innerHTML =
               "Phần " + (i + 1) + " / " + self.arrPage.length;
@@ -2282,7 +2373,7 @@
         };
         return temp;
       },
-      tabSortDocument: function() {
+      tabSortDocument: function () {
         var self = this;
         var listResult = self.elementTabSortElement();
         var temp = absol.buildDom({
@@ -2292,33 +2383,33 @@
             "freebirdFormeditorDialogReorderDialog",
             "freebirdThemedMobileDialog",
             "quantumWizDialogPaperdialogTransitionZoom",
-            "quantumWizDialogEl"
+            "quantumWizDialogEl",
           ],
           child: [
             {
               tag: "div",
               class: [
                 "quantumWizDialogPaperdialogTitle",
-                "quantumWizDialogPaperdialogTitleBar"
+                "quantumWizDialogPaperdialogTitleBar",
               ],
               child: [
                 {
                   tag: "div",
                   class: ["quantumWizDialogPaperdialogTitleText"],
                   props: {
-                    innerHTML: "Sắp xếp lại các phần"
-                  }
-                }
-              ]
+                    innerHTML: "Sắp xếp lại các phần",
+                  },
+                },
+              ],
             },
             {
               tag: "div",
               class: [
                 "quantumWizDialogPaperdialogContent",
                 "quantumWizCommonPositioningScrollableHost",
-                "freebirdFormeditorDialogReorderDialogContent"
+                "freebirdFormeditorDialogReorderDialogContent",
               ],
-              child: [listResult]
+              child: [listResult],
             },
             {
               tag: "div",
@@ -2332,7 +2423,7 @@
                     "quantumWizButtonPaperbuttonFlat",
                     "quantumWizButtonPaperbuttonFlatColored",
                     "quantumWizButtonPaperbutton2El2",
-                    "quantumWizDialogPaperdialogDialogButton"
+                    "quantumWizDialogPaperdialogDialogButton",
                   ],
                   child: [
                     {
@@ -2343,20 +2434,20 @@
                           tag: "span",
                           class: "quantumWizButtonPaperbuttonLabel",
                           props: {
-                            innerHTML: "Huỷ"
-                          }
-                        }
-                      ]
-                    }
+                            innerHTML: "Huỷ",
+                          },
+                        },
+                      ],
+                    },
                   ],
                   on: {
-                    click: function() {
+                    click: function () {
                       var el = temp;
                       while (!el.classList.contains("absol-modal"))
                         el = el.parentNode;
                       el.parentNode.removeChild(el);
-                    }
-                  }
+                    },
+                  },
                 },
                 {
                   tag: "div",
@@ -2367,7 +2458,7 @@
                     "quantumWizButtonPaperbuttonFlatColored",
                     "quantumWizButtonPaperbutton2El2",
                     "quantumWizDialogPaperdialogDialogButton",
-                    "blueBackground"
+                    "blueBackground",
                   ],
                   child: [
                     {
@@ -2378,14 +2469,14 @@
                           tag: "span",
                           class: "quantumWizButtonPaperbuttonLabel",
                           props: {
-                            innerHTML: "Lưu"
-                          }
-                        }
-                      ]
-                    }
+                            innerHTML: "Lưu",
+                          },
+                        },
+                      ],
+                    },
                   ],
                   on: {
-                    click: function() {
+                    click: function () {
                       var parent = self.arrPage[0].parentNode;
                       var result = [];
                       var pageBreakSTT;
@@ -2418,12 +2509,12 @@
                                   class:
                                     "freebirdFormeditorViewPageGoToPageSelectLabel",
                                   props: {
-                                    innerHTML: "Sau phần " + (i + 1)
-                                  }
-                                }
-                              ]
-                            }
-                          ]
+                                    innerHTML: "Sau phần " + (i + 1),
+                                  },
+                                },
+                              ],
+                            },
+                          ],
                         });
                       }
                       Object.assign(self.arrPage, result);
@@ -2433,16 +2524,16 @@
                       while (!el.classList.contains("absol-modal"))
                         el = el.parentNode;
                       el.parentNode.removeChild(el);
-                    }
-                  }
-                }
-              ]
-            }
-          ]
+                    },
+                  },
+                },
+              ],
+            },
+          ],
         });
         return temp;
       },
-      updateSumPoint: function() {
+      updateSumPoint: function () {
         var self = this;
         self.sumPoint.childNodes[0].innerHTML = 0;
         self.sumQuestion.childNodes[0].innerHTML = 0;
@@ -2470,7 +2561,7 @@
             }
           }
       },
-      functionScroller: function(listButton) {
+      functionScroller: function (listButton) {
         var self = this;
         if (listButton !== undefined) {
           this.listButton = listButton;
@@ -2507,7 +2598,7 @@
             (self.defineHeightHeader + self.defineBottomParameterElement + 2) +
             "px";
       },
-      functionDelete: function(el, self) {
+      functionDelete: function (el, self) {
         while (!el.classList.contains("freebirdFormeditorViewItemcardRoot"))
           el = el.parentNode;
         var index = el;
@@ -2521,16 +2612,16 @@
         }
         blackTheme.reporter_questions
           .removequestion(el.childTrueDame.getQuestion().header.getPureValue())
-          .then(function(result) {
+          .then(function (result) {
             el.parentNode.removeChild(el);
             self.functionScroller();
             self.updateSumPoint();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       },
-      functionAdd: function(el, self, object) {
+      functionAdd: function (el, self, object) {
         if (
           document.getElementsByClassName("freebirdFormeditorViewItemInactive")
             .length !== 0
@@ -2539,7 +2630,7 @@
             "freebirdFormeditorViewItemInactive"
           )[0];
         else return;
-        if(el.parentNode.unfold_more!==undefined)
+        if (el.parentNode.unfold_more !== undefined)
           el.parentNode.unfold_more();
         var clone;
         if (object !== undefined) clone = self.element(object);
@@ -2582,7 +2673,7 @@
         }
         clone.childTrueDame.getQuestion().focus();
       },
-      functionDuplicate: function(el, self) {
+      functionDuplicate: function (el, self) {
         while (!el.classList.contains("freebirdFormeditorViewItemcardRoot"))
           el = el.parentNode;
         var index = el;
@@ -2599,11 +2690,11 @@
         clone = self.element(el.object);
         el.parentNode.insertBefore(clone, el.nextSibling);
         self.updateSumPoint();
-        setTimeout(function() {
+        setTimeout(function () {
           clone.childTrueDame.getQuestion().focus();
         }, 100);
       },
-      functionAddPhoto: function(el, self) {
+      functionAddPhoto: function (el, self) {
         ////to do
         var query = document.getElementsByClassName("insert-picture-focus");
         var valid;
@@ -2634,8 +2725,8 @@
         modal.show = true;
         // insert-picture-focus
       },
-      functionAddQuestion: function(el, self) {
-        var functionActive = function(xmlData) {
+      functionAddQuestion: function (el, self) {
+        var functionActive = function (xmlData) {
           var object = absol.XML.parse(xmlData);
           var test = [];
           var arrDocument = [];
@@ -2664,7 +2755,7 @@
         modal.show = true;
         // insert-picture-focus
       },
-      functionBreakPage: function(el, self) {
+      functionBreakPage: function (el, self) {
         if (
           document.getElementsByClassName("freebirdFormeditorViewItemInactive")
             .length !== 0
@@ -2673,8 +2764,8 @@
             "freebirdFormeditorViewItemInactive"
           )[0];
         else return;
-        if(el.parentNode.unfold_more!==undefined)
-        el.parentNode.unfold_more();
+        if (el.parentNode.unfold_more !== undefined)
+          el.parentNode.unfold_more();
         var index;
 
         var resultEl = el;
@@ -2734,17 +2825,17 @@
                   tag: "span",
                   class: "freebirdFormeditorViewPageGoToPageSelectLabel",
                   props: {
-                    innerHTML: "Sau phần " + (index + 1)
-                  }
-                }
-              ]
-            }
-          ]
+                    innerHTML: "Sau phần " + (index + 1),
+                  },
+                },
+              ],
+            },
+          ],
         });
         resultEl.parentNode.insertBefore(clone.pageBreakSTT, nextSibling);
         resultEl.parentNode.insertBefore(clone, nextSibling);
       },
-      functionAddDocument: function(el, self, object) {
+      functionAddDocument: function (el, self, object) {
         if (
           document.getElementsByClassName("freebirdFormeditorViewItemInactive")
             .length !== 0
@@ -2788,12 +2879,12 @@
                     tag: "span",
                     class: "freebirdFormeditorViewPageGoToPageSelectLabel",
                     props: {
-                      innerHTML: "Sau phần " + (index + 1)
-                    }
-                  }
-                ]
-              }
-            ]
+                      innerHTML: "Sau phần " + (index + 1),
+                    },
+                  },
+                ],
+              },
+            ],
           });
           resultEl.parentNode.insertBefore(clone.pageBreakSTT, nextSibling);
           resultEl.parentNode.insertBefore(clone, nextSibling);
@@ -2813,7 +2904,7 @@
           el.appendChild(clone);
         }
       },
-      functionDeletePage: function(el, self, index) {
+      functionDeletePage: function (el, self, index) {
         if (index === undefined) {
           var resultEl = el;
           while (
@@ -2845,7 +2936,7 @@
         self.arrPage.splice(index, 1);
         self.arrPage.tempUpdteSTT();
       },
-      functionDuplicatePage: function(el, self) {
+      functionDuplicatePage: function (el, self) {
         var index;
         var resultEl = el;
         while (
@@ -2875,12 +2966,12 @@
                   tag: "span",
                   class: "freebirdFormeditorViewPageGoToPageSelectLabel",
                   props: {
-                    innerHTML: "Sau phần " + (index + 1)
-                  }
-                }
-              ]
-            }
-          ]
+                    innerHTML: "Sau phần " + (index + 1),
+                  },
+                },
+              ],
+            },
+          ],
         });
         var nextSibling = self.arrPage[index].nextSibling;
         self.arrPage[index].parentNode.insertBefore(
@@ -2892,27 +2983,27 @@
         self.arrPage.splice(index + 1, 0, clone);
         self.arrPage.tempUpdteSTT();
       },
-      functionMovePage: function(el, self) {
+      functionMovePage: function (el, self) {
         var x = absol.buildDom({
           tag: "modal",
-          child: [self.tabSortDocument()]
+          child: [self.tabSortDocument()],
         });
         document.body.appendChild(x);
         x.show = true;
       },
-      functionMoveDownPage: function(el, self) {
+      functionMoveDownPage: function (el, self) {
         while (!el.classList.contains("freebirdFormeditorDialogReorderSection"))
           el = el.parentNode;
         swapElements(el, el.nextElementSibling);
         el.parentNode.updateSTT();
       },
-      functionMoveUpPage: function(el, self) {
+      functionMoveUpPage: function (el, self) {
         while (!el.classList.contains("freebirdFormeditorDialogReorderSection"))
           el = el.parentNode;
         swapElements(el, el.previousElementSibling);
         el.parentNode.updateSTT();
       },
-      functionMergePage: function(el, self) {
+      functionMergePage: function (el, self) {
         var index;
         var resultEl = el;
         while (
@@ -2939,7 +3030,7 @@
           i--;
         }
         self.functionDeletePage(el, self, index);
-      }
+      },
     };
     return xmlRequestCreateEdit;
   }
@@ -2948,7 +3039,7 @@
     var rect = el.getBoundingClientRect(),
       vWidth = window.innerWidth || doc.documentElement.clientWidth,
       vHeight = window.innerHeight || doc.documentElement.clientHeight,
-      efp = function(x, y) {
+      efp = function (x, y) {
         return document.elementFromPoint(x, y);
       };
 

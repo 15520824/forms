@@ -40,12 +40,12 @@ formTest.menu.loadPage = function (taskid) {
             formTest.menu.tabPanel.addChild(holder);
             formTest.reporter_type_surveys.init(host, 1);
             break;
-        // case 5:
-        //     holder.name="Thực hiện khảo sát";
-        //     formTest.menu.tabPanel.addChild(holder);
-        //     formTest.reporter_record.init(host,1);
-        //     break;
-        case 991:
+        case 13:
+            holder.name = "Danh mục đợt kiểm tra";
+            formTest.menu.tabPanel.addChild(holder);
+            formTest.reporter_examinations.init(host, 1);
+            break;
+        case 41:
             holder.name = "Hồ sơ cá nhân";
             formTest.menu.tabPanel.addChild(holder);
             var promiseAll = [];
@@ -55,6 +55,9 @@ formTest.menu.loadPage = function (taskid) {
             Promise.all(promiseAll).then(function () {
                 formTest.menu.showProfile(host);
             })
+            break;
+        case 42:
+            formTest.menu.logout();
             break;
         case 31:
             holder.name = "Người dùng";
@@ -126,6 +129,7 @@ formTest.menu.init = function (holder) {
     data_module.company.load().then(function (resolve) {
         promiseAll.push(data_module.register.load());
         promiseAll.push(data_module.services.load());
+        promiseAll.push(data_module.usersListHome.load());
         Promise.all(promiseAll).then(function () {
             FormClass.api_call({
                 url: "database_load.php",
@@ -198,8 +202,48 @@ formTest.menu.init = function (holder) {
                                                 pageIndex: 31
                                             }
                                         ]
+                                    },
+                                    {
+                                        text: data_module.usersListHome.getID(window.userid).username,
+                                        pageIndex: 4,
+                                        items:[
+                                            {
+                                                tag:"div",
+                                                style:{
+                                                    textAlign:"center"
+                                                },
+                                                child:[
+                                                    {
+                                                        tag:"div",
+                                                        class:"card-desktop-profile-avatar",
+                                                        style:{
+                                                            padding:"5px",
+                                                            backgroundImage: "url(./img/avatar/avatar-default.png)",
+                                                        },
+                                                        props:{
+                                                            id:"user_avatar_img"
+                                                        },
+                                                    }
+                                                ],
+                                                // on:{
+                                                //     click:function(event)
+                                                //     {
+                                                //         formTest.menu.loadPage(41);
+                                                //     }
+                                                // }
+                                            },
+                                            {
+                                                text: "Hồ sơ cá nhân",
+                                                pageIndex: 41
+                                            },
+                                            {
+                                                text: "Đăng xuất",
+                                                pageIndex: 42
+                                            }
+                                        ]
                                     }
                                 ]
+                                
                             // var menuItems = [{
                             //     text: "Quản lý bài kiểm tra",
                             //     pageIndex: 1

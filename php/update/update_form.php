@@ -89,6 +89,7 @@ if (count($search) > 1||count($search) == 0){
     $data["id"] = $connection->insert($prefix.'form', $data);
 }else
 {
+    $data["lastmodifiedtime"] = new DateTime();
     $connection->update($prefix.'form', $data);
 }
 

@@ -20,7 +20,7 @@ formTest.reporter_examinations.init = function(host, mode) {
         }
     });
     var promiseAll=[];
-    promiseAll.push(data_module.type.load());
+    promiseAll.push(data_module.examinations.load());
     Promise.all(promiseAll).then(function() {
         var mainFrame = absol.buildDom({
             tag: 'singlepage',
@@ -51,7 +51,7 @@ formTest.reporter_examinations.init = function(host, mode) {
                                 on: {
                                     click: function(host) {
                                         return function(){
-                                        var temp1 = blackTheme.reporter_examinations.addType(host);
+                                        var temp1 = blackTheme.reporter_examinations.addExamination(host);
                                         host.frameList.addChild(temp1);
                                         host.frameList.activeFrame(temp1);
                                         DOMElement.cancelEvent(event);

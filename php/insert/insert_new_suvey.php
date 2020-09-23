@@ -30,6 +30,18 @@ if (isset($_POST["show_result"])) {
     $data["show_result"]=$_POST["show_result"];
 }
 
+if (isset($_POST["practice"])) {
+    $data["practice"]=$_POST["practice"];
+}
+
+if (isset($_POST["available"])) {
+    $data["available"]=$_POST["available"];
+}
+
+if (isset($_POST["userid"])) {
+    $data["userid"]=$_POST["userid"];
+}
+
 $data["id"] = $connection->insert($prefix.'survey', $data);
 
 echo "ok";

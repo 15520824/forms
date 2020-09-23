@@ -540,6 +540,620 @@ blackTheme.reporter_surveys.updateSurvey = function(host, param) {
     return temp;
 }
 
+blackTheme.reporter_examinations.generateTableDataExaminations = function(host)
+{
+    var data = [];
+    var celldata = [];
+    var indexlist = [];
+    var temp;
+    var i, k, sym, con;
+
+    for (i = 0; i < data_module.examinations.items.length; i++) {
+        indexlist.push(i);
+    }
+    for (k = 0; k < data_module.examinations.items.length; k++) {
+        i = indexlist[k];
+        celldata = [k + 1];
+        celldata.push({
+            text: data_module.examinations.items[i].name
+        });
+        celldata.push({
+            text: formatDate(data_module.examinations.items[i].start,true,true)
+        });
+        celldata.push({
+            text: formatDate(data_module.examinations.items[i].end,true,true)
+        });
+        var now = new Date();
+        var start = new Date(data_module.examinations.items[i].start);
+        var end = new Date(data_module.examinations.items[i].end);
+        var textStatus = "Đang diễn ra";
+        if(now<start)
+        {
+            textStatus = "Sắp diền ra";
+        }else if(now>end)
+        {
+            textStatus = "Đã hết hạn";
+        }
+        celldata.push({
+            text: textStatus
+        });
+        list = [];
+
+        if (true) {
+            sym = DOMElement.i({
+                attrs: {
+                    className: "material-icons",
+                    style: {
+                        fontSize: "20px",
+                        color: "#929292"
+                    }
+                },
+                text: "mode_edit"
+            });
+            con = DOMElement.div({
+                attrs: {
+                    style: {
+                        width: "100px"
+                    }
+                },
+                text: 'Sửa'
+            });
+            sym.onmouseover = con.onmouseover = function(sym, con) {
+                return function(event, me) {
+                    sym.style.color = "black";
+                    con.style.color = "black";
+                }
+            }(sym, con);
+            sym.onmouseout = con.onmouseout = function(sym, con) {
+                return function(event, me) {
+                    sym.style.color = "#929292";
+                    con.style.color = "#929292";
+                }
+            }(sym, con);
+            list.push({
+                attrs: {
+                    style: {
+                        width: "170px"
+                    }
+                },
+                symbol: sym,
+                content: con,
+                onclick: function(tempabc, index, host) {
+                    return function(){
+                        var temp1 = blackTheme.reporter_examinations.updateExamination(host,tempabc);
+                        host.frameList.addChild(temp1);
+                        host.frameList.activeFrame(temp1);
+                        DOMElement.cancelEvent(event);
+                        return false;
+                    }
+                }(data_module.examinations.items[i], i, host)
+            });
+        }
+        sym = DOMElement.i({
+                attrs: {
+                    className: "material-icons",
+                    style: {
+                        fontSize: "20px",
+                        color: "#929292"
+                    }
+                },
+                text: "delete_sweep"
+            }),
+        con = DOMElement.div({
+                attrs: {
+                    style: {
+                        width: "100px"
+                    }
+                },
+                text: 'Xóa'
+            });
+        sym.onmouseover = con.onmouseover = function(sym, con) {
+            return function(event, me) {
+                sym.style.color = "black";
+                con.style.color = "black";
+            }
+        }(sym, con);
+        sym.onmouseout = con.onmouseout = function(sym, con) {
+            return function(event, me) {
+                sym.style.color = "#929292";
+                con.style.color = "#929292";
+            }
+        }(sym, con);
+        list.push({
+            attrs: {
+                style: {
+                    width: "170px"
+                }
+            },
+            symbol: sym,
+            content: con,
+            onclick: function(id, host) {
+                return function(event, me) {
+                    blackTheme.reporter_examinations.removeExamination(id);
+                    DOMElement.cancelEvent(event);
+                    return false;
+                }
+            }(data_module.examinations.items[i].id, host)
+        });
+        h = DOMElement.choicelist({
+            textcolor: "#929292",
+            align: "right",
+            symbolattrs: {
+                style: {
+                    width: "40px"
+                }
+            },
+            list: list
+        });
+        celldata.push({
+            attrs: {
+                style: {
+                    width: "40px",
+                    textAlign: "center"
+                }
+            },
+            children: [
+                DOMElement.i({
+                    attrs: {
+                        className: "material-icons " + DOMElement.dropdownclass.button,
+                        style: {
+                            fontSize: "20px",
+                            cursor: "pointer",
+                            color: "#929292"
+                        },
+                        onmouseover: function(event, me) {
+                            me.style.color = "black";
+                        },
+                        onmouseout: function(event, me) {
+                            me.style.color = "#929292";
+                        },
+                        onclick: function(host1) {
+                            return function(event, me) {
+                                host1.toggle();
+                                DOMElement.cancelEvent(event);
+                                return false;
+                            }
+                        }(h)
+                    },
+                    text: "more_vert"
+                }), h
+            ]
+        });
+        data.push(celldata);
+    }
+    return data;
+}
+
+blackTheme.reporter_examinations.addExamination = function(host){
+    var temp = absol.buildDom({
+        tag:'singlepage',
+        child:[
+            {
+                class: 'absol-single-page-header',
+                child:[
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                temp.selfRemove();
+                                var arr=host.frameList.getAllChild();
+                                host.frameList.activeFrame(arr[arr.length-1]);
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'save'
+                                },
+                            },
+                            '<span>' + "Đóng" + '</span>'
+                        ]
+                    },
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                var paramEdit;
+                                data_module.examinations.addOne(paramEdit)
+                                    .then(function() {
+                                    })
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'save'
+                                },
+                            },
+                            '<span>' + "Lưu" + '</span>'
+                        ]
+                    },
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                var paramEdit;
+                                data_module.examinations.addOne(paramEdit)
+                                    .then(function() {
+                                        temp.selfRemove();
+                                        var arr=host.frameList.getAllChild();
+                                        host.frameList.activeFrame(arr[arr.length-1]);
+                                    })
+
+
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'save'
+                                },
+                            },
+                            '<span>' + "Lưu và đóng" +
+                            '</span>'
+                        ]
+                    }
+                ]
+            },
+            {
+                class: 'absol-single-page-footer'
+            }
+        ]})
+    var functionClickMore = function(){
+        console.log("delete",arguments)
+    }
+    var itemsSurvey = [];
+    var dataSurvey = [];
+    for(var i = 0 ;i<data_module.survey.items.length;i++)
+    {
+        itemsSurvey.push({text:data_module.survey.items[i].value,value:data_module.survey.items[i].id});
+        dataSurvey[data_module.survey.items[i].id] = [];
+    }
+    var header = [
+        {value:'Tên',sort:true,style:{minWidth:"unset"}},
+        {value:'Thời gian linh hoạt',sort:true,style:{minWidth:"200px",width:"200px"}},
+        {value:'Từ',sort:true,style:{minWidth:"200px",width:"200px"}},
+        {value:'Đến',sort:true,style:{minWidth:"200px",width:"200px"}},
+        {type:"detail", functionClickAll:functionClickMore,icon:"",dragElement : false,style:{width:"30px"}}];
+        //"remove_circle_outline"
+    var mTable =  new window.pizo.tableView(header,[]);
+    temp.addChild(absol.buildDom({
+         tag:"div",
+         class:"container-exam-general",
+         child:[
+            {
+                tag:"div",
+                class:"container-exam-name",
+                child:[
+                    {
+                        tag:"span",
+                        class:"containerr-exam-name-label",
+                        props:{
+                            innerHTML:"Tên đợt kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"input",
+                        class:"containerr-exam-name-selectbox",
+                    },
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-exam-survey",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-exam-survey-label",
+                        props:{
+                            innerHTML:"Bài kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"selectmenu",
+                        class:"container-exam-survey-selectbox",
+
+                        on:{
+                            click:function(event)
+                            {
+                                var element = event.target;
+                                while(!(element.classList.contains("absol-selectbox-item-close")||element.classList.contains("absol-selectbox-item")||element.classList.contains("absol-selectbox")))
+                                element = element.parentNode;
+                                if(element.classList.contains("absol-selectbox-item"))
+                                {
+                                    var selected = absol.$("div.absol-selectbox-item.selectedIItem",this);
+                                    if(selected!==undefined)
+                                    {
+                                        selected.classList.remove("selectedIItem");
+                                    }
+                                    element.classList.add("selectedIItem");
+                                }
+        
+                            },
+                            add:function(event)
+                            {
+
+                            },
+                            remove:function(event)
+                            {
+                                if(event.itemElt.classList.contains("selectedIItem"))
+                                {
+                                    if(this.values.indexOf(0)!==-1)
+                                    {
+                                        var arrayItem = this.getElementsByClassName("absol-selectbox-item");
+                                        for(var i = 0;i<arrayItem.length;i++)
+                                        {
+                                            if(arrayItem[i].data.value == 0)
+                                            {
+                                                arrayItem[i].click();
+                                                break;
+                                            }
+                                        }
+                                    }else
+                                    {
+                                        var arrayItem = this.getElementsByClassName("absol-selectbox-item");
+                                        if(arrayItem.length)
+                                        {
+                                            arrayItem[0].click();
+                                        }
+                                    }
+                                }else
+                                {
+                                    var selected = absol.$("div.absol-selectbox-item.selectedIItem",this);
+                                    if(selected!==undefined)
+                                    {
+                                        selected.click();
+                                    }
+                                }
+                            }
+                        },
+                        props:{
+                            items:itemsSurvey
+                        }
+                    },
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-start-end",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-start-end-label",
+                        props:{
+                            innerHTML:"Thời gian bắt đầu làm bài kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"div",
+                        class:"container-start-end-form",
+                        child:[
+                            {
+                                tag:"timeinput",
+                                class:"container-start-end-form-time",
+                            },
+                            {
+                                tag:"dateinput",
+                                class:"container-start-end-form-day",
+                            },
+                        ]
+                    },
+                    {
+                        tag:"div",
+                        class:"container-start-end-to",
+                        child:[
+                            {
+                                tag:"timeinput",
+                                class:"container-start-end-to-time",
+                            },
+                            {
+                                tag:"dateinput",
+                                class:"container-start-end-to-day",
+                            },
+                        ]
+                    }
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-longtime",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-longtime-label",
+                        props:{
+                            innerHTML:"Thời lượng bài kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"timeinput",
+                        class:"container-longtime-label",
+                    }
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-student",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-student-label",
+                        props:{
+                            innerHTML:"Thí sinh"
+                        }
+                    },
+                    {
+                        tag:"div",
+                        class:"container-student-container",
+                        child:[
+                            mTable,
+                            {
+                                tag:"span",
+                                class:"container-student-container-addText",
+                                props:{
+                                    innerHTML:"Thêm"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+         ]
+     }))
+
+    formTest.menu.footer(absol.$('.absol-single-page-footer', temp));
+    return temp;
+}
+
+blackTheme.reporter_examinations.updateExamination = function(host, param) {
+    var name = formTestComponent.spanInput("Tên", param.value);
+    var note = formTestComponent.spanInput("Ghi chú", param.note, false);
+    var temp = absol.buildDom({
+        tag:'singlepage',
+        child:[
+            {
+                class: 'absol-single-page-header',
+                child:[
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                temp.selfRemove();
+                                var arr=host.frameList.getAllChild();
+                                host.frameList.activeFrame(arr[arr.length-1]);
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'save'
+                                },
+                            },
+                            '<span>' + "Đóng" + '</span>'
+                        ]
+                    },
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                var paramEdit = [{
+                                        name: "id",
+                                        value: param.id
+                                    },
+                                    {
+                                        name: "value",
+                                        value: name.childNodes[1].value
+                                    },
+                                    {
+                                        name: "note",
+                                        value: note.childNodes[1].value,
+                                    }
+                                ]
+                                data_module.examinations.updateOne(paramEdit)
+                                    .then(function() {
+                                    })
+
+
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'save'
+                                },
+                            },
+                            '<span>' + "Lưu" + '</span>'
+                        ]
+                    },
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                var paramEdit = [{
+                                        name: "id",
+                                        value: param.id
+                                    },
+                                    {
+                                        name: "value",
+                                        value: name.childNodes[1].value
+                                    },
+                                    {
+                                        name: "note",
+                                        value: note.childNodes[1].value,
+                                    }
+                                ]
+                                data_module.examinations.updateOne(paramEdit)
+                                    .then(function() {
+                                        temp.selfRemove();
+                                        var arr=host.frameList.getAllChild();
+                                        host.frameList.activeFrame(arr[arr.length-1]);
+                                    })
+
+
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'save'
+                                },
+                            },
+                            '<span>' + "Lưu và đóng" +
+                            '</span>'
+                        ]
+                    }
+                ]
+            },
+            {
+                class: 'absol-single-page-footer'
+            }
+        ]})
+        formTest.menu.footer(absol.$('.absol-single-page-footer', temp));
+        temp.addChild(DOMElement.div({
+                attrs: {
+                    className: "update-catergory",
+                },
+                children: [
+                    name,
+                    note
+                ]
+            }));
+    return temp;
+}
+
+blackTheme.reporter_examinations.removeExamination = function(id) {
+    ModalElement.question({
+        title: 'Xóa bài khảo sát',
+        message: 'Bạn có chắc muốn xóa : ' + "" + data_module.examinations.getById(id).value,
+        choicelist: [
+                {
+                    text: "Đồng ý"
+                },
+                {
+                    text: "Hủy"
+                }
+        ],
+        onclick: function(id) {
+            return function(selectedindex) {
+                switch (selectedindex) {
+                    case 0:
+                        data_module.examinations.removeOne(id);
+                        break;
+                    case 1:
+                        // do nothing
+                        break;
+                }
+            }
+        }(id)
+    });
+}
+
 blackTheme.reporter_type_surveys.generateTableDatatype_survey = function(host)
 {
     var data = [];

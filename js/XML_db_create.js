@@ -37,6 +37,8 @@
                             data.push({name:"type",value:xmlComponent.getDataformObject(object,"type")})
                             data.push({name:"show_feedback",value:xmlComponent.getDataformObject(object,"show_feedback")});
                             data.push({name:"show_result",value:xmlComponent.getDataformObject(object,"show_result")});
+                            data.push({name:"practice",value:xmlComponent.getDataformObject(object,"practice")});
+                            data.push({name:"available",value:xmlComponent.getDataformObject(object,"available")});
                             var promise;
                             var promiseAllLink=[];
                             promiseAllLink.push(self.deleteOrtherQuestion());

@@ -29,6 +29,11 @@ $data["value"]=$_POST["value"];
 if (isset($_POST["note"])) {
     $data["note"]=$_POST["note"];
 }
+
+$datetime_variable = new DateTime();
+
+$data["lastmodifiedtime"] = $datetime_variable;
+
 $connection->update($prefix.'type_survey', $data);
 
 echo "ok";

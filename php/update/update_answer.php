@@ -86,6 +86,7 @@ if(isset($idList)&&isset($idListCurrent)){
     }
 }
 
+$data["lastmodifiedtime"] = new DateTime();
 $connection->update($prefix.'answer', $data);
 
 echo "ok";

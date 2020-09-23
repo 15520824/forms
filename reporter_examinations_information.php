@@ -37,7 +37,7 @@ formTest.reporter_examinations_information.tableCreate = function(host) {
                 }
             }
         ],
-        data: blackTheme.reporter_type_surveys.generateTableDatatype_survey(host),
+        data: blackTheme.reporter_examinations.generateTableDataExaminations(host),
         searchbox: true
     });
     host.tableCenter = x;
@@ -77,6 +77,18 @@ formTest.reporter_examinations_information.redrawTable = function() {
                 text: 'Tên'
             },
             {
+                attrs: {},
+                text: 'Bắt đầu'
+            },
+            {
+                attrs: {},
+                text: 'Kết thúc'
+            },
+            {
+                attrs: {},
+                text: 'Trạng thái'
+            },
+            {
                 attrs: {
                     style: {
                         width: "40px"
@@ -84,7 +96,7 @@ formTest.reporter_examinations_information.redrawTable = function() {
                 }
             }
         ],
-        data: blackTheme.reporter_type_surveys.generateTableDatatype_survey(formTest.reporter_examinations_information.hosts[i]),
+        data: blackTheme.reporter_examinations.generateTableDataExaminations(formTest.reporter_examinations_information.hosts[i]),
         searchbox: true
     });
     var parentNode = formTest.reporter_examinations_information.hosts[i].tableCenter.parentNode
