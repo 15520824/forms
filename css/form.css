@@ -462,6 +462,7 @@ body {
     flex-grow: 1;
     width: min-content;
     font-weight: bold;
+    white-space: pre;
 }
 
 .freebirdFormviewerViewItemsItemRequiredAsterisk {

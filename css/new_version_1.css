@@ -1,0 +1,255 @@
+
+.fa:before{
+    font-family: unset;
+    font-size: unset;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerLeft,.freebirdFormeditorViewHeaderTopRowContainerRight{
+    width: 50%;
+    display: inline-block !important;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerTop,.freebirdFormeditorViewHeaderTopRowContainerBottom{
+    display: inline-block;
+    width: 100%;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerTop>div{
+    display: inline-block;
+    width: calc(50% - 15px);
+    min-width: 350px;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerBottom>div{
+    display: inline-block;
+    width: calc(33.33% - 20px);
+    min-width: 250px;
+}
+
+.freebirdFormeditorViewTabTitleEvaluate-container{
+    width: 100%;
+    display: inline-block;
+}
+
+.freebirdFormeditorViewTabTitleEvaluate-container>div{
+    display: inline-block;
+    width: 25%;
+    min-width: 150px;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerBottom>div .freebirdFormeditorViewTabTitleLabel{
+    flex-grow: 2;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerTop>div:not(:last-child),.freebirdFormeditorViewHeaderTopRowContainerBottom>div:not(:last-child){
+    margin-right: 30px;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerBottom>div.freebirdFormeditorViewHeaderTopRow-cellName5{
+    margin-bottom: 0;
+}
+
+.freebirdFormeditorViewHeaderHeaderMast.freebirdHeaderMastWithOverlay>div.freebirdFormeditorViewHeaderTopRow:last-child{
+    margin-bottom: 0;
+}
+
+.freebirdFormeditorViewTabTitleSelectBox{
+    flex-grow: 2;
+    min-width: 230px;
+    background-color: white;
+}
+
+.freebirdFormeditorViewHeaderTopRow-cellName4,.freebirdFormeditorViewHeaderTopRow-cellName8{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+
+.freebirdFormeditorViewTabTitleEvaluate{
+    flex-grow: 2;
+    display: flex;
+}
+
+.freebirdFormeditorViewHeaderTopRowContainerLeft{
+    padding-right: 30px;
+}
+
+.container-exam-general>div{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+
+.container-exam-general>div:not(:last-child){
+    margin-bottom: 10px;
+}
+
+.container-exam-general>div>span{
+    display: flex;
+    flex-shrink: 0;
+    width: 250px;
+    align-items: center;
+}
+
+.container-exam-general>div>input{
+    color: #333;
+    font: 500 14px Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    height: 30px;
+    width: 100%;
+    padding: 5px;
+    border: solid 1px #d6d6d6;
+}
+
+.containerr-exam-name-selectbox,.container-exam-survey-selectbox{
+    flex-grow: 2;
+    display: flex;
+}
+
+.container-exam-general{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.container-start-end-to{
+    margin-left: 30px;
+}
+
+.container-student-container>div.container-sortTable{
+    width: 100%;
+    height: auto;
+}
+
+.container-student-container>div.container-sortTable>table.sortTable{
+    width: 100%;
+}
+
+.container-student-container{
+    width: 100%;
+}
+
+.container-student-container-addText{
+    text-decoration: underline;
+    color: #5cc4cb;
+    cursor: pointer;
+}
+
+.absol-selectbox-item.selectedIItem {
+    background-color: #4e618d;
+}
+
+.absol-selectbox-item.selectedIItem .absol-selectbox-item-text>span{
+    color: white;
+}
+
+.container-header > span{
+    align-items: center;
+}
+
+.headerheader-title-close-button{
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+    font-size: 16px;
+    color: black;
+    display: flex;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.header-title-close{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+
+.headerheader-title-close-label{
+    flex-grow: 2;
+    display: flex;
+    color: black;
+    font: bold 16px Helvetica, Arial, sans-serif;
+}
+
+html{
+    font-size: 14px;
+}
+
+.header-title-table{
+    height: 70vh;
+    width: 80vw;
+}
+
+.list-linkChoice-container{
+    background-color: white;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.header-title-search{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.header-footer-button-ok{
+    margin-right: 20px;
+}
+
+.header-footer-button{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.header-title-table .sortTable{
+    width: 100%;
+}
+
+.displayNone-span>div>span{
+    display: none;
+}
+
+.displayNone-span>div>label{
+    width: 100%;
+}
+
+.header-title-close{    
+    margin-bottom:10px;
+}
+
+.header-title-selectzone-selectbox{
+    width:100%;
+    border: none;
+}
+
+.container-student-container-selectbox{
+    width:100%;
+}
+
+.container-student-container-selectbox .as-checkbox-input{
+    width:100%;
+}
+
+.container-student-container-selectbox .absol-checkbox-label.as-right{
+    display: none;
+}
+
+.freebirdFormeditorViewQuestionFooterFlipButton.as-flexicon-button .as-flexicon-button-content .as-flexicon-button-text-container{
+    border: unset !important;
+}
+
+.container-student-container-start,.container-student-container-end{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+
+.container-student-container-start-time,.container-student-container-end-time{
+    display: flex;
+    flex-shrink: 0;
+}
+
+.container-student-container-start-date,.container-student-container-end-date{
+    flex-grow: 2;
+    display: flex;
+}

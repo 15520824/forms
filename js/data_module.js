@@ -17,7 +17,10 @@ var data_module = {
   register:{},
   company:{},
   services:{},
-  examinations:{}
+  examinations:{},
+  link_examination_user:{},
+  link_examination_survey:{},
+  link_survey_user:{}
 };
 
 ////////////////////survey//////////////////////
@@ -1119,7 +1122,6 @@ data_module.link_survey_form.loadBySurvey = function(id) {
           value: id
         }
       ];
-      console.log(id)
     FormClass.api_call({
       url: "./php/load/load_link_survey_form_by_survey.php",
       params: id,
@@ -1230,6 +1232,51 @@ data_module.link_survey_form.updateOne = function(data) {
             message = message.substr(2);
             var st = EncodingClass.string.toVariable(message);
             data_module.link_survey_form.updateEdit(st);
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_survey_form.updateEdit = function()
+{
+
+}
+
+////////////////////link_examination_user//////////////////////
+
+data_module.link_examination_user.load = function(id, loadAgain = false) {
+  if (data_module.link_examination_user.items && !loadAgain)
+    return Promise.resolve();
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "../php/insert/load_survey.php",
+      params: [
+        {
+          name: "id",
+          value: id
+        }
+      ],
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            data_module.link_examination_user.items = st;
             resolve();
           } else {
             ModalElement.alert({
@@ -1249,6 +1296,519 @@ data_module.link_survey_form.updateOne = function(data) {
     });
   });
 };
+
+data_module.link_examination_user.loadByExamination = function(id) {
+  return new Promise(function(resolve, reject) {
+    if(!Array.isArray(id))
+      id = [
+        {
+          name: "id",
+          value: id
+        }
+      ];
+    FormClass.api_call({
+      url: "./php/load/load_link_examination_user_by_examination.php",
+      params: id,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_user.addOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/insert/insert_new_link_examination_user.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.link_examination_user.updateAdd(
+              EncodingClass.string.toVariable(message)
+            );
+            resolve(EncodingClass.string.toVariable(message));
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_user.updateAdd = function(object) {};
+
+data_module.link_examination_user.removeOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/remove/delete_link_examination_user.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.link_examination_user.updateRemove(data);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_user.updateRemove = function(data)
+{
+
+}
+
+data_module.link_examination_user.updateOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/update/update_link_examination_user.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            var st = EncodingClass.string.toVariable(message);
+            data_module.link_examination_user.updateEdit(st);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_user.updateEdit = function(data){
+
+}
+
+////////////////////link_examination_survey//////////////////////
+
+data_module.link_examination_survey.load = function(id, loadAgain = false) {
+  if (data_module.link_examination_survey.items && !loadAgain)
+    return Promise.resolve();
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "../php/insert/load_survey.php",
+      params: [
+        {
+          name: "id",
+          value: id
+        }
+      ],
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            data_module.link_examination_survey.items = st;
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_survey.loadByExamination = function(id) {
+  return new Promise(function(resolve, reject) {
+    if(!Array.isArray(id))
+      id = [
+        {
+          name: "id",
+          value: id
+        }
+      ];
+    FormClass.api_call({
+      url: "./php/load/load_link_examination_survey_by_examination.php",
+      params: id,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_survey.addOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/insert/insert_new_link_examination_survey.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.link_examination_survey.updateAdd(
+              EncodingClass.string.toVariable(message)
+            );
+            resolve(EncodingClass.string.toVariable(message));
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_survey.updateAdd = function(object) {};
+
+data_module.link_examination_survey.removeOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/remove/delete_link_examination_survey.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.link_examination_survey.updateRemove(data);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_survey.updateRemove = function(data)
+{
+
+}
+
+data_module.link_examination_survey.updateOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/update/update_link_examination_survey.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            var st = EncodingClass.string.toVariable(message);
+            data_module.link_examination_survey.updateEdit(st);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_examination_survey.updateEdit = function(data)
+{
+
+}
+
+
+////////////////////link_survey_user//////////////////////
+
+data_module.link_survey_user.load = function(id, loadAgain = false) {
+  if (data_module.link_survey_user.items && !loadAgain)
+    return Promise.resolve();
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "../php/insert/load_survey.php",
+      params: [
+        {
+          name: "id",
+          value: id
+        }
+      ],
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            data_module.link_survey_user.items = st;
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_survey_user.loadBySurvey = function(id) {
+  return new Promise(function(resolve, reject) {
+    if(!Array.isArray(id))
+      id = [
+        {
+          name: "id",
+          value: id
+        }
+      ];
+    FormClass.api_call({
+      url: "./php/load/load_link_survey_user_by_survey.php",
+      params: id,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            console.log(st)
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_survey_user.addOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/insert/insert_new_link_survey_user.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.link_survey_user.updateAdd(
+              EncodingClass.string.toVariable(message)
+            );
+            resolve(EncodingClass.string.toVariable(message));
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_survey_user.updateAdd = function(object) {};
+
+data_module.link_survey_user.removeOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/remove/delete_link_survey_user.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            data_module.link_survey_user.updateRemove(data);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_survey_user.updateRemove = function(data)
+{
+
+}
+
+data_module.link_survey_user.updateOne = function(data) {
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/update/update_link_survey_user.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            message = message.substr(2);
+            var st = EncodingClass.string.toVariable(message);
+            data_module.link_examination_survey.updateEdit(st);
+            resolve();
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.link_survey_user.updateEdit = function(data)
+{
+
+}
 
 ////////////////////record//////////////////////
 
@@ -2040,19 +2600,64 @@ data_module.examinations.getById = function(id) {
   return;
 };
 data_module.examinations.updateOne = function(data) {
+  data.push({name:"userid",value:window.userid});
+  var paramEdit = [
+    data[0],
+    data[2],
+    data[3],
+    data[6],
+    data[7],
+  ]
   return new Promise(function(resolve, reject) {
-    
     FormClass.api_call({
       url: "./php/update/update_examinations.php",
-      params: data,
+      params: paramEdit,
       func: (success, message) => {
+        
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
+            var tempData = EncodingClass.string.toVariable(message);
             data_module.examinations.updateEdit(
-              EncodingClass.string.toVariable(message)
+              tempData
             );
-            resolve();
+            var promiseAll = [];
+            var paramEditChild = [
+              data[1],
+              {name:"examinationid",value:tempData["id"]},
+              data[4]
+            ]
+            var tempPromise = new Promise(function(resolve,reject){
+              data_module.link_examination_survey.removeOne([
+                {name:"examinationid",value:tempData["id"]},
+              ]).then(function(){
+                promiseAll.push(data_module.link_examination_survey.addOne(paramEditChild));
+                resolve()
+              })
+            })
+            promiseAll.push(tempPromise)
+            var tempPromise1 = new Promise(function(resolve,reject){
+              data_module.link_examination_user.removeOne([
+                {name:"examinationid",value:tempData["id"]},
+              ]).then(function(){
+                var dataStudent = data[5].value;
+                for(var i = 0;i<dataStudent.length;i++)
+                {
+                  var paramTemp = [
+                    {name:"examinationid",value:tempData["id"]},
+                    {name:"user_id",value:dataStudent[i].user_id},
+                    {name:"start",value:EncodingClass.string.fromVariable(new Date(dataStudent[i].start))},
+                    {name:"end",value:EncodingClass.string.fromVariable(new Date(dataStudent[i].end))}
+                  ]
+                  promiseAll.push(data_module.link_examination_user.addOne(paramTemp));
+                }
+                resolve();
+              })
+            })
+            promiseAll.push(tempPromise1)
+            Promise.all(promiseAll).then(function(){
+              resolve(tempData);
+            })
           } else {
             ModalElement.alert({
               message: message
@@ -2075,7 +2680,7 @@ data_module.examinations.updateEdit = function(object) {
   for (var i = 0; i < data_module.examinations.items.length; i++) {
     if (object.id == data_module.examinations.items[i].id) {
       data_module.examinations.items[i] = object;
-      formTest.reporter_examinationss_information.redrawTable();
+      formTest.reporter_examinations_information.redrawTable();
       return;
     }
   }
@@ -2083,7 +2688,6 @@ data_module.examinations.updateEdit = function(object) {
 
 data_module.examinations.removeOne = function(id) {
   return new Promise(function(resolve, reject) {
-    
     FormClass.api_call({
       url: "./php/remove/delete_examinations.php",
       params: [
@@ -2129,20 +2733,48 @@ data_module.examinations.updateRemove = function(id) {
 };
 
 data_module.examinations.addOne = function(data) {
+  data.push({name:"userid",value:window.userid});
+  var paramEdit = [
+    data[0],
+    data[2],
+    data[3],
+    data[6],
+  ]
   return new Promise(function(resolve, reject) {
-    data.push({name:"userid",value:window.userid});
     FormClass.api_call({
       url: "./php/insert/insert_new_examinations.php",
-      params: data,
+      params: paramEdit,
       func: (success, message) => {
         
         if (success) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
+            var tempData = EncodingClass.string.toVariable(message);
             data_module.examinations.updateAdd(
-              EncodingClass.string.toVariable(message)
+              tempData
             );
-            resolve(EncodingClass.string.toVariable(message));
+            var promiseAll = [];
+            var paramEditChild = [
+              data[1],
+              {name:"examinationid",value:tempData["id"]},
+              data[4]
+            ]
+            promiseAll.push(data_module.link_examination_survey.addOne(paramEditChild));
+            
+            var dataStudent = data[5].value;
+            for(var i = 0;i<dataStudent.length;i++)
+            {
+              var paramTemp = [
+                {name:"examinationid",value:tempData["id"]},
+                {name:"user_id",value:dataStudent[i].user_id},
+                {name:"start",value:EncodingClass.string.fromVariable(new Date(dataStudent[i].start))},
+                {name:"end",value:EncodingClass.string.fromVariable(new Date(dataStudent[i].end))}
+              ]
+              promiseAll.push(data_module.link_examination_user.addOne(paramTemp));
+            }
+            Promise.all(promiseAll).then(function(){
+              resolve(tempData);
+            })
           } else {
             ModalElement.alert({
               message: message
@@ -2341,8 +2973,9 @@ data_module.usersListHome.load = function(loadAgain = false) {
                 if (success) {
                     if (message.substr(0, 2) == "ok") {
                         message = message.substr(2);
-                        data_module.usersListHome.items = EncodingClass.string.toVariable(message);
-                        resolve();
+                        var value = EncodingClass.string.toVariable(message);
+                        data_module.usersListHome.items = value
+                        resolve(value);
                     } else {
                         ModalElement.alert({
                             message: message

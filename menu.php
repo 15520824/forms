@@ -204,7 +204,7 @@ formTest.menu.init = function (holder) {
                                         ]
                                     },
                                     {
-                                        text: data_module.usersListHome.getID(window.userid).username,
+                                        text: data_module.usersListHome.getID(window.userHomeid).username,
                                         pageIndex: 4,
                                         items:[
                                             {

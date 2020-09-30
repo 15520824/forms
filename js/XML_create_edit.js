@@ -400,16 +400,22 @@
             innerHTML: "Đã hoàn tất lưu lại",
           },
         });
-        var type, show_result, show_feedback,practice,available;
+        var type, show_result, show_feedback,practice,available,userListData = [];
         var checkType = data_module.survey.getByID(
           xmlComponent.getDataformObject(object, "id")
         );
+       
         if (checkType !== undefined) {
           type = checkType.type;
           show_result = checkType.show_result;
           show_feedback = checkType.show_feedback;
           practice = checkType.practice;
           available = checkType.available;
+          ramdom = checkType.ramdom;
+          below = checkType.below;
+          average = checkType.average;
+          rather = checkType.rather;
+          great = checkType.great;
         }
         var surveyType = absol.buildDom({
           tag: "selectmenu",
@@ -446,6 +452,17 @@
             ],
           },
         });
+        var itemsUser = [];
+        for(var i = 0;i<data_module.usersList.items.length;i++)
+        {
+          var userData = data_module.usersList.items[i];
+          var userDataHome = data_module.usersListHome.getID(userData.homeid)
+          var tempData = {
+            text:userDataHome.fullname+" ("+userDataHome.username+")",
+            value:userData.id
+          };
+          itemsUser.push(tempData);
+        }
         var frameListChild = host.frameList.getAllChild();
         frameListChild[frameListChild.length - 1].$header.addChild(
           absol.buildDom({
@@ -664,6 +681,33 @@
                                 },
                               ],
                             },
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewHeaderTopRow",
+                              child: [
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName7",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Thứ tự câu hỏi ngẫu nhiên :",
+                                      },
+                                    },
+                                    {
+                                      tag: "switch",
+                                      class: ["quantumWizTogglePapertoggleEl"],
+                                      props: {
+                                        id:"check-survey-ramdom-question",
+                                        checked:ramdom==1?true:false
+                                      },
+                                    }
+                                  ],
+                                },
+                              ],
+                            },
                           ]
                         }
                       ]
@@ -687,8 +731,113 @@
                               tag:"selectbox",
                               class: "freebirdFormeditorViewTabTitleSelectBox",
                               props:{
-                                items:[]
+                                items:itemsUser,
                               }
+                            }
+                          ],
+                        },
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewHeaderTopRow-cellName8",
+                          child: [
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewTabTitleLabel",
+                              props: {
+                                innerHTML: "Đánh giá :",
+                              },
+                            },
+                            {
+                              tag:"div",
+                              class: "freebirdFormeditorViewTabTitleEvaluate",
+                              child:[
+                                {
+                                  tag:"div",
+                                  class: "freebirdFormeditorViewTabTitleEvaluate-container",
+                                  child:[
+                                      {
+                                        tag: "div",
+                                        class: "freebirdFormeditorViewTabTitleEvaluate-1",
+                                        child: [
+                                          {
+                                            tag: "div",
+                                            class: "freebirdFormeditorViewTabTitleLabel",
+                                            props: {
+                                              innerHTML: "Dưới trung bình",
+                                            },
+                                          },
+                                          {
+                                            tag:"input",
+                                            class: "freebirdFormeditorViewTabTitleEvaluate-1-input",
+                                            props:{
+                                              value:below
+                                            }
+                                          }
+                                        ],
+                                      },
+                                      {
+                                        tag: "div",
+                                        class: "freebirdFormeditorViewTabTitleEvaluate-2",
+                                        child: [
+                                          {
+                                            tag: "div",
+                                            class: "freebirdFormeditorViewTabTitleLabel",
+                                            props: {
+                                              innerHTML: "Trung bình",
+                                            },
+                                          },
+                                          {
+                                            tag:"input",
+                                            class: "freebirdFormeditorViewTabTitleEvaluate-2-input",
+                                            props:{
+                                              value:average
+                                            }
+                                          }
+                                        ],
+                                      },
+                                      {
+                                        tag: "div",
+                                        class: "freebirdFormeditorViewTabTitleEvaluate-3",
+                                        child: [
+                                          {
+                                            tag: "div",
+                                            class: "freebirdFormeditorViewTabTitleLabel",
+                                            props: {
+                                              innerHTML: "Khá giỏi",
+                                            },
+                                          },
+                                          {
+                                            tag:"input",
+                                            class: "freebirdFormeditorViewTabTitleEvaluate-3-input",
+                                            props:{
+                                              value:rather
+                                            }
+                                          }
+                                        ],
+                                      },
+                                      {
+                                        tag: "div",
+                                        class: "freebirdFormeditorViewTabTitleEvaluate-4",
+                                        child: [
+                                          {
+                                            tag: "div",
+                                            class: "freebirdFormeditorViewTabTitleLabel",
+                                            props: {
+                                              innerHTML: "Giỏi",
+                                            },
+                                          },
+                                          {
+                                            tag:"input",
+                                            class: "freebirdFormeditorViewTabTitleEvaluate-4-input",
+                                            props:{
+                                              value:great
+                                            }
+                                          }
+                                        ],
+                                      }
+                                  ]
+                                }
+                              ]
                             }
                           ],
                         },
@@ -705,8 +854,29 @@
         if (id !== undefined) {
           temp.id = id;
         }
+        
         var practiceElement = absol.$("#check-survey-practice",temp);
+        var containerEvaluate = absol.$("div.freebirdFormeditorViewHeaderTopRow-cellName8",temp);
         var availableElement = absol.$("#check-survey-available",temp);
+        var belowElement = absol.$("input.freebirdFormeditorViewTabTitleEvaluate-1-input",temp);
+        var averageElement = absol.$("input.freebirdFormeditorViewTabTitleEvaluate-2-input",temp);
+        var ratherElement = absol.$("input.freebirdFormeditorViewTabTitleEvaluate-3-input",temp);
+        var greatElement = absol.$("input.freebirdFormeditorViewTabTitleEvaluate-4-input",temp);
+        var userElement = absol.$(".freebirdFormeditorViewTabTitleSelectBox",temp);
+        data_module.link_survey_user.loadBySurvey(xmlComponent.getDataformObject(object, "id")).then(function(result){
+          userElement.values = result;
+        })
+        practiceElement.on("change",function(event){
+          if(this.checked===true)
+          {
+            containerEvaluate.style.display = "none";
+          }else
+          {
+            containerEvaluate.style.display = "";
+          }
+        })
+        practiceElement.emit("change");
+        var ramdomElement = absol.$("#check-survey-ramdom-question",temp);
         temp.getValue = function () {
           var result = "<survey>";
           if (temp.id !== undefined && temp.id !== "")
@@ -722,12 +892,19 @@
           result += "<show_feedback>" + ShowFeedback.value + "</show_feedback>";
           result += "<show_result>" + ShowResult.value + "</show_result>";
           result += "<practice>" + (practiceElement.checked==true?1:0) + "</practice>";
+          result += "<below>" + (belowElement.value) + "</below>";
+          result += "<average>" + (averageElement.value) + "</average>";
+          result += "<rather>" + (ratherElement.value) + "</rather>";
+          result += "<great>" + (greatElement.value) + "</great>";
+          result += "<userlist>" + (JSON.stringify(userElement.values)) + "</userlist>";
           result += "<available>" + (availableElement.checked==true?1:0) + "</available>";
+          result += "<ramdom>" + (ramdomElement.checked==true?1:0) + "</ramdom>";
           result += "<value>" + surveyTitle.getValue() + "</value>";
           for (var i = 0; i < self.arrPage.length; i++) {
             result += self.arrPage[i].getValue();
           }
           result += "</survey>";
+          console.log(result)
           return result;
         };
         self.pageView = temp;
@@ -1901,12 +2078,12 @@
             },
             "=================================",
             {
-              text: "Trắc nghiệm",
+              text: "Trắc nghiệm (một đáp án)",
               icon: "span.mdi.mdi-radiobox-marked",
               value: 3,
             },
             {
-              text: "Menu thả xuống",
+              text: "Menu thả xuống (nhiều đáp án)",
               icon: "span.mdi.mdi-checkbox-marked",
               value: 4,
             },

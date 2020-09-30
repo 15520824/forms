@@ -67,9 +67,13 @@ blackTheme.reporter_surveys.generateTableDatasurvey = function(host) {
                 content: con,
                 onclick: function(tempabc, index, host) {
                     return function(){
-                    var temp1 = blackTheme.reporter_surveys.addSurvey(host,tempabc.id);
-                    host.frameList.addChild(temp1);
-                    host.frameList.activeFrame(temp1);
+                    ModalElement.show_loading();
+                    data_module.usersList.load().then(function(){
+                        var temp1 = blackTheme.reporter_surveys.addSurvey(host,tempabc.id);
+                        host.frameList.addChild(temp1);
+                        host.frameList.activeFrame(temp1);
+                        ModalElement.close(-1);
+                    })
                     DOMElement.cancelEvent(event);
                     return false;
                     }
@@ -620,9 +624,17 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host)
                 content: con,
                 onclick: function(tempabc, index, host) {
                     return function(){
-                        var temp1 = blackTheme.reporter_examinations.updateExamination(host,tempabc);
-                        host.frameList.addChild(temp1);
-                        host.frameList.activeFrame(temp1);
+                        ModalElement.show_loading();
+                        var promiseAll = [];
+                        promiseAll.push(data_module.link_examination_survey.loadByExamination(tempabc.id));
+                        promiseAll.push(data_module.link_examination_user.loadByExamination(tempabc.id));
+                        promiseAll.push(data_module.usersList.load());
+                        Promise.all(promiseAll).then(function(result){
+                            var temp1 = blackTheme.reporter_examinations.updateExamination(host,tempabc,result);
+                            host.frameList.addChild(temp1);
+                            host.frameList.activeFrame(temp1);
+                            ModalElement.close(-1);
+                        })
                         DOMElement.cancelEvent(event);
                         return false;
                     }
@@ -724,7 +736,28 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host)
     return data;
 }
 
+blackTheme.reporter_examinations.functionChoice = function(event, me, index, parent, data, row)
+{
+    var self = this;
+    var arr =  self.getElementsByClassName("choice-list-category");
+    if(arr.length!==0)
+    arr = arr[0];
+    var today  = new Date();
+    if(self.clickTime === undefined)
+    self.clickTime = 0;
+    if(arr == row&&today - self.clickTime< 300){
+        self.selfRemove();
+        self.resolve({event:event, me:me, index:index, parent:parent, data:data, row:row});
+    }
+    self.clickTime = today;
+    if(arr.length!==0)
+    arr.classList.remove("choice-list-category");
+
+    row.classList.add("choice-list-category");
+}
+
 blackTheme.reporter_examinations.addExamination = function(host){
+    var self = this;
     var temp = absol.buildDom({
         tag:'singlepage',
         child:[
@@ -754,7 +787,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
                         tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
-                                var paramEdit;
+                                var paramEdit = temp.getDataSave();
                                 data_module.examinations.addOne(paramEdit)
                                     .then(function() {
                                     })
@@ -774,7 +807,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
                         tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
-                                var paramEdit;
+                                var paramEdit = temp.getDataSave();
                                 data_module.examinations.addOne(paramEdit)
                                     .then(function() {
                                         temp.selfRemove();
@@ -802,24 +835,22 @@ blackTheme.reporter_examinations.addExamination = function(host){
                 class: 'absol-single-page-footer'
             }
         ]})
-    var functionClickMore = function(){
-        console.log("delete",arguments)
-    }
     var itemsSurvey = [];
-    var dataSurvey = [];
     for(var i = 0 ;i<data_module.survey.items.length;i++)
     {
+        if(!data_module.survey.items[i].practice)
         itemsSurvey.push({text:data_module.survey.items[i].value,value:data_module.survey.items[i].id});
-        dataSurvey[data_module.survey.items[i].id] = [];
     }
+
     var header = [
         {value:'Tên',sort:true,style:{minWidth:"unset"}},
         {value:'Thời gian linh hoạt',sort:true,style:{minWidth:"200px",width:"200px"}},
         {value:'Từ',sort:true,style:{minWidth:"200px",width:"200px"}},
         {value:'Đến',sort:true,style:{minWidth:"200px",width:"200px"}},
-        {type:"detail", functionClickAll:functionClickMore,icon:"",dragElement : false,style:{width:"30px"}}];
+        {type:"detail", icon:"",dragElement : false,style:{width:"30px"}}];
         //"remove_circle_outline"
     var mTable =  new window.pizo.tableView(header,[]);
+    var checkStudent = [];
     temp.addChild(absol.buildDom({
          tag:"div",
          class:"container-exam-general",
@@ -837,7 +868,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
                     },
                     {
                         tag:"input",
-                        class:"containerr-exam-name-selectbox",
+                        class:"containerr-exam-name-input",
                     },
                 ]
             },
@@ -855,65 +886,10 @@ blackTheme.reporter_examinations.addExamination = function(host){
                     {
                         tag:"selectmenu",
                         class:"container-exam-survey-selectbox",
-
-                        on:{
-                            click:function(event)
-                            {
-                                var element = event.target;
-                                while(!(element.classList.contains("absol-selectbox-item-close")||element.classList.contains("absol-selectbox-item")||element.classList.contains("absol-selectbox")))
-                                element = element.parentNode;
-                                if(element.classList.contains("absol-selectbox-item"))
-                                {
-                                    var selected = absol.$("div.absol-selectbox-item.selectedIItem",this);
-                                    if(selected!==undefined)
-                                    {
-                                        selected.classList.remove("selectedIItem");
-                                    }
-                                    element.classList.add("selectedIItem");
-                                }
-        
-                            },
-                            add:function(event)
-                            {
-
-                            },
-                            remove:function(event)
-                            {
-                                if(event.itemElt.classList.contains("selectedIItem"))
-                                {
-                                    if(this.values.indexOf(0)!==-1)
-                                    {
-                                        var arrayItem = this.getElementsByClassName("absol-selectbox-item");
-                                        for(var i = 0;i<arrayItem.length;i++)
-                                        {
-                                            if(arrayItem[i].data.value == 0)
-                                            {
-                                                arrayItem[i].click();
-                                                break;
-                                            }
-                                        }
-                                    }else
-                                    {
-                                        var arrayItem = this.getElementsByClassName("absol-selectbox-item");
-                                        if(arrayItem.length)
-                                        {
-                                            arrayItem[0].click();
-                                        }
-                                    }
-                                }else
-                                {
-                                    var selected = absol.$("div.absol-selectbox-item.selectedIItem",this);
-                                    if(selected!==undefined)
-                                    {
-                                        selected.click();
-                                    }
-                                }
-                            }
-                        },
                         props:{
                             items:itemsSurvey
                         }
-                    },
+                    }
                 ]
             },
             {
@@ -937,7 +913,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
                             },
                             {
                                 tag:"dateinput",
-                                class:"container-start-end-form-day",
+                                class:"container-start-end-form-date",
                             },
                         ]
                     },
@@ -951,7 +927,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
                             },
                             {
                                 tag:"dateinput",
-                                class:"container-start-end-to-day",
+                                class:"container-start-end-to-date",
                             },
                         ]
                     }
@@ -970,7 +946,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
                     },
                     {
                         tag:"timeinput",
-                        class:"container-longtime-label",
+                        class:"container-longtime-input",
                     }
                 ]
             },
@@ -993,6 +969,32 @@ blackTheme.reporter_examinations.addExamination = function(host){
                             {
                                 tag:"span",
                                 class:"container-student-container-addText",
+                                on:{
+                                    click:function(event)
+                                    {
+                                        var promiseAll = [];
+                                        data_module.usersList.load().then(function(result){
+                                            var result = [];
+                                            for(var i = 0;i<data_module.usersList.items.length;i++)
+                                            {
+                                                if(checkStudent[data_module.usersList.items[i].id] == undefined || checkStudent[data_module.usersList.items[i].id].visiable == false)
+                                                result.push(data_module.usersList.items[i]);
+                                            }
+                                            var modalChoice = self.modalChoiceUser(result);
+                                            document.body.appendChild(modalChoice);
+                                            modalChoice.promiseSelectList.then(function(selectList){
+                                                for(var i = 0;i<selectList.length;i++)
+                                                {
+                                                    if(checkStudent[selectList[i].original.id] == undefined)
+                                                    checkStudent[selectList[i].original.id] = self.formatDataStudent(selectList[i],mTable,checkStudent);
+
+                                                    checkStudent[selectList[i].original.id].visiable = true;
+                                                    mTable.insertRow(checkStudent[selectList[i].original.id]);
+                                                }
+                                            });
+                                        })
+                                    }
+                                },
                                 props:{
                                     innerHTML:"Thêm"
                                 }
@@ -1003,14 +1005,356 @@ blackTheme.reporter_examinations.addExamination = function(host){
             }
          ]
      }))
+    var $ = absol.$;
+    temp.nameInput = $("input.containerr-exam-name-input",temp);
+    temp.surveyInput = $(".container-exam-survey-selectbox",temp);
+    temp.startInputTime = $(".container-start-end-form-time",temp);
+    temp.startInputDate = $(".container-start-end-form-date",temp);
+    temp.endInputTime = $(".container-start-end-to-time",temp);
+    temp.endInputDate = $(".container-start-end-to-date",temp);
+    temp.longInputTime = $(".container-longtime-input",temp);
 
+    temp.getDataSave = function(){
+        var dataStudent = [];
+        for(var i = 0;i<mTable.data.length;i++)
+        {
+            dataStudent.push({
+                user_id:mTable.data[i].original.id,
+                start:mTable.data[i].getTimeStart(),
+                end:mTable.data[i].getTimeEnd()
+            })
+        }
+        var startTime;
+        if(temp.startInputTime.dayOffset!=null&&temp.startInputDate.value!=null)
+        startTime = temp.startInputTime.dayOffset+temp.startInputDate.value.getTime();
+        else
+        startTime = false;
+        var endTime;
+        if(temp.endInputTime.dayOffset!=null&&temp.endInputDate.value!=null)
+        endTime = temp.endInputTime.dayOffset+temp.endInputDate.value.getTime();
+        else
+        endTime = false;
+        var result = [
+            {name:"name",value:this.nameInput.value},
+            {name:"surveyid",value:this.surveyInput.value},
+            {name:"start",value:EncodingClass.string.fromVariable(new Date(startTime))},
+            {name:"end",value:EncodingClass.string.fromVariable(new Date(endTime))},
+            {name:"longtime",value:temp.longInputTime.dayOffset},
+            {name:"examination_user",value:dataStudent}
+        ];
+        return result;
+    }
     formTest.menu.footer(absol.$('.absol-single-page-footer', temp));
     return temp;
 }
 
-blackTheme.reporter_examinations.updateExamination = function(host, param) {
-    var name = formTestComponent.spanInput("Tên", param.value);
-    var note = formTestComponent.spanInput("Ghi chú", param.note, false);
+blackTheme.reporter_examinations.formatDataStudent = function(data,checkStudent){
+    var start = absol._({
+        tag:"div",
+        class:"container-student-container-start",
+        style:{
+            display:"none"
+        },
+        child:[
+            {
+                tag:"timeinput",
+                class:"container-student-container-start-time",
+            },
+            {
+                tag:"dateinput",
+                class:"container-student-container-start-date",
+            }
+        ]
+    });
+    var end = absol._({
+        tag:"div",
+        class:"container-student-container-end",
+        style:{
+            display:"none"
+        },
+        child:[
+            {
+                tag:"timeinput",
+                class:"container-student-container-end-time",
+            },
+            {
+                tag:"dateinput",
+                class:"container-student-container-end-date",
+            }
+        ]
+    });
+    var checkboxInput = absol._({
+        tag:"checkbox",
+        class:"container-student-container-selectbox",
+        on:{
+            change:function(){
+                if(this.checked)
+                {
+                    start.style.display = "";
+                    end.style.display = "";
+                }else
+                {
+                    start.style.display = "none";
+                    end.style.display = "none";
+                }
+            }
+        }
+    });
+    var result = [
+        data[2]+" ("+data[1]+")",
+        {
+            element:checkboxInput
+        },
+        {
+            element:start
+        },
+        {
+            element:end
+        },
+        {icon:"remove_circle_outline",functionClick:function(){
+            checkStudent[data.original.id].visiable = false;
+            arguments[3].dropRow(arguments[2])
+        }}
+    ];
+    result.getTimeStart = function()
+    {
+        if(checkboxInput.checked&&start.childNodes[0].dayOffset != null&&start.childNodes[1].value != null)
+        {
+            return start.childNodes[0].dayOffset+start.childNodes[1].value.getTime();
+        }
+        return false;
+    }
+    result.getTimeEnd = function()
+    {
+        if(checkboxInput.checked&&end.childNodes[0].dayOffset != null&&end.childNodes[1].value != null)
+        {
+            return end.childNodes[0].dayOffset+end.childNodes[1].value.getTime();
+        }
+        return false;
+    }
+    result.original = data.original;
+    if(data.linkData)
+    {
+        if(data.linkData.start.getTime()!==0||data.linkData.end.getTime()!==0)
+        {
+            checkboxInput.checked = true;
+            checkboxInput.emit("change");
+            start.childNodes[0].dayOffset = (data.linkData.start-absol.datetime.beginOfDay(data.linkData.start)) 
+            start.childNodes[1].value = absol.datetime.beginOfDay(data.linkData.start);
+            end.childNodes[0].dayOffset = (data.linkData.end-absol.datetime.beginOfDay(data.linkData.end))
+            end.childNodes[1].value  =absol.datetime.beginOfDay(data.linkData.end);
+        }
+    }
+    return result;
+}
+
+blackTheme.reporter_examinations.modalChoiceUser = function(data){
+    var _ = absol._;
+    var self = this;
+    var input = _({
+        tag:"searchtextinput",
+        class:"header-title-search-content",
+    })
+    var header = [
+        {type:"check",classList:"displayNone-span",style:{minWidth:"0px",width:"50px"}},
+        {value:'Username',sort:true,style:{minWidth:"unset"}},
+        {value:'Họ và tên',sort:true,style:{minWidth:"unset"}},
+        {value:'Email',sort:true,style:{minWidth:"unset"}},
+        {value:'MS',sort:true,style:{minWidth:"50px",width:"50px"}}, 
+    ];
+    var selectZone = _({
+        tag:"selectbox",
+        class:"header-title-selectzone-selectbox",
+        style:{
+            display:"none"
+        },
+        props:{
+            disableClickToFocus:true
+        }
+    })
+    var mTable = new window.pizo.tableView(header, self.formatDataUser(data,selectZone,mTable), false, false, 0);
+    var container = _({
+        tag:"div",
+        class:["list-linkChoice-container"],
+        child:[
+            {
+                tag:"div",
+                class:"js-stools-container-bar",
+                child:[
+                    {
+                        tag:"div",
+                        class:"header-title-close",
+                        child:[
+                            {
+                                tag:"span",
+                                class:"headerheader-title-close-label",
+                                props:{
+                                    innerHTML:"Chọn thí sinh"
+                                }
+                            },
+                            {
+                                tag:"button",
+                                class:"headerheader-title-close-button",
+                                on:{
+                                    click:function(event){
+                                        self.modal.selfRemove();
+                                        self.modal.reject();
+                                    }
+                                },
+                                child:[
+                                    {
+                                        tag:"i",
+                                        class:["fa", "fa-times"],
+                                        style:{
+                                            color:"black"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        tag:"div",
+                        class:"header-title-selectzone",
+                        child:[
+                            selectZone
+                        ]
+                    },
+                    {
+                        tag:"div",
+                        class:"header-title-search",
+                        child:[
+                            input
+                        ]
+                    },
+                    {
+                        tag:"div",
+                        class:"header-title-table",
+                        child:[
+                            mTable
+                        ]
+                    },
+                    {
+                        tag:"div",
+                        class:"header-footer-button",
+                        child:[
+                            {
+                                tag:"flexiconbutton",
+                                class:"header-footer-button-ok",
+                                on:{
+                                    click:function(event){
+                                        self.modal.selfRemove();
+                                        self.modal.resolve(mTable.getTrueCheckBox());
+                                    }
+                                },
+                                props:{
+                                    text:"OK"
+                                }
+                            },
+                            {
+                                tag:"flexiconbutton",
+                                class:"header-footer-button-cancel",
+                                on:{
+                                    click:function(event){
+                                        self.modal.selfRemove();
+                                        self.modal.reject();
+                                    }
+                                },
+                                props:{
+                                    text:"Hủy"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    })
+    self.modal = _({
+        tag:"modal",
+        class:"list-linkChoice",
+        child:[
+            container
+        ]
+    })
+
+   
+    mTable.style.width = "100%";
+    mTable.addInputSearch(input);
+    self.modal.promiseSelectList = new Promise(function(resolve,reject){
+        self.modal.resolve = resolve;
+        self.modal.reject = reject;
+    })
+    return self.modal;
+}
+
+blackTheme.reporter_examinations.formatDataUser = function(data,selectZone,mTable){
+    var tempObject;
+    var result = [];
+    var pushObject;
+    var check = [];
+    for(var i = 0;i<data.length;i++)
+    {
+        tempObject = data_module.usersListHome.getID(data[i].homeid);
+        pushObject = [
+            {classList:"displayNone-span",functionChange:function(){
+                var data = arguments[4].original;
+                if(arguments[4][0].value == true)
+                {
+                    var dataHome = data_module.usersListHome.getID(data.homeid);
+                    if(check[data.id]==undefined)
+                    {
+                        var valueUser = {text:dataHome.fullname+" ("+dataHome.username+")",value:data.id, dataValue:arguments[4][0], element:arguments[1].childNodes[0].childNodes[0]};
+                        selectZone.items.push(valueUser);
+                        selectZone.items = selectZone.items;
+                        selectZone.on("remove",function(event){
+                            var dataElement = event.data;
+                            if(dataElement.dataValue.value == true)
+                            {
+                                dataElement.element.update(false);
+                            }
+                        })
+                    }
+                    check[data.id] = 1;
+                    if(selectZone.values.indexOf(data.id)===-1)
+                    {
+                        selectZone.values.push(data.id);
+                        selectZone.values = selectZone.values;
+                    }
+                }else
+                {
+                    var indexSelect = selectZone.values.indexOf(data.id);
+                    if(indexSelect!=-1)
+                    {
+                        selectZone.values.splice(indexSelect,1);
+                        selectZone.values = selectZone.values;
+                    }
+                }
+                
+                if(selectZone.values.length == 0)
+                selectZone.style.display = "none";
+                else
+                selectZone.style.display = "";
+               
+            }},
+            tempObject.username,
+            tempObject.fullname,
+            tempObject.email,
+            data[i].id,
+            {}
+        ]
+        pushObject.original = data[i];
+        result.push(pushObject);
+    }
+    return result;
+}
+
+blackTheme.reporter_examinations.updateExamination = function(host, param, linkData){
+    var self = this;
+    var linkSurvey = linkData[0][0];
+    var linkStudent = linkData[1];
+    var startTime = param.start;
+    var endTime = param.end;
     var temp = absol.buildDom({
         tag:'singlepage',
         child:[
@@ -1040,24 +1384,10 @@ blackTheme.reporter_examinations.updateExamination = function(host, param) {
                         tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
-                                var paramEdit = [{
-                                        name: "id",
-                                        value: param.id
-                                    },
-                                    {
-                                        name: "value",
-                                        value: name.childNodes[1].value
-                                    },
-                                    {
-                                        name: "note",
-                                        value: note.childNodes[1].value,
-                                    }
-                                ]
+                                var paramEdit = temp.getDataSave();
                                 data_module.examinations.updateOne(paramEdit)
                                     .then(function() {
                                     })
-
-
                             }
                         },
                         child: [{
@@ -1074,19 +1404,7 @@ blackTheme.reporter_examinations.updateExamination = function(host, param) {
                         tag: "i2flexiconbutton",
                         on: {
                             click: function(evt) {
-                                var paramEdit = [{
-                                        name: "id",
-                                        value: param.id
-                                    },
-                                    {
-                                        name: "value",
-                                        value: name.childNodes[1].value
-                                    },
-                                    {
-                                        name: "note",
-                                        value: note.childNodes[1].value,
-                                    }
-                                ]
+                                var paramEdit = temp.getDataSave();
                                 data_module.examinations.updateOne(paramEdit)
                                     .then(function() {
                                         temp.selfRemove();
@@ -1114,23 +1432,260 @@ blackTheme.reporter_examinations.updateExamination = function(host, param) {
                 class: 'absol-single-page-footer'
             }
         ]})
-        formTest.menu.footer(absol.$('.absol-single-page-footer', temp));
-        temp.addChild(DOMElement.div({
-                attrs: {
-                    className: "update-catergory",
-                },
-                children: [
-                    name,
-                    note
+    var itemsSurvey = [];
+    for(var i = 0 ;i<data_module.survey.items.length;i++)
+    {
+        if(!data_module.survey.items[i].practice)
+        itemsSurvey.push({text:data_module.survey.items[i].value,value:data_module.survey.items[i].id});
+    }
+
+    var header = [
+        {value:'Tên',sort:true,style:{minWidth:"unset"}},
+        {value:'Thời gian linh hoạt',sort:true,style:{minWidth:"200px",width:"200px"}},
+        {value:'Từ',sort:true,style:{minWidth:"200px",width:"200px"}},
+        {value:'Đến',sort:true,style:{minWidth:"200px",width:"200px"}},
+        {type:"detail", icon:"",dragElement : false,style:{width:"30px"}}];
+        //"remove_circle_outline"
+    var resultStudent = [];
+    var checkStudent = [];
+    var mTable;
+    for(var i=0;i<linkStudent.length;i++)
+    {
+        var user = data_module.usersList.getID(linkStudent[i].user_id);
+        var userHome = data_module.usersListHome.getID(user.homeid);
+        var tempData = {
+            1:userHome.username,
+            2:userHome.fullname
+        }
+        tempData.original = user;
+        tempData.linkData = linkStudent[i];
+        checkStudent[linkStudent[i].user_id] = this.formatDataStudent(tempData,checkStudent);
+        checkStudent[linkStudent[i].user_id].visiable = true;
+        resultStudent.push(checkStudent[linkStudent[i].user_id]);
+    }
+    mTable =  new window.pizo.tableView(header,resultStudent);
+    temp.addChild(absol.buildDom({
+         tag:"div",
+         class:"container-exam-general",
+         child:[
+            {
+                tag:"div",
+                class:"container-exam-name",
+                child:[
+                    {
+                        tag:"span",
+                        class:"containerr-exam-name-label",
+                        props:{
+                            innerHTML:"Tên đợt kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"input",
+                        class:"containerr-exam-name-input",
+                        props:{
+                            value:param.name
+                        }
+                    },
                 ]
-            }));
+            },
+            {
+                tag:"div",
+                class:"container-exam-survey",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-exam-survey-label",
+                        props:{
+                            innerHTML:"Bài kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"selectmenu",
+                        class:"container-exam-survey-selectbox",
+                        props:{
+                            items:itemsSurvey,
+                            value:linkSurvey.surveyid
+                        }
+                    }
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-start-end",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-start-end-label",
+                        props:{
+                            innerHTML:"Thời gian bắt đầu làm bài kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"div",
+                        class:"container-start-end-form",
+                        child:[
+                            {
+                                tag:"timeinput",
+                                class:"container-start-end-form-time",
+                                props:{
+                                    dayOffset:(startTime-absol.datetime.beginOfDay(startTime))
+                                }
+
+                            },
+                            {
+                                tag:"dateinput",
+                                class:"container-start-end-form-date",
+                                props:{
+                                    value:absol.datetime.beginOfDay(startTime)
+                                }
+                            },
+                        ]
+                    },
+                    {
+                        tag:"div",
+                        class:"container-start-end-to",
+                        child:[
+                            {
+                                tag:"timeinput",
+                                class:"container-start-end-to-time",
+                                props:{
+                                    dayOffset:(endTime-absol.datetime.beginOfDay(endTime))
+                                }
+                            },
+                            {
+                                tag:"dateinput",
+                                class:"container-start-end-to-date",
+                                props:{
+                                    value:absol.datetime.beginOfDay(endTime)
+                                }
+                            },
+                        ]
+                    }
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-longtime",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-longtime-label",
+                        props:{
+                            innerHTML:"Thời lượng bài kiểm tra"
+                        }
+                    },
+                    {
+                        tag:"timeinput",
+                        class:"container-longtime-input",
+                        props:{
+                            dayOffset:linkSurvey.longtime
+                        }
+                    }
+                ]
+            },
+            {
+                tag:"div",
+                class:"container-student",
+                child:[
+                    {
+                        tag:"span",
+                        class:"container-student-label",
+                        props:{
+                            innerHTML:"Thí sinh"
+                        }
+                    },
+                    {
+                        tag:"div",
+                        class:"container-student-container",
+                        child:[
+                            mTable,
+                            {
+                                tag:"span",
+                                class:"container-student-container-addText",
+                                on:{
+                                    click:function(event)
+                                    {
+                                        var promiseAll = [];
+                                        data_module.usersList.load().then(function(result){
+                                            var result = [];
+                                            for(var i = 0;i<data_module.usersList.items.length;i++)
+                                            {
+                                                if(checkStudent[data_module.usersList.items[i].id] == undefined || checkStudent[data_module.usersList.items[i].id].visiable == false)
+                                                result.push(data_module.usersList.items[i]);
+                                            }
+                                            var modalChoice = self.modalChoiceUser(result);
+                                            document.body.appendChild(modalChoice);
+                                            modalChoice.promiseSelectList.then(function(selectList){
+                                                for(var i = 0;i<selectList.length;i++)
+                                                {
+                                                    if(checkStudent[selectList[i].original.id] == undefined)
+                                                    checkStudent[selectList[i].original.id] = self.formatDataStudent(selectList[i],checkStudent);
+
+                                                    checkStudent[selectList[i].original.id].visiable = true;
+                                                    mTable.insertRow(checkStudent[selectList[i].original.id]);
+                                                }
+                                            });
+                                        })
+                                    }
+                                },
+                                props:{
+                                    innerHTML:"Thêm"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+         ]
+     }))
+    var $ = absol.$;
+    temp.nameInput = $("input.containerr-exam-name-input",temp);
+    temp.surveyInput = $(".container-exam-survey-selectbox",temp);
+    temp.startInputTime = $(".container-start-end-form-time",temp);
+    temp.startInputDate = $(".container-start-end-form-date",temp);
+    temp.endInputTime = $(".container-start-end-to-time",temp);
+    temp.endInputDate = $(".container-start-end-to-date",temp);
+    temp.longInputTime = $(".container-longtime-input",temp);
+
+    temp.getDataSave = function(){
+        var dataStudent = [];
+        for(var i = 0;i<mTable.data.length;i++)
+        {
+            dataStudent.push({
+                user_id:mTable.data[i].original.id,
+                start:mTable.data[i].getTimeStart(),
+                end:mTable.data[i].getTimeEnd()
+            })
+        }
+        var startTime;
+        if(temp.startInputTime.dayOffset!=null&&temp.startInputDate.value!=null)
+        startTime = temp.startInputTime.dayOffset+temp.startInputDate.value.getTime();
+        else
+        startTime = false;
+        var endTime;
+        if(temp.endInputTime.dayOffset!=null&&temp.endInputDate.value!=null)
+        endTime = temp.endInputTime.dayOffset+temp.endInputDate.value.getTime();
+        else
+        endTime = false;
+        var result = [
+            {name:"name",value:this.nameInput.value},
+            {name:"surveyid",value:this.surveyInput.value},
+            {name:"start",value:EncodingClass.string.fromVariable(new Date(startTime))},
+            {name:"end",value:EncodingClass.string.fromVariable(new Date(endTime))},
+            {name:"longtime",value:temp.longInputTime.dayOffset},
+            {name:"examination_user",value:dataStudent},
+            {name:"id", value:param.id},
+        ];
+        return result;
+    }
+    formTest.menu.footer(absol.$('.absol-single-page-footer', temp));
     return temp;
 }
 
 blackTheme.reporter_examinations.removeExamination = function(id) {
     ModalElement.question({
         title: 'Xóa bài khảo sát',
-        message: 'Bạn có chắc muốn xóa : ' + "" + data_module.examinations.getById(id).value,
+        message: 'Bạn có chắc muốn xóa : ' + "" + data_module.examinations.getById(id).name,
         choicelist: [
                 {
                     text: "Đồng ý"

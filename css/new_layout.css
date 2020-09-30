@@ -360,6 +360,23 @@ td {
     position: relative;
 }
 
+.sortTableClone thead th {
+    text-align: center;
+    background-color: #d6d6d6;
+    color: black ;
+    border: unset ;
+    font-size: var(--font-size-table-header) ;
+    font-weight: var(--font-weight-table-header) ;
+    padding: 10px;
+}
+
+.sortTable thead th, .sortTableClone thead th{
+    font-size: 14px ;
+}
+
+.table.sortTable th, table.sortTable td, table.sortTableClone th, table.sortTableClone td{
+    padding:10px !important;
+}
 /*
 body:not(.am-mobile-theme) .sortTable,
 body:not(.am-mobile-theme) .sortTableClone {
@@ -2149,9 +2166,9 @@ body.am-mobile-theme.bsc-white .stageTable table.sortTable {
     margin: 0;
 }
 
-.bsc-white table.sortTable, table.sortTableClone {
+/* .bsc-white table.sortTable, table.sortTableClone {
     font-size: var(--font-size);
-}
+} */
 
 .am-header-bar.am-search-mode .am-header-bar-left-btn:not(.am-header-bar-disable-search-btn),
 .am-header-bar.am-search-mode .am-header-bar-title-ctn,

@@ -54,7 +54,6 @@
                     }
                     return new Promise(function (resolve, reject) {
                         var promiseAll = [];
-                        console.log(id)
                         data_module.link_survey_form.loadBySurvey(id).then(function (result) {
                             promiseAll.push(data_module.survey.loadById(id));
                             for (var i = 0; i < result.length; i++) {

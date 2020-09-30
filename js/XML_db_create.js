@@ -38,7 +38,14 @@
                             data.push({name:"show_feedback",value:xmlComponent.getDataformObject(object,"show_feedback")});
                             data.push({name:"show_result",value:xmlComponent.getDataformObject(object,"show_result")});
                             data.push({name:"practice",value:xmlComponent.getDataformObject(object,"practice")});
+                            data.push({name:"below",value:xmlComponent.getDataformObject(object,"below")});
+                            data.push({name:"average",value:xmlComponent.getDataformObject(object,"average")});
+                            data.push({name:"rather",value:xmlComponent.getDataformObject(object,"rather")});
+                            data.push({name:"great",value:xmlComponent.getDataformObject(object,"great")});
+                            data.push({name:"userlist",value:xmlComponent.getDataformObject(object,"userlist")});
                             data.push({name:"available",value:xmlComponent.getDataformObject(object,"available")});
+                            data.push({name:"ramdom",value:xmlComponent.getDataformObject(object,"ramdom")});
+                            
                             var promise;
                             var promiseAllLink=[];
                             promiseAllLink.push(self.deleteOrtherQuestion());

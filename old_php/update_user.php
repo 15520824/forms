@@ -36,6 +36,10 @@ if (isset($_POST["theme"])) {
     $data["theme"]=(int)$_POST["theme"];
 }
 
+$datetime_variable = new DateTime();
+
+$data["lastmodifiedtime"] = $datetime_variable;
+
 $result = $connection->load($prefix."users", "(id=".$data["id"].")", "");
 
 if(sizeof($result) > 0)

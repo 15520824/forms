@@ -1705,11 +1705,7 @@ class DOMClass {
                 },
 
                 containClass : function (element, classname) {
-                    if (!element.className) return false;
-                    var cls = element.className.split(/\s/);
-                    for (var i = 0; i < cls.length; ++i)
-                        if (cls[i] == classname) return true;
-                    return false;
+                    return element && element.classList && element.classList.contains(classname); 
                 },
 
                 loadImages : function (imagepaths) {

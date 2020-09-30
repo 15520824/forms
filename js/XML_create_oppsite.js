@@ -1151,14 +1151,14 @@
             },
             "=================================",
             {
-              text: "Trắc nghiệm",
+              text: "Trắc nghiệm (một đáp án)",
               icon: "span.mdi.mdi-radiobox-marked",
-              value: 3
+              value: 3,
             },
             {
-              text: "Menu thả xuống",
+              text: "Menu thả xuống (nhiều đáp án)",
               icon: "span.mdi.mdi-checkbox-marked",
-              value: 4
+              value: 4,
             },
             // {
             //     text: 'Hộp kiểm',

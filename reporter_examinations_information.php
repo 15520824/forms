@@ -30,6 +30,18 @@ formTest.reporter_examinations_information.tableCreate = function(host) {
                 text: 'Tên'
             },
             {
+                attrs: {},
+                text: 'Bắt đầu'
+            },
+            {
+                attrs: {},
+                text: 'Kết thúc'
+            },
+            {
+                attrs: {},
+                text: 'Trạng thái'
+            },
+            {
                 attrs: {
                     style: {
                         width: "40px"

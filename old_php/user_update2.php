@@ -6,11 +6,11 @@
 
     session_start();
 
-    if (!isset($_SESSION[$prefixhome."userid"])) {
-        echo "Bạn đã đăng xuất, bạn cần đăng nhập lại để tiếp tục sử dụng phần mềm
-Để đăng nhập lại bạn nhấn F5 hoặc tải lại trang web";
-        exit();
-    }
+//     if (!isset($_SESSION[$prefixhome."userid"])) {
+//         echo "Bạn đã đăng xuất, bạn cần đăng nhập lại để tiếp tục sử dụng phần mềm
+// Để đăng nhập lại bạn nhấn F5 hoặc tải lại trang web";
+//         exit();
+//     }
     // if (!isset($_POST["fullname"])) {
     //     echo "error: invalid fullname.";
     //     exit();

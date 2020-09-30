@@ -1113,15 +1113,15 @@
                         },
                         "=================================",
                         {
-                            text: 'Trắc nghiệm',
-                            icon: 'span.mdi.mdi-radiobox-marked',
-                            value: 3
-                        },
-                        {
-                            text: 'Menu thả xuống',
-                            icon: 'span.mdi.mdi-checkbox-marked',
-                            value: 4
-                        },
+                            text: "Trắc nghiệm (một đáp án)",
+                            icon: "span.mdi.mdi-radiobox-marked",
+                            value: 3,
+                          },
+                          {
+                            text: "Menu thả xuống (nhiều đáp án)",
+                            icon: "span.mdi.mdi-checkbox-marked",
+                            value: 4,
+                          },
                         // {
                         //     text: 'Hộp kiểm',
                         //     icon: 'span.mdi.mdi-arrow-down-drop-circle'

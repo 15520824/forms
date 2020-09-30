@@ -864,6 +864,9 @@
                     "freebirdThemedRadioDarkerDisabled",
                     "freebirdFormviewerViewItemsRadioControl",
                   ],
+                  style:{
+                    pointerEvents: "none"
+                  }
                 });
                 y.appendChild(y.select);
                 y.appendChild(this.primarytext(value));
@@ -1637,6 +1640,9 @@
                     "freebirdThemedRadioDarkerDisabled",
                     "freebirdFormviewerViewItemsRadioControl",
                   ],
+                  style:{
+                    pointerEvents: "none"
+                  }
                 });
                 y.appendChild(y.select);
                 y.appendChild(this.primarytext(value));

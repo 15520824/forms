@@ -34,15 +34,47 @@ if (isset($_POST["practice"])) {
     $data["practice"]=$_POST["practice"];
 }
 
+if (isset($_POST["below"])) {
+    $data["below"]=$_POST["below"];
+}
+if (isset($_POST["average"])) {
+    $data["average"]=$_POST["average"];
+}
+if (isset($_POST["rather"])) {
+    $data["rather"]=$_POST["rather"];
+}
+if (isset($_POST["great"])) {
+    $data["great"]=$_POST["great"];
+}
+
 if (isset($_POST["available"])) {
     $data["available"]=$_POST["available"];
+}
+
+if (isset($_POST["ramdom"])) {
+    $data["ramdom"]=$_POST["ramdom"];
 }
 
 if (isset($_POST["userid"])) {
     $data["userid"]=$_POST["userid"];
 }
 
+if (isset($_POST["userlist"])) {
+    $userlist=json_decode($_POST["userlist"]);
+}
+
 $data["id"] = $connection->insert($prefix.'survey', $data);
+
+$count = count($userlist);
+for($i =0;$i<$count;$i++)
+{
+    $dataTemp = array(
+        "surveyid"=>$data["id"],
+        "userid"=>$userlist[$i],
+    );
+    $connection->insert($prefix.'link_survey_user', $dataTemp);
+}
+
 
 echo "ok";
 
