@@ -4,28 +4,24 @@
 
 ?>
 <script type="text/javascript">
-blackTheme.reporter_surveys.generateTableDatasurvey = function(host) {
+blackTheme.reporter_surveys.generateTableDatasurvey = function(host,index = -1,mode = true) {
     var data = [];
     var celldata = [];
-    var indexlist = [];
     var temp;
     var i, k, sym, con;
-
-    for (i = 0; i < data_module.survey.items.length; i++) {
-        indexlist.push(i);
-    }
+    var count = 1;
     for (k = 0; k < data_module.survey.items.length; k++) {
-        i = indexlist[k];
-        celldata = [k + 1];
+        if(!(index == data_module.survey.items[k].practice||index == -1))
+        continue;
+        celldata = [count++];
         celldata.push({
-            text: data_module.survey.items[i].value
+            text: data_module.survey.items[k].value
         });
         celldata.push({
-            text: data_module.type.getById(data_module.survey.items[i].type).value
+            text: data_module.type.getById(data_module.survey.items[k].type).value
         });
         list = [];
-
-        if (true) {
+        if (mode) {
             sym = DOMElement.i({
                 attrs: {
                     className: "material-icons",
@@ -77,28 +73,26 @@ blackTheme.reporter_surveys.generateTableDatasurvey = function(host) {
                     DOMElement.cancelEvent(event);
                     return false;
                     }
-                }(data_module.survey.items[i], i, host)
+                }(data_module.survey.items[k], k, host)
             });
-        }
-        sym = DOMElement.i({
-                attrs: {
-                    className: "material-icons",
-                    style: {
-                        fontSize: "20px",
-                        color: "#929292"
-                    }
-                },
-
-                text: "playlist_add_check"
-            });
-            con = DOMElement.div({
-                attrs: {
-                    style: {
-                        width: "100px"
-                    }
-                },
-                text: 'Thực hiện'
-            });
+            sym = DOMElement.i({
+                    attrs: {
+                        className: "material-icons",
+                        style: {
+                            fontSize: "20px",
+                            color: "#929292"
+                        }
+                    },
+                    text: "delete_sweep"
+                }),
+                con = DOMElement.div({
+                    attrs: {
+                        style: {
+                            width: "100px"
+                        }
+                    },
+                    text: 'Xóa'
+                });
             sym.onmouseover = con.onmouseover = function(sym, con) {
                 return function(event, me) {
                     sym.style.color = "black";
@@ -119,106 +113,120 @@ blackTheme.reporter_surveys.generateTableDatasurvey = function(host) {
                 },
                 symbol: sym,
                 content: con,
-                onclick: function(tempabc, index, host) {
-                    return function(){
-                    var temp1 = blackTheme.reporter_surveys.performSurvey(host,tempabc.id);
-                    host.frameList.addChild(temp1);
-                    host.frameList.activeFrame(temp1);
-                    DOMElement.cancelEvent(event);
-                    return false;
+                onclick: function(id, host) {
+                    return function(event, me) {
+                        blackTheme.reporter_surveys.removesurvey(id);
+                        DOMElement.cancelEvent(event);
+                        return false;
                     }
-                }(data_module.survey.items[i], i, host)
-        });
-        sym = DOMElement.i({
-                attrs: {
-                    className: "material-icons",
+                }(data_module.survey.items[k].id, host)
+            });
+            h = DOMElement.choicelist({
+                textcolor: "#929292",
+                align: "right",
+                symbolattrs: {
                     style: {
-                        fontSize: "20px",
-                        color: "#929292"
+                        width: "40px"
                     }
                 },
-                text: "delete_sweep"
-            }),
+                list: list
+            });
+            last_cell = {
+                attrs: {
+                    style: {
+                        width: "40px",
+                        textAlign: "center"
+                    }
+                },
+                children: [
+                    DOMElement.i({
+                        attrs: {
+                            className: "material-icons " + DOMElement.dropdownclass.button,
+                            style: {
+                                fontSize: "20px",
+                                cursor: "pointer",
+                                color: "#929292"
+                            },
+                            onmouseover: function(event, me) {
+                                me.style.color = "black";
+                            },
+                            onmouseout: function(event, me) {
+                                me.style.color = "#929292";
+                            },
+                            onclick: function(host1) {
+                                return function(event, me) {
+                                    host1.toggle();
+                                    DOMElement.cancelEvent(event);
+                                    return false;
+                                }
+                            }(h)
+                        },
+                        text: "more_vert"
+                    }), h
+                ]
+            }
+        }else
+        {
+            sym = DOMElement.i({
+                    attrs: {
+                        className: "material-icons",
+                        style: {
+                            fontSize: "20px",
+                            color: "#929292",
+                            display:"inline-block",
+                            verticalAlign: "middle"
+                        }
+                    },
+
+                    text: "playlist_add_check"
+                });
             con = DOMElement.div({
                 attrs: {
                     style: {
-                        width: "100px"
+                        width: "80px",
+                        display:"inline-block"
                     }
                 },
-                text: 'Xóa'
+                text: 'Thực hiện'
             });
-        sym.onmouseover = con.onmouseover = function(sym, con) {
-            return function(event, me) {
-                sym.style.color = "black";
-                con.style.color = "black";
-            }
-        }(sym, con);
-        sym.onmouseout = con.onmouseout = function(sym, con) {
-            return function(event, me) {
-                sym.style.color = "#929292";
-                con.style.color = "#929292";
-            }
-        }(sym, con);
-        list.push({
-            attrs: {
-                style: {
-                    width: "170px"
-                }
-            },
-            symbol: sym,
-            content: con,
-            onclick: function(id, host) {
+            sym.onmouseover = con.onmouseover = function(sym, con) {
                 return function(event, me) {
-                    blackTheme.reporter_surveys.removesurvey(id);
-                    DOMElement.cancelEvent(event);
-                    return false;
+                    sym.style.color = "black";
+                    con.style.color = "black";
                 }
-            }(data_module.survey.items[i].id, host)
-        });
-        h = DOMElement.choicelist({
-            textcolor: "#929292",
-            align: "right",
-            symbolattrs: {
-                style: {
-                    width: "40px"
+            }(sym, con);
+            sym.onmouseout = con.onmouseout = function(sym, con) {
+                return function(event, me) {
+                    sym.style.color = "#929292";
+                    con.style.color = "#929292";
                 }
-            },
-            list: list
-        });
-        celldata.push({
-            attrs: {
-                style: {
-                    width: "40px",
-                    textAlign: "center"
-                }
-            },
-            children: [
-                DOMElement.i({
-                    attrs: {
-                        className: "material-icons " + DOMElement.dropdownclass.button,
-                        style: {
-                            fontSize: "20px",
-                            cursor: "pointer",
-                            color: "#929292"
-                        },
-                        onmouseover: function(event, me) {
-                            me.style.color = "black";
-                        },
-                        onmouseout: function(event, me) {
-                            me.style.color = "#929292";
-                        },
-                        onclick: function(host1) {
-                            return function(event, me) {
-                                host1.toggle();
-                                DOMElement.cancelEvent(event);
-                                return false;
-                            }
-                        }(h)
-                    },
-                    text: "more_vert"
-                }), h
-            ]
-        });
+            }(sym, con);
+            last_cell = absol.buildDom({
+                tag:"div",
+                style:{
+                    textAlign:"center",
+                    cursor: "pointer",
+                    width: "max-content"
+                },
+                on:{
+                    click : function(tempabc, index, host) {
+                        return function(){
+                        var temp1 = blackTheme.reporter_surveys.performSurvey(host,tempabc.id);
+                        host.frameList.addChild(temp1);
+                        host.frameList.activeFrame(temp1);
+                        DOMElement.cancelEvent(event);
+                        return false;
+                        }
+                    }(data_module.survey.items[k], k, host),
+                },
+                child:[
+                    sym,
+                    con
+                ]
+            })
+        }
+
+        celldata.push(last_cell);
         data.push(celldata);
     }
     return data;
@@ -436,6 +444,56 @@ blackTheme.reporter_surveys.performSurvey = function(host,id){
     return temp;
 }
 
+blackTheme.reporter_examinations.performExamination = function(host,id){
+    var containerList = absol.buildDom({
+        tag:"div",
+        class:"update-catergory"
+    })
+    var temp = absol.buildDom({
+        tag:'singlepage',
+        child:[
+            {
+                class: 'absol-single-page-header',
+                child:[
+                    {
+                        tag: "i2flexiconbutton",
+                        on: {
+                            click: function(evt) {
+                                temp.close();
+                            }
+                        },
+                        child: [{
+                                tag: 'i',
+                                class: 'material-icons',
+                                props: {
+                                    innerHTML: 'close'
+                                },
+                            },
+                            '<span>' + "Đóng" + '</span>'
+                        ]
+                    }
+                ]
+            },
+            {
+                class: 'absol-single-page-footer'
+            }
+        ]})
+    var cloneXmlRequest = {...xmlRequest};
+    ModalElement.show_loading();
+    cloneXmlRequest.readXMLFromDB(id,containerList).then(function(e){
+        ModalElement.close(-1);
+    })
+    temp.close = function()
+    {
+        temp.selfRemove();
+        var arr=host.frameList.getAllChild();
+        host.frameList.activeFrame(arr[arr.length-1]);
+    }
+    temp.addChild(containerList);
+    formTest.menu.footer(absol.$('.absol-single-page-footer', temp));
+    return temp;
+}
+
 blackTheme.reporter_surveys.updateSurvey = function(host, param) {
     var temp = absol.buildDom({
         tag:'singlepage',
@@ -544,63 +602,238 @@ blackTheme.reporter_surveys.updateSurvey = function(host, param) {
     return temp;
 }
 
-blackTheme.reporter_examinations.generateTableDataExaminations = function(host)
+function setPromiseTime(start,end)
+{
+    var now = new Date();
+    var start = new Date(start);
+    var end = new Date(end);
+    var textStatus = "Đang diễn ra";
+    if(now<start)
+    {
+        textStatus = "Sắp diền ra";
+        setTimeout(() => {
+            temp.updateTime(start,end)
+        }, start-now);
+    }else if(now>end)
+    {
+        textStatus = "Đã hết hạn";
+    }else
+    {
+        setTimeout(() => {
+            temp.updateTime(start,end)
+        }, end-now);
+    }
+    var temp = absol.buildDom({
+        tag:"span",
+        props:{
+            innerText:textStatus
+        } 
+    })
+    temp.updateTime = function(start,end){
+        var tempTime = setPromiseTime(start,end);
+        if(temp.parentNode)
+        {
+            temp.parentNode.replaceChild(tempTime,temp);
+        }
+        temp = tempTime;
+    }
+    return temp;
+}
+
+blackTheme.reporter_examinations.generateTableDataExaminations = function(host,mode = true)
 {
     var data = [];
-    var celldata = [];
-    var indexlist = [];
+    var celldata;
     var temp;
     var i, k, sym, con;
 
-    for (i = 0; i < data_module.examinations.items.length; i++) {
-        indexlist.push(i);
-    }
+    var count = 1;
     for (k = 0; k < data_module.examinations.items.length; k++) {
-        i = indexlist[k];
-        celldata = [k + 1];
+        celldata = [count++];
         celldata.push({
-            text: data_module.examinations.items[i].name
+            text: data_module.examinations.items[k].name
         });
         celldata.push({
-            text: formatDate(data_module.examinations.items[i].start,true,true)
+            text: formatDate(data_module.examinations.items[k].start,true,true)
         });
         celldata.push({
-            text: formatDate(data_module.examinations.items[i].end,true,true)
+            text: formatDate(data_module.examinations.items[k].end,true,true)
         });
-        var now = new Date();
-        var start = new Date(data_module.examinations.items[i].start);
-        var end = new Date(data_module.examinations.items[i].end);
-        var textStatus = "Đang diễn ra";
-        if(now<start)
-        {
-            textStatus = "Sắp diền ra";
-        }else if(now>end)
-        {
-            textStatus = "Đã hết hạn";
-        }
-        celldata.push({
-            text: textStatus
-        });
+       
+        
+        celldata.push(setPromiseTime(data_module.examinations.items[k].start,data_module.examinations.items[k].end));
         list = [];
-
-        if (true) {
-            sym = DOMElement.i({
+        var last_cell;
+        if (mode) {
+                sym = DOMElement.i({
+                    attrs: {
+                        className: "material-icons",
+                        style: {
+                            fontSize: "20px",
+                            color: "#929292"
+                        }
+                    },
+                    text: "mode_edit"
+                });
+                con = DOMElement.div({
+                    attrs: {
+                        style: {
+                            width: "100px"
+                        }
+                    },
+                    text: 'Sửa'
+                });
+                sym.onmouseover = con.onmouseover = function(sym, con) {
+                    return function(event, me) {
+                        sym.style.color = "black";
+                        con.style.color = "black";
+                    }
+                }(sym, con);
+                sym.onmouseout = con.onmouseout = function(sym, con) {
+                    return function(event, me) {
+                        sym.style.color = "#929292";
+                        con.style.color = "#929292";
+                    }
+                }(sym, con);
+                list.push({
+                    attrs: {
+                        style: {
+                            width: "170px"
+                        }
+                    },
+                    symbol: sym,
+                    content: con,
+                    onclick: function(tempabc, index, host) {
+                        return function(){
+                            ModalElement.show_loading();
+                            var promiseAll = [];
+                            promiseAll.push(data_module.link_examination_survey.loadByExamination(tempabc.id));
+                            promiseAll.push(data_module.link_examination_user.loadByExamination(tempabc.id));
+                            promiseAll.push(data_module.usersList.load());
+                            Promise.all(promiseAll).then(function(result){
+                                var temp1 = blackTheme.reporter_examinations.updateExamination(host,tempabc,result);
+                                host.frameList.addChild(temp1);
+                                host.frameList.activeFrame(temp1);
+                                ModalElement.close(-1);
+                            })
+                            DOMElement.cancelEvent(event);
+                            return false;
+                        }
+                    }(data_module.examinations.items[k], k, host)
+                });
+                sym = DOMElement.i({
+                        attrs: {
+                            className: "material-icons",
+                            style: {
+                                fontSize: "20px",
+                                color: "#929292"
+                            }
+                        },
+                        text: "delete_sweep"
+                    }),
+                con = DOMElement.div({
+                        attrs: {
+                            style: {
+                                width: "100px"
+                            }
+                        },
+                        text: 'Xóa'
+                    });
+                sym.onmouseover = con.onmouseover = function(sym, con) {
+                    return function(event, me) {
+                        sym.style.color = "black";
+                        con.style.color = "black";
+                    }
+                }(sym, con);
+                sym.onmouseout = con.onmouseout = function(sym, con) {
+                    return function(event, me) {
+                        sym.style.color = "#929292";
+                        con.style.color = "#929292";
+                    }
+                }(sym, con);
+                list.push({
+                    attrs: {
+                        style: {
+                            width: "170px"
+                        }
+                    },
+                    symbol: sym,
+                    content: con,
+                    onclick: function(id, host) {
+                        return function(event, me) {
+                            blackTheme.reporter_examinations.removeExamination(id);
+                            DOMElement.cancelEvent(event);
+                            return false;
+                        }
+                    }(data_module.examinations.items[k].id, host)
+                });
+                h = DOMElement.choicelist({
+                    textcolor: "#929292",
+                    align: "right",
+                    symbolattrs: {
+                        style: {
+                            width: "40px"
+                        }
+                    },
+                    list: list
+                });
+                last_cell = {
                 attrs: {
-                    className: "material-icons",
                     style: {
-                        fontSize: "20px",
-                        color: "#929292"
+                        width: "40px",
+                        textAlign: "center"
                     }
                 },
-                text: "mode_edit"
-            });
+                children: [
+                    DOMElement.i({
+                        attrs: {
+                            className: "material-icons " + DOMElement.dropdownclass.button,
+                            style: {
+                                fontSize: "20px",
+                                cursor: "pointer",
+                                color: "#929292"
+                            },
+                            onmouseover: function(event, me) {
+                                me.style.color = "black";
+                            },
+                            onmouseout: function(event, me) {
+                                me.style.color = "#929292";
+                            },
+                            onclick: function(host1) {
+                                return function(event, me) {
+                                    host1.toggle();
+                                    DOMElement.cancelEvent(event);
+                                    return false;
+                                }
+                            }(h)
+                        },
+                        text: "more_vert"
+                    }), h
+                ]
+            }
+        }else
+        {
+            sym = DOMElement.i({
+                    attrs: {
+                        className: "material-icons",
+                        style: {
+                            fontSize: "20px",
+                            color: "#929292",
+                            display:"inline-block",
+                            verticalAlign: "middle"
+                        }
+                    },
+
+                    text: "playlist_add_check"
+                });
             con = DOMElement.div({
                 attrs: {
                     style: {
-                        width: "100px"
+                        width: "80px",
+                        display:"inline-block"
                     }
                 },
-                text: 'Sửa'
+                text: 'Thực hiện'
             });
             sym.onmouseover = con.onmouseover = function(sym, con) {
                 return function(event, me) {
@@ -614,123 +847,76 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host)
                     con.style.color = "#929292";
                 }
             }(sym, con);
-            list.push({
-                attrs: {
-                    style: {
-                        width: "170px"
-                    }
+            last_cell = absol.buildDom({
+                tag:"div",
+                style:{
+                    textAlign:"center",
+                    cursor: "pointer",
+                    width: "max-content"
                 },
-                symbol: sym,
-                content: con,
-                onclick: function(tempabc, index, host) {
-                    return function(){
-                        ModalElement.show_loading();
-                        var promiseAll = [];
-                        promiseAll.push(data_module.link_examination_survey.loadByExamination(tempabc.id));
-                        promiseAll.push(data_module.link_examination_user.loadByExamination(tempabc.id));
-                        promiseAll.push(data_module.usersList.load());
-                        Promise.all(promiseAll).then(function(result){
-                            var temp1 = blackTheme.reporter_examinations.updateExamination(host,tempabc,result);
+                on:{
+                    click : function(tempabc, index, host) {
+                        return function(){
+                        var tempStart = tempabc.start;
+                        var tempEnd = tempabc.end;
+                        var now = new Date();
+                        if(now<tempStart)
+                        {
+                            var clockElement = absol.buildDom({
+                                        tag:"div",
+                                        class:"flipclock",
+                                        props:{
+                                            id:"flipclock-1"
+                                        }
+                                    })
+                            new FlipClock(clockElement, {
+                                endDate: tempStart,
+                                labels: {
+                                    days: 'Ngày',
+                                    hours: 'Giờ',
+                                    minutes: 'Phút',
+                                    seconds: 'Giây'
+                                }
+                            });  
+                            var countDownElement = absol.buildDom({
+                                tag:"modal",
+                                on:{
+                                    click:function(event)
+                                    {
+                                        this.selfRemove();
+                                    }
+                                },
+                                child:[
+                                    clockElement
+                                ]
+                            })
+                           
+                            document.body.appendChild(countDownElement);
+                        }else if(now>tempEnd)
+                        {
+                            ModalElement.showWindow({
+                                title:"Đã hết hạn thời gian",
+                                bodycontent:"Thời gian kiểm tra đã qua. Vui lòng liên hệ với admin để nới rộng thời gian kiểm tra"
+                            })
+                        }else
+                        {
+                            console.log(tempabc)
+                            var temp1 = blackTheme.reporter_examinations.performExamination(host,tempabc.surveyid);
                             host.frameList.addChild(temp1);
                             host.frameList.activeFrame(temp1);
-                            ModalElement.close(-1);
-                        })
+                        }
                         DOMElement.cancelEvent(event);
                         return false;
-                    }
-                }(data_module.examinations.items[i], i, host)
-            });
+                        }
+                    }(data_module.examinations.items[k], k, host),
+                },
+                child:[
+                    sym,
+                    con
+                ]
+            })
         }
-        sym = DOMElement.i({
-                attrs: {
-                    className: "material-icons",
-                    style: {
-                        fontSize: "20px",
-                        color: "#929292"
-                    }
-                },
-                text: "delete_sweep"
-            }),
-        con = DOMElement.div({
-                attrs: {
-                    style: {
-                        width: "100px"
-                    }
-                },
-                text: 'Xóa'
-            });
-        sym.onmouseover = con.onmouseover = function(sym, con) {
-            return function(event, me) {
-                sym.style.color = "black";
-                con.style.color = "black";
-            }
-        }(sym, con);
-        sym.onmouseout = con.onmouseout = function(sym, con) {
-            return function(event, me) {
-                sym.style.color = "#929292";
-                con.style.color = "#929292";
-            }
-        }(sym, con);
-        list.push({
-            attrs: {
-                style: {
-                    width: "170px"
-                }
-            },
-            symbol: sym,
-            content: con,
-            onclick: function(id, host) {
-                return function(event, me) {
-                    blackTheme.reporter_examinations.removeExamination(id);
-                    DOMElement.cancelEvent(event);
-                    return false;
-                }
-            }(data_module.examinations.items[i].id, host)
-        });
-        h = DOMElement.choicelist({
-            textcolor: "#929292",
-            align: "right",
-            symbolattrs: {
-                style: {
-                    width: "40px"
-                }
-            },
-            list: list
-        });
-        celldata.push({
-            attrs: {
-                style: {
-                    width: "40px",
-                    textAlign: "center"
-                }
-            },
-            children: [
-                DOMElement.i({
-                    attrs: {
-                        className: "material-icons " + DOMElement.dropdownclass.button,
-                        style: {
-                            fontSize: "20px",
-                            cursor: "pointer",
-                            color: "#929292"
-                        },
-                        onmouseover: function(event, me) {
-                            me.style.color = "black";
-                        },
-                        onmouseout: function(event, me) {
-                            me.style.color = "#929292";
-                        },
-                        onclick: function(host1) {
-                            return function(event, me) {
-                                host1.toggle();
-                                DOMElement.cancelEvent(event);
-                                return false;
-                            }
-                        }(h)
-                    },
-                    text: "more_vert"
-                }), h
-            ]
-        });
+        celldata.push(last_cell);
         data.push(celldata);
     }
     return data;

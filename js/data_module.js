@@ -162,7 +162,7 @@ data_module.survey.getTypeFromItems = function(arr){
   for(var i=0;i<arr.length;i++){
     survey = data_module.survey.getByID(arr[i].surveyid);
     type = survey.type;
-    user = arr[i].userid;
+    user = arr[i].user_id;
     if(checkUser[user]===undefined)
     {
       valid[user] = { ...data_module.usersList.getID(user) };
@@ -2087,7 +2087,6 @@ data_module.record_test.load = function(loadAgain = false) {
 
 data_module.record_test.loadByUserId = function(data) {
   return new Promise(function(resolve, reject) {
-    
     FormClass.api_call({
       url: "./php/load/load_recordtest_by_userid.php",
       params: data,
@@ -2117,7 +2116,7 @@ data_module.record_test.loadByUserId = function(data) {
 
 data_module.record_test.addOne = function(data) {
   return new Promise(function(resolve, reject) {
-    
+    data.push({name:"user_id",value:window.userid});
     FormClass.api_call({
       url: "./php/insert/insert_new_record_test.php",
       params: data,

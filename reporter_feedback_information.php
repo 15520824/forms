@@ -36,7 +36,7 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
             })
     childContainer.appendChild(temp);
     var promiseAll=[];
-    promiseAll.push(data_module.record_test.load(true));
+    promiseAll.push(data_module.record_test.load());
     promiseAll.push(data_module.usersList.load());
     promiseAll.push(data_module.usersListHome.load());
     Promise.all(promiseAll).then(function(record_test){
@@ -54,7 +54,7 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
                                 data_module.record.loadByRecordTest([{name:"record_testid",value:me.value}]).then(function(valid){
                                     ModalElement.close(-1);
                                     childContainer.childNodes[1].setAnswer(valid);
-                                    childContainer.childNodes[1].classList.add("disabled");
+                                    childContainer.classList.add("disabled");
                                     host.prevButton.updateVisiable();
                                     host.nextButton.updateVisiable();
                                 })
@@ -167,9 +167,13 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
 
             userList = absol.buildDom({
                     tag: "selectmenu",
+                    style:{
+                        pointerEvents: "none"
+                    },
                     props: {
                         enableSearch: true,
-                        items: finalValue
+                        items: finalValue,
+                        value:window.userid
                     },
                     on: {
                         change: function(event, me) {

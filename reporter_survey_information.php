@@ -58,9 +58,11 @@ formTest.reporter_surveys_information.tableCreate = function(host) {
         children: [x]
     })
 }
-formTest.reporter_surveys_information.redrawTable = function() {
+formTest.reporter_surveys_information.redrawTable = function(index,host) {
     var x;
     for(var i=0;i<formTest.reporter_surveys_information.hosts.length;i++){
+        if(host!==undefined&& host !== formTest.reporter_surveys_information.hosts[i])
+        continue;
         x = DOMElement.table({
         attrs: {
             style: {
@@ -92,7 +94,7 @@ formTest.reporter_surveys_information.redrawTable = function() {
                 }
             }
         ],
-        data: blackTheme.reporter_surveys.generateTableDatasurvey(formTest.reporter_surveys_information.hosts[i]),
+        data: blackTheme.reporter_surveys.generateTableDatasurvey(formTest.reporter_surveys_information.hosts[i],index),
         searchbox: true
     });
     var parentNode = formTest.reporter_surveys_information.hosts[i].tableCenter.parentNode

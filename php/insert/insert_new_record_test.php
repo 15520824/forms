@@ -18,13 +18,16 @@ if ($connection == null){
 $data = array(
 );
 
-$data["userid"]=$_SESSION[$prefix."userid"];
+if (isset($_POST["user_id"])) {
+    $data["user_id"]=$_POST["user_id"];
+}
 
 if (isset($_POST["times"])) {
     $data["times"]=$_POST["times"];
 }else
 {
-    $time = $connection->load($prefix.'record_test',"(userid = ".$data["userid"].") AND (surveyid = ".$_POST["surveyid"].")");
+
+    $time = $connection->load($prefix.'link_examination_user',"(user_id = ".$data["user_id"].") AND (surveyid = ".$_POST["surveyid"].")");
     $data["times"] = count($time)+1;
 }
 
@@ -32,14 +35,16 @@ if (isset($_POST["surveyid"])) {
     $data["surveyid"]=$_POST["surveyid"];
 }
 
-$search = $connection->load($prefix.'record_test',"(userid = ".$data["userid"].") AND (times = ".$data["times"].") AND (surveyid = ".$data["surveyid"].")");
+
+
+$search = $connection->load($prefix.'link_examination_user',"(user_id = ".$data["user_id"].") AND (times = ".$data["times"].") AND (surveyid = ".$data["surveyid"].")");
 
 if (count($search) > 0){
     $data["id"]=$search[0]["id"];
-    $connection->update($prefix.'record_test',$data);
+    $connection->update($prefix.'link_examination_user',$data);
 }
 else{
-    $data["id"] = $connection->insert($prefix.'record_test', $data);
+    $data["id"] = $connection->insert($prefix.'link_examination_user', $data);
 }
 
 echo "ok";

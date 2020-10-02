@@ -110,7 +110,27 @@ formTest.reporter_surveys.init = function(host, mode) {
                                 },
                                 '<span>' + 'Thêm' + '</span>'
                             ]
-                        }
+                        },
+                        absol.buildDom({
+                            tag:"selectmenu",
+                            style:{
+                                verticalAlign: "middle",
+                                width:"calc(40% - 220px)"
+                            },
+                            props:{
+                                items:[
+                                    {text:"Tất cả", value:-1},
+                                    {text:"Bài tập", value:1},
+                                    {text:"Bài kiểm tra", value:0}
+                                ],
+                                value:-1
+                            },
+                            on:{
+                                change:function(event){
+                                    formTest.reporter_surveys_information.redrawTable(this.value,host)
+                                }
+                            }
+                        })
                     ]
                 },
                 {

@@ -20,7 +20,7 @@ if ($connection == null){
     exit();
 }
 
-$data = $connection->load($prefixlocal.'record_test');
+$data = $connection->load($prefixlocal.'link_examination_user',"surveyid != 0");
 
 echo "ok";
 echo EncodingClass::fromVariable($data);

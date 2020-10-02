@@ -45,7 +45,17 @@ formTest.menu.loadPage = function (taskid) {
             formTest.menu.tabPanel.addChild(holder);
             formTest.reporter_examinations.init(host, 1);
             break;
-        case 41:
+        case 21:
+            holder.name = "Thực hiện bài tập";
+            formTest.menu.tabPanel.addChild(holder);
+            formTest.reporter_survey_perform.init(host, 1);
+            break;
+        case 22:
+            holder.name = "Tham gia kiểm tra";
+            formTest.menu.tabPanel.addChild(holder);
+            formTest.reporter_examinations_perform.init(host, 1);
+            break;
+        case 51:
             holder.name = "Hồ sơ cá nhân";
             formTest.menu.tabPanel.addChild(holder);
             var promiseAll = [];
@@ -56,21 +66,32 @@ formTest.menu.loadPage = function (taskid) {
                 formTest.menu.showProfile(host);
             })
             break;
-        case 42:
+        case 52:
             formTest.menu.logout();
             break;
-        case 31:
+        case 41:
             holder.name = "Người dùng";
             formTest.menu.tabPanel.addChild(holder);
             formTest.menu.showListUser(host);
             break;
-        case 992:
+
+        case 33:
             var promiseAll = [];
             promiseAll.push(data_module.usersListHome.load());
-            Promise.all(promiseAll).then(function () {
-                holder.name = "Xem kết quả bài khảo sát";
-                formTest.menu.tabPanel.addChild(holder);
-                formTest.reporter_feedback.init(host, 1);
+            promiseAll.push(data_module.record_test.loadByUserId([{name:"userid",value:window.userid}]));
+            Promise.all(promiseAll).then(function (result) {
+                if(result[1].length == 0)
+                {
+                    ModalElement.showWindow({
+                        title:"Chưa tham gia bài tập",
+                        bodycontent:"Vui lòng thực hiện bài tập trước khi vào mục báo cáo bài tập"
+                    })
+                }else
+                {
+                    holder.name = "Xem kết quả bài tập";
+                    formTest.menu.tabPanel.addChild(holder);
+                    formTest.reporter_feedback.init(host, 1);
+                }
             });
             break;
         default:
@@ -180,16 +201,34 @@ formTest.menu.init = function (holder) {
                                         ]
                                     },
                                     {
+                                        text: "Thực hiện",
+                                        pageIndex: 2,
+                                        items:[
+                                            {
+                                                text: "Bài tập",
+                                                pageIndex: 21
+                                            },
+                                            {
+                                                text: "Bài kiểm tra",
+                                                pageIndex: 22
+                                            }
+                                        ]
+                                    },
+                                    {
                                         text: "Báo cáo",
                                         pageIndex: 2,
                                         items:[
                                             {
                                                 text: "Đợt kiểm tra",
-                                                pageIndex: 21
+                                                pageIndex: 31
+                                            },
+                                            {
+                                                text: "Bài tập",
+                                                pageIndex: 33
                                             },
                                             {
                                                 text: "Thí sinh",
-                                                pageIndex: 22
+                                                pageIndex: 32
                                             }
                                         ]
                                     },
@@ -199,7 +238,7 @@ formTest.menu.init = function (holder) {
                                         items:[
                                             {
                                                 text: "Người dùng",
-                                                pageIndex: 31
+                                                pageIndex: 41
                                             }
                                         ]
                                     },
@@ -234,11 +273,11 @@ formTest.menu.init = function (holder) {
                                             },
                                             {
                                                 text: "Hồ sơ cá nhân",
-                                                pageIndex: 41
+                                                pageIndex: 51
                                             },
                                             {
                                                 text: "Đăng xuất",
-                                                pageIndex: 42
+                                                pageIndex: 52
                                             }
                                         ]
                                     }

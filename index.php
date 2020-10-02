@@ -19,6 +19,8 @@
     include_once "blackTheme.php";
     include_once "reporter_survey.php";
     include_once "reporter_survey_information.php";
+    include_once "reporter_survey_perform.php";
+    include_once "reporter_survey_perform_information.php";
     include_once "reporter_type_survey.php";
     include_once "reporter_type_survey_information.php";
     include_once "reporter_record.php";
@@ -27,6 +29,8 @@
     include_once "reporter_feedback_information.php";
     include_once "reporter_examinations.php";
     include_once "reporter_examinations_information.php";
+    include_once "reporter_examinations_perform.php";
+    include_once "reporter_examinations_perform_information.php";
     include_once "languagemodule.php";
     include_once "./old_php/reporter_users.php";
     include_once "./old_php/reporter_users_information.php";
@@ -128,6 +132,8 @@
                 account: {},
                 reporter_surveys: {},
                 reporter_surveys_information: {},
+                reporter_survey_perform:{},
+                reporter_survey_perform_information:{},
                 reporter_type_surveys: {},
                 reporter_type_surveys_information: {},
                 reporter_record: {},
@@ -136,6 +142,8 @@
                 reporter_feedback_information: {},
                 reporter_examinations: {},
                 reporter_examinations_information: {},
+                reporter_examinations_perform: {},
+                reporter_examinations_perform_information: {},
                 reporter_users:{},
                 reporter_users_information:{}
             };
@@ -164,6 +172,8 @@
         write_reporter_script_black();
         write_reporter_surveys_script();
         write_reporter_surveys_information_script();
+        write_reporter_survey_perform_script();
+        write_reporter_survey_perform_information_script();
         write_reporter_type_surveys_script();
         write_reporter_type_surveys_information_script();
         write_reporter_record_script();
@@ -172,6 +182,8 @@
         write_reporter_feedback_information_script();
         write_reporter_examinations_script();
         write_reporter_examinations_information_script();
+        write_reporter_examinations_perform_script();
+        write_reporter_examinations_perform_information_script();
         write_reporter_users_script();
         write_reporter_users_information_script();
         ?>
@@ -180,6 +192,7 @@
         <link rel="stylesheet" href="css/config_format.css">
         <link rel="stylesheet" href="css/new_version_1.css">
         <link rel="stylesheet" href="css/FormatFunction.css">
+        <link rel="stylesheet" href="css/countdown.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <!-- <link rel="stylesheet" href=" /css/font-awesome/font-awesome.css"> -->
         <link rel="stylesheet" href="css/form.css">

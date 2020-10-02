@@ -14,6 +14,7 @@
           var promiseAll = [];
           data2 = [{ name: "surveyid", value: arrResult.id }];
           data_module.record_test.addOne(data2).then(
+            
             function(result1) {
               for (var i = 0; i < arrResult.length; i++) {
                 var result = arrResult[i]._body.getValue();
@@ -39,15 +40,15 @@
                       }
                     }
                   }.bind(null,result[j],data));
-                  Promise.all(promiseAll)
-                    .then(function(result2) {
-                      resolve(result2);
-                    })
-                    .catch(function(error) {
-                      reject(error);
-                    });
                 }
               }
+              Promise.all(promiseAll)
+              .then(function(result2) {
+                resolve(result2);
+              })
+              .catch(function(error) {
+                reject(error);
+              });
             }
           );
         });
