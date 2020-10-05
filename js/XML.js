@@ -302,11 +302,17 @@
               ],
               on: {
                 click: (function(self, i) {
+                 
                   return function() {
+                    if(self.examinationid)
+                    {
+                      self.sendButton.click();
+                    }
                     self.arrPage[i].style.display = "none";
                     self.arrPage[i - 1].style.display = "";
                     self.indexPage = i - 1;
                   };
+                  
                 })(self, i)
               },
               child: [
@@ -354,6 +360,10 @@
                       self.arrPage[i + 1].style.display = "";
                       self.indexPage = i + 1;
                     }
+                    if(self.examinationid)
+                    {
+                      self.sendButton.click();
+                    }
                   };
                 })(self, i)
               },
@@ -384,8 +394,7 @@
           );
         }
         if (i === self.arrPage.length - 1) {
-          arrButton.push(
-            absol.buildDom({
+            var sendButton = absol.buildDom({
               tag: "div",
               class: [
                 "quantumWizButtonEl",
@@ -401,7 +410,10 @@
                     if (self.arrPage[i].checkMustComplete()) {
                       self.arrPage[i].style.display = "none";
                       ModalElement.show_loading();
-                      xmlDbRecord.saveAll(self.arrPage).then(function(result){
+                      var newXmlDbRecord = {...xmlDbRecord};
+                      if(self.examinationid)
+                      newXmlDbRecord.examinationid = self.examinationid;
+                      newXmlDbRecord.saveAll(self.arrPage).then(function(result){
                         ModalElement.close(-1);
                       })
                       var el = self.arrPage[i];
@@ -441,7 +453,12 @@
                 }
               ]
             })
-          );
+            self.sendButton = sendButton;
+            if(self.examinationid)
+            {
+              self.sendButton.click();
+            }
+            arrButton.push(sendButton);
         }
         return arrButton;
       },

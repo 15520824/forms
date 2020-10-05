@@ -1,6 +1,13 @@
 
 var _ = absol._;
 
+function guidGenerator() {
+  var S4 = function() {
+     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+  };
+  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
 function FlipClock(el, config) {
     var _this = this;
     var updateTimeout;
@@ -19,12 +26,23 @@ function FlipClock(el, config) {
         _this.config.endDate.getTime()- new Date().getTime()
     );
 
+    _this.promiseEnd = new Promise(function(resolve,reject){
+      _this.resolve = resolve;
+      _this.reject = reject;
+    })
+
     createView();
     updateView();
     addObserver();
  
     function start() {
-      _this.current = getTimeUntil(config.endDate.getTime()- new Date().getTime());
+      var timestamp = config.endDate.getTime()- new Date().getTime();
+      _this.current = getTimeUntil(timestamp);
+      if(timestamp<=0)
+      {
+        _this.resolve()
+        _this.destroy();
+      }
       updateView();
       clearTimeout(updateTimeout);
       updateTimeout = setTimeout(start, 500);

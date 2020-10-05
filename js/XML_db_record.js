@@ -7,11 +7,15 @@
   function XML_DB_RECORD() {
     var xmlDbRecord = {
       saveAll: function(arrResult) {
+        var self = this;
         return new Promise(function(resolve, reject) {
           var data;
           var data1;
           var data2;
           var promiseAll = [];
+          if(self.examinationid)
+          data2 = [{ name: "examinationid", value: self.examinationid }];
+          else
           data2 = [{ name: "surveyid", value: arrResult.id }];
           data_module.record_test.addOne(data2).then(
             

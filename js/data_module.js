@@ -1333,6 +1333,42 @@ data_module.link_examination_user.loadByExamination = function(id) {
   });
 };
 
+data_module.link_examination_user.loadByUser = function(id) {
+  return new Promise(function(resolve, reject) {
+    if(!Array.isArray(id))
+      id = [
+        {
+          name: "id",
+          value: id
+        }
+      ];
+    FormClass.api_call({
+      url: "./php/load/load_link_examination_user_by_user.php",
+      params: id,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
 data_module.link_examination_user.addOne = function(data) {
   return new Promise(function(resolve, reject) {
     
@@ -2617,9 +2653,6 @@ data_module.examinations.updateOne = function(data) {
           if (message.substr(0, 2) == "ok") {
             message = message.substr(2);
             var tempData = EncodingClass.string.toVariable(message);
-            data_module.examinations.updateEdit(
-              tempData
-            );
             var promiseAll = [];
             var paramEditChild = [
               data[1],
@@ -2627,34 +2660,33 @@ data_module.examinations.updateOne = function(data) {
               data[4]
             ]
             var tempPromise = new Promise(function(resolve,reject){
-              data_module.link_examination_survey.removeOne([
-                {name:"examinationid",value:tempData["id"]},
-              ]).then(function(){
-                promiseAll.push(data_module.link_examination_survey.addOne(paramEditChild));
+                promiseAll.push(data_module.link_examination_survey.updateOne(paramEditChild));
                 resolve()
-              })
             })
             promiseAll.push(tempPromise)
             var tempPromise1 = new Promise(function(resolve,reject){
-              data_module.link_examination_user.removeOne([
-                {name:"examinationid",value:tempData["id"]},
-              ]).then(function(){
                 var dataStudent = data[5].value;
+                var arrParamTemp = [];
                 for(var i = 0;i<dataStudent.length;i++)
                 {
-                  var paramTemp = [
-                    {name:"examinationid",value:tempData["id"]},
-                    {name:"user_id",value:dataStudent[i].user_id},
-                    {name:"start",value:EncodingClass.string.fromVariable(new Date(dataStudent[i].start))},
-                    {name:"end",value:EncodingClass.string.fromVariable(new Date(dataStudent[i].end))}
-                  ]
-                  promiseAll.push(data_module.link_examination_user.addOne(paramTemp));
+                  var paramTemp = {
+                    user_id:dataStudent[i].user_id,
+                    start:EncodingClass.string.fromVariable(new Date(dataStudent[i].start)),
+                    end:EncodingClass.string.fromVariable(new Date(dataStudent[i].end))
+                  }
+                  arrParamTemp.push(paramTemp);
                 }
+                promiseAll.push(data_module.link_examination_user.updateOne([
+                  {name:"arrValue",value:EncodingClass.string.fromVariable(arrParamTemp)},
+                  {name:"examinationid",value:tempData["id"]},
+                ]));
                 resolve();
-              })
             })
             promiseAll.push(tempPromise1)
             Promise.all(promiseAll).then(function(){
+              data_module.examinations.updateEdit(
+                tempData
+              );
               resolve(tempData);
             })
           } else {
@@ -2680,6 +2712,7 @@ data_module.examinations.updateEdit = function(object) {
     if (object.id == data_module.examinations.items[i].id) {
       data_module.examinations.items[i] = object;
       formTest.reporter_examinations_information.redrawTable();
+      formTest.reporter_examinations_perform_information.redrawTable();
       return;
     }
   }
@@ -2726,6 +2759,7 @@ data_module.examinations.updateRemove = function(id) {
     if (data_module.examinations.items[i].id === id) {
       data_module.examinations.items.splice(i, 1);
       formTest.reporter_examinations_information.redrawTable();
+      formTest.reporter_examinations_perform_information.redrawTable();
       return;
     }
   }
@@ -2796,6 +2830,7 @@ data_module.examinations.addOne = function(data) {
 data_module.examinations.updateAdd = function(object) {
   data_module.examinations.items.push(object);
   formTest.reporter_examinations_information.redrawTable();
+  formTest.reporter_examinations_perform_information.redrawTable();
 };
 
 

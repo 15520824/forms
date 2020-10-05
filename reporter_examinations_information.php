@@ -15,7 +15,7 @@ formTest.reporter_examinations_information.tableCreate = function(host) {
             style: {
                 width: "100%"
             },
-            className:"nth"
+            className:"nth examinationsTable"
         },
         header: [{
                 attrs: {
@@ -30,15 +30,27 @@ formTest.reporter_examinations_information.tableCreate = function(host) {
                 text: 'Tên'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Bắt đầu'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Kết thúc'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Trạng thái'
             },
             {
@@ -74,7 +86,7 @@ formTest.reporter_examinations_information.redrawTable = function() {
             style: {
                 width: "100%"
             },
-            className:"nth"
+            className:"nth examinationsTable"
         },
         header: [{
                 attrs: {
@@ -89,15 +101,27 @@ formTest.reporter_examinations_information.redrawTable = function() {
                 text: 'Tên'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Bắt đầu'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Kết thúc'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Trạng thái'
             },
             {

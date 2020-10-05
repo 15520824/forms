@@ -400,7 +400,7 @@
             innerHTML: "Đã hoàn tất lưu lại",
           },
         });
-        var type, show_result, show_feedback,practice,available,userListData = [];
+        var type, show_result, show_feedback,practice,available,ramdom,below = average = rather = great = 0;
         var checkType = data_module.survey.getByID(
           xmlComponent.getDataformObject(object, "id")
         );

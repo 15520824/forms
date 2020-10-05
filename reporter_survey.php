@@ -91,10 +91,13 @@ formTest.reporter_surveys.init = function(host, mode) {
                                         //     ]
                                         // })
                                         // document.body.appendChild(temp);
-                                        // ModalElement.show_loading();
-                                        var temp1 = blackTheme.reporter_surveys.addSurvey(host);
-                                        host.frameList.addChild(temp1);
-                                        host.frameList.activeFrame(temp1);
+                                        ModalElement.show_loading();
+                                        data_module.usersList.load().then(function(){
+                                            var temp1 = blackTheme.reporter_surveys.addSurvey(host);
+                                            host.frameList.addChild(temp1);
+                                            host.frameList.activeFrame(temp1);
+                                            ModalElement.close(-1);
+                                        })
                                         DOMElement.cancelEvent(event);
                                         // return false;
                                         // temp.show = true;

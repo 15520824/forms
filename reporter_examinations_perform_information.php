@@ -15,7 +15,7 @@ formTest.reporter_examinations_perform_information.tableCreate = function(host) 
             style: {
                 width: "100%"
             },
-            className:"nth"
+            className:"nth examinationsTable"
         },
         header: [{
                 attrs: {
@@ -30,15 +30,27 @@ formTest.reporter_examinations_perform_information.tableCreate = function(host) 
                 text: 'Tên'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Bắt đầu'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Kết thúc'
             },
             {
-                attrs: {},
+                attrs: {
+                    style: {
+                        width: "200px"
+                    }
+                },
                 text: 'Trạng thái'
             },
             {
@@ -68,55 +80,104 @@ formTest.reporter_examinations_perform_information.tableCreate = function(host) 
 }
 formTest.reporter_examinations_perform_information.redrawTable = function() {
     var x;
-    for(var i=0;i<formTest.reporter_examinations_perform_information.hosts.length;i++){
-        x = DOMElement.table({
-        attrs: {
-            style: {
-                width: "100%"
-            },
-            className:"nth"
-        },
-        header: [{
-                attrs: {
-                    style: {
-                        width: "80px"
-                    }
+    var promiseAll=[];
+    var userLink, surveyLink;
+    var newPromise = new Promise(function(resolve,reject){
+        var promiseLink = data_module.link_examination_user.loadByUser(window.userid).then(function(result){
+            userLink = result;
+            if(result.length>0)
+            {
+                var count = result.length;
+                for(var i = 0;i<result.length;i++)
+                {
+                    surveyLink = [];
+                    var promiseChild = data_module.link_examination_survey.loadByExamination(result[i].examinationid);
+                    promiseAll.push(promiseChild);
+                    promiseChild.then(function(dataLink){
+                        dataLink = dataLink[0];
+                        surveyLink[dataLink.examinationid] = dataLink;
+                        count--;
+                        if(count === 0)
+                        {
+                            resolve();
+                        }
+                    })
+                }
+                resolve();
+            }
+            else
+            resolve();
+        });
+        promiseAll.push(promiseLink);
+    });
+    
+    promiseAll.push(newPromise);
+    Promise.all(promiseAll).then(function() {
+        for(var i=0;i<formTest.reporter_examinations_perform_information.hosts.length;i++){
+            formTest.reporter_examinations_perform_information.hosts[i].userLink = userLink;
+            formTest.reporter_examinations_perform_information.hosts[i].surveyLink = surveyLink;
+            console.log(userLink,surveyLink)
+            x = DOMElement.table({
+            attrs: {
+                style: {
+                    width: "100%"
                 },
-                text: "STT"
+                className:"nth examinationsTable"
             },
-            {
-                attrs: {},
-                text: 'Tên'
-            },
-            {
-                attrs: {},
-                text: 'Bắt đầu'
-            },
-            {
-                attrs: {},
-                text: 'Kết thúc'
-            },
-            {
-                attrs: {},
-                text: 'Trạng thái'
-            },
-            {
-                attrs: {
-                    style: {
-                        width: "40px"
+            header: [{
+                    attrs: {
+                        style: {
+                            width: "80px"
+                        }
+                    },
+                    text: "STT"
+                },
+                {
+                    attrs: {},
+                    text: 'Tên'
+                },
+                {
+                    attrs: {
+                        style: {
+                            width: "200px"
+                        }
+                    },
+                    text: 'Bắt đầu'
+                },
+                {
+                    attrs: {
+                        style: {
+                            width: "200px"
+                        }
+                    },
+                    text: 'Kết thúc'
+                },
+                {
+                    attrs: {
+                        style: {
+                            width: "200px"
+                        }
+                    },
+                    text: 'Trạng thái'
+                },
+                {
+                    attrs: {
+                        style: {
+                            width: "40px"
+                        }
                     }
                 }
-            }
-        ],
-        data: blackTheme.reporter_examinations.generateTableDataExaminations(formTest.reporter_examinations_perform_information.hosts[i],false),
-        searchbox: true
-    });
-    var parentNode = formTest.reporter_examinations_perform_information.hosts[i].tableCenter.parentNode
-    DOMElement.removeAllChildren(parentNode);
-    parentNode.appendChild(x)
-    formTest.reporter_examinations_perform_information.hosts[i].tableCenter = x;
-    //to do update size
-    }
+            ],
+            data: blackTheme.reporter_examinations.generateTableDataExaminations(formTest.reporter_examinations_perform_information.hosts[i],false),
+            searchbox: true
+        });
+        var parentNode = formTest.reporter_examinations_perform_information.hosts[i].tableCenter.parentNode
+        DOMElement.removeAllChildren(parentNode);
+        parentNode.appendChild(x)
+        formTest.reporter_examinations_perform_information.hosts[i].tableCenter = x;
+        //to do update size
+        }
+    })
 }
 
 formTest.reporter_examinations_perform_information.Container = function(host) {

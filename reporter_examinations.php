@@ -20,6 +20,7 @@ formTest.reporter_examinations.init = function(host, mode) {
         }
     });
     var promiseAll=[];
+    ModalElement.show_loading();
     promiseAll.push(data_module.examinations.load());
     Promise.all(promiseAll).then(function() {
         var mainFrame = absol.buildDom({

@@ -13,6 +13,8 @@ blackTheme.reporter_surveys.generateTableDatasurvey = function(host,index = -1,m
     for (k = 0; k < data_module.survey.items.length; k++) {
         if(!(index == data_module.survey.items[k].practice||index == -1))
         continue;
+        if(mode == false&&data_module.survey.items[k].practice == 0)
+        continue;
         celldata = [count++];
         celldata.push({
             text: data_module.survey.items[k].value
@@ -444,7 +446,7 @@ blackTheme.reporter_surveys.performSurvey = function(host,id){
     return temp;
 }
 
-blackTheme.reporter_examinations.performExamination = function(host,id){
+blackTheme.reporter_examinations.performExamination = function(host,examinationid){
     var containerList = absol.buildDom({
         tag:"div",
         class:"update-catergory"
@@ -480,8 +482,11 @@ blackTheme.reporter_examinations.performExamination = function(host,id){
         ]})
     var cloneXmlRequest = {...xmlRequest};
     ModalElement.show_loading();
-    cloneXmlRequest.readXMLFromDB(id,containerList).then(function(e){
-        ModalElement.close(-1);
+    cloneXmlRequest.examinationid = examinationid;
+    data_module.link_examination_survey.loadByExamination(examinationid).then(function(result){
+        cloneXmlRequest.readXMLFromDB(result[0].surveyid,containerList).then(function(e){
+            ModalElement.close(-1);
+        })
     })
     temp.close = function()
     {
@@ -605,16 +610,16 @@ blackTheme.reporter_surveys.updateSurvey = function(host, param) {
 function setPromiseTime(start,end)
 {
     var now = new Date();
-    var start = new Date(start);
-    var end = new Date(end);
+    start = new Date(start);
+    end = new Date(end);
     var textStatus = "Đang diễn ra";
-    if(now<start)
+    if(now < start)
     {
         textStatus = "Sắp diền ra";
         setTimeout(() => {
             temp.updateTime(start,end)
         }, start-now);
-    }else if(now>end)
+    }else if(now > end)
     {
         textStatus = "Đã hết hạn";
     }else
@@ -645,23 +650,81 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
     var data = [];
     var celldata;
     var temp;
-    var i, k, sym, con;
-
+    var i, k, sym, con, start, end;
+    var timeStart, timeEnd;
     var count = 1;
+    
+    if(host.userLink)
+    {
+        var checkLink = [];
+        for(var i=0;i<host.userLink.length;i++)
+        {
+            checkLink[host.userLink[i].examinationid] = host.userLink[i];
+        }
+    }
+
     for (k = 0; k < data_module.examinations.items.length; k++) {
+        start = formatDate(data_module.examinations.items[k].start,true,true);
+        end = formatDate(data_module.examinations.items[k].end,true,true);
+        timeStart = data_module.examinations.items[k].start;
+        timeEnd = data_module.examinations.items[k].end;
+        if(typeof checkLink === "object")
+        {
+            if(checkLink[data_module.examinations.items[k].id] == undefined)
+            {
+                continue;
+            }else
+            {
+                if(checkLink[data_module.examinations.items[k].id].timestamp.getTime()>0)
+                {
+                    var timestamp = new Date().getTime() - checkLink[data_module.examinations.items[k].id].timestamp.getTime();
+                    console.log(host.surveyLink,data_module.examinations.items[k].id,host.surveyLink[data_module.examinations.items[k].id])
+                    console.log(timestamp,host.surveyLink[data_module.examinations.items[k].id].longtime)
+                    if(timestamp>host.surveyLink[data_module.examinations.items[k].id].longtime)
+                        continue;
+                    else
+                    {
+                        setTimeout(() => {
+                            formTest.reporter_examinations_perform_information.redrawTable();
+                        }, host.surveyLink[data_module.examinations.items[k].id].longtime - timestamp);
+                    }
+                }
+                if(checkLink[data_module.examinations.items[k].id].start.getTime()>0)
+                {
+                    start = formatDate(checkLink[data_module.examinations.items[k].id].start,true,true);
+                    timeStart = checkLink[data_module.examinations.items[k].id].start;
+                }
+                if(checkLink[data_module.examinations.items[k].id].end.getTime()>0)
+                {
+                    end = formatDate(checkLink[data_module.examinations.items[k].id].end,true,true);
+                    timeEnd = checkLink[data_module.examinations.items[k].id].end;
+                }
+            }
+        }
         celldata = [count++];
         celldata.push({
             text: data_module.examinations.items[k].name
         });
-        celldata.push({
-            text: formatDate(data_module.examinations.items[k].start,true,true)
-        });
-        celldata.push({
-            text: formatDate(data_module.examinations.items[k].end,true,true)
-        });
        
+        celldata.push({
+            text: start,
+            attrs: {
+                className: "alignCenter",
+            }
+        });
+        celldata.push({
+            text: end,
+            attrs: {
+                className: "alignCenter",
+            }
+        });
         
-        celldata.push(setPromiseTime(data_module.examinations.items[k].start,data_module.examinations.items[k].end));
+        celldata.push({
+            attrs: {
+                className: "alignCenter",
+            },
+            children:setPromiseTime(timeStart,timeEnd)
+        });
         list = [];
         var last_cell;
         if (mode) {
@@ -855,10 +918,11 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                     width: "max-content"
                 },
                 on:{
-                    click : function(tempabc, index, host) {
+                    click : function(tempabc, index, start, end, host) {
+                        var elementThis = this;
                         return function(){
-                        var tempStart = tempabc.start;
-                        var tempEnd = tempabc.end;
+                        var tempStart = start;
+                        var tempEnd = end;
                         var now = new Date();
                         if(now<tempStart)
                         {
@@ -869,7 +933,7 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                                             id:"flipclock-1"
                                         }
                                     })
-                            new FlipClock(clockElement, {
+                            var newFlipClock = new FlipClock(clockElement, {
                                 endDate: tempStart,
                                 labels: {
                                     days: 'Ngày',
@@ -884,13 +948,18 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                                     click:function(event)
                                     {
                                         this.selfRemove();
+                                        newFlipClock.destroy();
                                     }
                                 },
                                 child:[
                                     clockElement
                                 ]
                             })
-                           
+                            console.log(elementThis)
+                            newFlipClock.promiseEnd.then(function()
+                            {
+                                elementThis.click();
+                            })
                             document.body.appendChild(countDownElement);
                         }else if(now>tempEnd)
                         {
@@ -900,15 +969,14 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                             })
                         }else
                         {
-                            console.log(tempabc)
-                            var temp1 = blackTheme.reporter_examinations.performExamination(host,tempabc.surveyid);
+                            var temp1 = blackTheme.reporter_examinations.performExamination(host,tempabc.id);
                             host.frameList.addChild(temp1);
                             host.frameList.activeFrame(temp1);
                         }
                         DOMElement.cancelEvent(event);
                         return false;
                         }
-                    }(data_module.examinations.items[k], k, host),
+                    }(data_module.examinations.items[k], k, timeStart, timeEnd, host),
                 },
                 child:[
                     sym,
@@ -919,6 +987,7 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
         celldata.push(last_cell);
         data.push(celldata);
     }
+    ModalElement.close(-1);
     return data;
 }
 
@@ -1024,7 +1093,7 @@ blackTheme.reporter_examinations.addExamination = function(host){
     var itemsSurvey = [];
     for(var i = 0 ;i<data_module.survey.items.length;i++)
     {
-        if(!data_module.survey.items[i].practice)
+        if(!parseInt(data_module.survey.items[i].practice))
         itemsSurvey.push({text:data_module.survey.items[i].value,value:data_module.survey.items[i].id});
     }
 

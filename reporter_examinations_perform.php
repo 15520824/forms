@@ -20,7 +20,40 @@ formTest.reporter_examinations_perform.init = function(host, mode) {
         }
     });
     var promiseAll=[];
+    ModalElement.show_loading();
+    var newPromise = new Promise(function(resolve,reject){
+        var promiseLink = data_module.link_examination_user.loadByUser(window.userid).then(function(result){
+            host.userLink = result;
+            if(result.length>0)
+            {
+                var count = result.length;
+                for(var i = 0;i<result.length;i++)
+                {
+                    host.surveyLink = [];
+                    var promiseChild = data_module.link_examination_survey.loadByExamination(result[i].examinationid);
+                    promiseChild.then(function(dataLink){
+                        dataLink = dataLink[0];
+                        host.surveyLink[dataLink.examinationid] = dataLink;
+                        count--;
+                        if(count === 0)
+                        {
+                            resolve();
+                        }
+                    })
+                    promiseAll.push(promiseChild);
+                }
+            }
+            else
+            {
+                resolve();
+            }
+        });
+        promiseAll.push(promiseLink);
+    });
+    
     promiseAll.push(data_module.examinations.load());
+   
+    promiseAll.push(newPromise);
     Promise.all(promiseAll).then(function() {
         var mainFrame = absol.buildDom({
             tag: 'singlepage',
