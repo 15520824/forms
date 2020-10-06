@@ -104,6 +104,31 @@
             surveySum
           ]
         });
+        if(self.examinationid)
+        {
+          var clockElement = absol.buildDom({
+              tag:"div",
+              class:"flipclock",
+              props:{
+                  id:"flipclock-1"
+              }
+          })
+          var newFlipClock = new FlipClock(clockElement, {
+              endDate: tempStart,
+              labels: {
+                  days: 'Ngày',
+                  hours: 'Giờ',
+                  minutes: 'Phút',
+                  seconds: 'Giây'
+              }
+          });  
+          
+          newFlipClock.promiseEnd.then(function()
+          {
+              elementThis.click();
+          })
+          document.body.appendChild(countDownElement);
+        }
         self.page = temp;
         
         self.arrPage = [];
@@ -306,7 +331,9 @@
                   return function() {
                     if(self.examinationid)
                     {
-                      self.sendButton.click();
+                        var newXmlDbRecord = {...xmlDbRecord};
+                        newXmlDbRecord.examinationid = self.examinationid;
+                        newXmlDbRecord.saveAll(self.arrPage)
                     }
                     self.arrPage[i].style.display = "none";
                     self.arrPage[i - 1].style.display = "";
@@ -362,7 +389,9 @@
                     }
                     if(self.examinationid)
                     {
-                      self.sendButton.click();
+                      var newXmlDbRecord = {...xmlDbRecord};
+                      newXmlDbRecord.examinationid = self.examinationid;
+                      newXmlDbRecord.saveAll(self.arrPage)
                     }
                   };
                 })(self, i)
@@ -456,7 +485,18 @@
             self.sendButton = sendButton;
             if(self.examinationid)
             {
-              self.sendButton.click();
+              if(self.examinationid)
+                data_module.record.loadByRecordTest([{name:"record_testid",value:self.host.userLink[self.examinationid].id}]).then(function(valid){
+                  if(valid.length>0)
+                  self.page.setAnswer(valid);
+                  else
+                  {
+                    var newXmlDbRecord = {...xmlDbRecord};
+                    newXmlDbRecord.examinationid = self.examinationid;
+                    newXmlDbRecord.saveAll(self.arrPage)
+                  }
+              })
+              
             }
             arrButton.push(sendButton);
         }
@@ -634,6 +674,7 @@
         return temp;
       },
       element: function(object) {
+        var self = this;
         if (object.childNodes === undefined) return undefined;
         var childContainer = absol.buildDom({
           tag: "div",
@@ -748,6 +789,7 @@
                 }
               }
           }
+          if(self.examinationid == undefined)
           temp.setCorrect();
         }
         temp.setCorrect = function()
@@ -881,10 +923,12 @@
             point = xmlComponent.getDataformObject(absol.XML.parse(data[j].content),"point");
             if(point!==undefined&&point!=0)
             for(var i=0;i<selector.length;i++)
+            {
               if(data[j].id==selector[i].id)
               {
                 selector[i].parentNode.parentNode.classList.add("correctChoice");
               }
+            }
           }
         }
         return temp;

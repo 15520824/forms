@@ -28,7 +28,7 @@ if (isset($_POST["id"])) {
     exit();
 }
 
-$data = $connection->load($prefixlocal.'link_examination_user', "user_id=".$userid);
+$data = $connection->load($prefixlocal.'link_examination_user', "user_id=".$userid." AND examinationid != 0");
 
 echo "ok";
 echo EncodingClass::fromVariable($data);

@@ -118,7 +118,7 @@ function FlipClock(el, config) {
       backLeaf.appendChild(backLabel);
       var bottom = document.createElement("div");
       var bottomLabel = document.createElement("span");
-      bottom.className = "bottom";
+      bottom.className = "bottomCountdown";
       bottom.appendChild(bottomLabel);
 
       leaf.appendChild(top);

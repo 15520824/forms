@@ -81,10 +81,18 @@ formTest.reporter_examinations_perform_information.tableCreate = function(host) 
 formTest.reporter_examinations_perform_information.redrawTable = function() {
     var x;
     var promiseAll=[];
-    var userLink, surveyLink;
+    var userLink, surveyLink, checkLink = [];
     var newPromise = new Promise(function(resolve,reject){
         var promiseLink = data_module.link_examination_user.loadByUser(window.userid).then(function(result){
             userLink = result;
+            if(userLink)
+            {
+                var checkLink = [];
+                for(var i=0;i<userLink.length;i++)
+                {
+                    checkLink[userLink[i].examinationid] = userLink[i];
+                }
+            }
             if(result.length>0)
             {
                 var count = result.length;
@@ -114,9 +122,8 @@ formTest.reporter_examinations_perform_information.redrawTable = function() {
     promiseAll.push(newPromise);
     Promise.all(promiseAll).then(function() {
         for(var i=0;i<formTest.reporter_examinations_perform_information.hosts.length;i++){
-            formTest.reporter_examinations_perform_information.hosts[i].userLink = userLink;
+            formTest.reporter_examinations_perform_information.hosts[i].userLink = checkLink;
             formTest.reporter_examinations_perform_information.hosts[i].surveyLink = surveyLink;
-            console.log(userLink,surveyLink)
             x = DOMElement.table({
             attrs: {
                 style: {

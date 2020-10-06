@@ -36,7 +36,7 @@ html {
   }
   
   .top,
-  .bottom,
+  .bottomCountdown,
   .leaf-front,
   .leaf-back {
     position: relative;
@@ -49,7 +49,7 @@ html {
     border-color: #2d3748;
   }
   .top span,
-  .bottom span,
+  .bottomCountdown span,
   .leaf-front span,
   .leaf-back span {
     position: absolute;
@@ -64,7 +64,7 @@ html {
   }
   
   .leaf._3-digits .top,
-  .leaf._3-digits .bottom,
+  .leaf._3-digits .bottomCountdown,
   .leaf._3-digits .leaf-front,
   .leaf._3-digits .leaf-back {
     width: 148px;
@@ -88,14 +88,14 @@ html {
     z-index: 10;
   }
   
-  .bottom,
+  .bottomCountdown,
   .leaf-back {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top-style: solid;
     border-top-width: 1px;
   }
-  .bottom span,
+  .bottomCountdown span,
   .leaf-back span {
     bottom: 0;
   }
@@ -121,14 +121,14 @@ html {
     }
   
     .top,
-    .bottom,
+    .bottomCountdown,
     .leaf-front,
     .leaf-back {
       height: 10.6666666667vw;
       width: 20vw;
     }
     .top span,
-    .bottom span,
+    .bottomCountdown span,
     .leaf-front span,
     .leaf-back span {
       height: 21.3333333333vw;
@@ -137,7 +137,7 @@ html {
     }
   
     .leaf._3-digits .top,
-    .leaf._3-digits .bottom,
+    .leaf._3-digits .bottomCountdown,
     .leaf._3-digits .leaf-front,
     .leaf._3-digits .leaf-back {
       width: 24.6666666667vw;
@@ -149,7 +149,7 @@ html {
       border-top-right-radius: 1vw;
     }
   
-    .bottom,
+    .bottomCountdown,
     .leaf-back {
       border-bottom-left-radius: 1vw;
       border-bottom-right-radius: 1vw;
@@ -173,7 +173,7 @@ html {
     transition-delay: 0s;
   }
   
-  .bottom::before {
+  .bottomCountdown::before {
     content: "";
     display: block;
     position: absolute;
@@ -198,7 +198,7 @@ html {
     transition: transform 0.3s ease-in, background-color 0.3s ease-in, color 0.3s ease-in;
     transition-delay: 0.3s;
   }
-  .flip .bottom::before {
+  .flip .bottomCountdown::before {
     transition: height 0.3s ease-in-out;
     transition-delay: 0.15s;
     height: 100%;

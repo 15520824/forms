@@ -483,6 +483,7 @@ blackTheme.reporter_examinations.performExamination = function(host,examinationi
     var cloneXmlRequest = {...xmlRequest};
     ModalElement.show_loading();
     cloneXmlRequest.examinationid = examinationid;
+    cloneXmlRequest.host = host;
     data_module.link_examination_survey.loadByExamination(examinationid).then(function(result){
         cloneXmlRequest.readXMLFromDB(result[0].surveyid,containerList).then(function(e){
             ModalElement.close(-1);
@@ -653,15 +654,7 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
     var i, k, sym, con, start, end;
     var timeStart, timeEnd;
     var count = 1;
-    
-    if(host.userLink)
-    {
-        var checkLink = [];
-        for(var i=0;i<host.userLink.length;i++)
-        {
-            checkLink[host.userLink[i].examinationid] = host.userLink[i];
-        }
-    }
+    var checkLink = host.userLink;
 
     for (k = 0; k < data_module.examinations.items.length; k++) {
         start = formatDate(data_module.examinations.items[k].start,true,true);
@@ -678,8 +671,6 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                 if(checkLink[data_module.examinations.items[k].id].timestamp.getTime()>0)
                 {
                     var timestamp = new Date().getTime() - checkLink[data_module.examinations.items[k].id].timestamp.getTime();
-                    console.log(host.surveyLink,data_module.examinations.items[k].id,host.surveyLink[data_module.examinations.items[k].id])
-                    console.log(timestamp,host.surveyLink[data_module.examinations.items[k].id].longtime)
                     if(timestamp>host.surveyLink[data_module.examinations.items[k].id].longtime)
                         continue;
                     else

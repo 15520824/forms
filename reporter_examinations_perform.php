@@ -23,7 +23,16 @@ formTest.reporter_examinations_perform.init = function(host, mode) {
     ModalElement.show_loading();
     var newPromise = new Promise(function(resolve,reject){
         var promiseLink = data_module.link_examination_user.loadByUser(window.userid).then(function(result){
-            host.userLink = result;
+            var userLink = result;
+            if(userLink)
+            {
+                var checkLink = [];
+                for(var i=0;i<userLink.length;i++)
+                {
+                    checkLink[userLink[i].examinationid] = userLink[i];
+                }
+            }
+            host.userLink = checkLink;
             if(result.length>0)
             {
                 var count = result.length;
