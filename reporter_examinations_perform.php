@@ -87,30 +87,6 @@ formTest.reporter_examinations_perform.init = function(host, mode) {
                                     },
                                     '<span>' + 'Đóng' + '</span>'
                                 ]
-                        },
-                        {
-                                tag: "i2flexiconbutton",
-                                on: {
-                                    click: function(host) {
-                                        return function(){
-                                        var temp1 = blackTheme.reporter_examinations_perform_perform.addExamination(host);
-                                        host.frameList.addChild(temp1);
-                                        host.frameList.activeFrame(temp1);
-                                        DOMElement.cancelEvent(event);
-                                        return false;
-                                            
-                                        }
-                                    }(host)
-                                },
-                                child: [{
-                                        tag: 'i',
-                                        class: 'material-icons',
-                                        props: {
-                                            innerHTML: 'add'
-                                        }
-                                    },
-                                    '<span>' + 'Thêm' + '</span>'
-                                ]
                         }
                     ]
                 },

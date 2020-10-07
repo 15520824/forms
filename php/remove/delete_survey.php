@@ -55,6 +55,7 @@ if (count($search) > 0){
 {
 
 }
+$connection->query("DELETE FROM ".$prefix."link_survey_user WHERE surveyid=".$id);
 $connection->query("DELETE FROM ".$prefix."survey WHERE id=".$id);
 
 echo "ok";

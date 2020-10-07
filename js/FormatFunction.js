@@ -182,14 +182,14 @@ function FlipClock(el, config) {
       _this.observer.observe(_this.el);
     }
 
-    return {
-      start: start,
-      stop: stop,
-      destroy: destroy,
-      getCurrent: function () {
-        return _this.current;
-      }
-    };
+    _this.start = start;
+    _this.stop = stop;
+    _this.destroy = destroy;
+    _this.getCurrent = function () {
+      return _this.current;
+    }; 
+    
+    return _this;
   }
 
 function formatDate(date,isMinutes = false, isHours = false , isDay = true, isMonth = true, isYear = true) {

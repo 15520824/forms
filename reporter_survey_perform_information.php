@@ -60,49 +60,56 @@ formTest.reporter_survey_perform_information.tableCreate = function(host) {
 }
 formTest.reporter_survey_perform_information.redrawTable = function(index = -1,host) {
     var x;
-    for(var i=0;i<formTest.reporter_survey_perform_information.hosts.length;i++){
-        if(host!==undefined&& host !== formTest.reporter_survey_perform_information.hosts[i])
-        continue;
-        x = DOMElement.table({
-        attrs: {
-            style: {
-                width: "100%"
-            },
-            className:"nth"
-        },
-        header: [{
+    if(window.privilege==0)
+    {
+        var tempPromise = data_module.link_survey_user.load();
+        tempPromise.then(function(result){
+            for(var i=0;i<formTest.reporter_survey_perform_information.hosts.length;i++){
+                formTest.reporter_survey_perform_information.hosts[i].linkUser = result;
+                if(host!==undefined&& host !== formTest.reporter_survey_perform_information.hosts[i])
+                continue;
+                x = DOMElement.table({
                 attrs: {
                     style: {
-                        width: "80px"
-                    }
+                        width: "100%"
+                    },
+                    className:"nth"
                 },
-                text: "STT"
-            },
-            {
-                attrs: {},
-                text: 'Tên'
-            },
-            {
-                attrs: {},
-                text: 'Loại'
-            },
-            {
-                attrs: {
-                    style: {
-                        width: "40px"
+                header: [{
+                        attrs: {
+                            style: {
+                                width: "80px"
+                            }
+                        },
+                        text: "STT"
+                    },
+                    {
+                        attrs: {},
+                        text: 'Tên'
+                    },
+                    {
+                        attrs: {},
+                        text: 'Loại'
+                    },
+                    {
+                        attrs: {
+                            style: {
+                                width: "40px"
+                            }
+                        }
                     }
-                }
+                ],
+                data: blackTheme.reporter_surveys.generateTableDatasurvey(formTest.reporter_survey_perform_information.hosts[i],index,false),
+                searchbox: true
+                });
+                var parentNode = formTest.reporter_survey_perform_information.hosts[i].tableCenter.parentNode
+                DOMElement.removeAllChildren(parentNode);
+                parentNode.appendChild(x)
+                formTest.reporter_survey_perform_information.hosts[i].tableCenter = x;
             }
-        ],
-        data: blackTheme.reporter_surveys.generateTableDatasurvey(formTest.reporter_survey_perform_information.hosts[i],index,false),
-        searchbox: true
-    });
-    var parentNode = formTest.reporter_survey_perform_information.hosts[i].tableCenter.parentNode
-    DOMElement.removeAllChildren(parentNode);
-    parentNode.appendChild(x)
-    formTest.reporter_survey_perform_information.hosts[i].tableCenter = x;
-    //to do update size
+        })
     }
+    
 }
 
 formTest.reporter_survey_perform_information.Container = function(host) {

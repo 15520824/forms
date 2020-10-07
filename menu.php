@@ -181,26 +181,33 @@ formTest.menu.init = function (holder) {
                                                 }
                                             }
                                         ]
-                                    },
-                                    {
+                                    }
+                                ]
+
+                                var tempItem = [
+                                {
+                                    text: "Bài kiểm tra",
+                                    pageIndex: 11
+                                }]
+                                if(window.privilege >= 1)
+                                {
+                                    tempItem.push({
+                                        text: "Nhóm bài kiểm tra",
+                                        pageIndex: 12
+                                    });
+                                    tempItem.push({
+                                        text: "Đợt bài kiểm tra",
+                                        pageIndex: 13
+                                    });
+                                }
+                                
+                                menuItems.push({
                                         text: "Danh mục",
                                         pageIndex: 1,
-                                        items:[
-                                            {
-                                                text: "Bài kiểm tra",
-                                                pageIndex: 11
-                                            },
-                                            {
-                                                text: "Nhóm bài kiểm tra",
-                                                pageIndex: 12
-                                            },
-                                            {
-                                                text: "Đợt bài kiểm tra",
-                                                pageIndex: 13
-                                            }
-                                        ]
-                                    },
-                                    {
+                                        items:tempItem
+                                })
+
+                                menuItems.push({
                                         text: "Thực hiện",
                                         pageIndex: 2,
                                         items:[
@@ -213,75 +220,84 @@ formTest.menu.init = function (holder) {
                                                 pageIndex: 22
                                             }
                                         ]
-                                    },
+                                    });
+                                
+                            if(window.privilege >= 1)
+                            {
+                                menuItems.push(
+                                {
+                                    text: "Báo cáo",
+                                    pageIndex: 2,
+                                    items:[
+                                        {
+                                            text: "Đợt kiểm tra",
+                                            pageIndex: 31
+                                        },
+                                        {
+                                            text: "Bài tập",
+                                            pageIndex: 33
+                                        },
+                                        {
+                                            text: "Thí sinh",
+                                            pageIndex: 32
+                                        }
+                                    ]
+                                });
+                            }
+
+                            if(window.privilege == 2)
+                            {
+                                menuItems.push({
+                                    text: "Hệ thống",
+                                    pageIndex: 3,
+                                    items:[
+                                        {
+                                            text: "Người dùng",
+                                            pageIndex: 41
+                                        }
+                                    ]
+                                });
+                            }
+
+                            menuItems.push({
+                                text: data_module.usersListHome.getID(window.userHomeid).username,
+                                pageIndex: 4,
+                                items:[
                                     {
-                                        text: "Báo cáo",
-                                        pageIndex: 2,
-                                        items:[
-                                            {
-                                                text: "Đợt kiểm tra",
-                                                pageIndex: 31
-                                            },
-                                            {
-                                                text: "Bài tập",
-                                                pageIndex: 33
-                                            },
-                                            {
-                                                text: "Thí sinh",
-                                                pageIndex: 32
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        text: "Hệ thống",
-                                        pageIndex: 3,
-                                        items:[
-                                            {
-                                                text: "Người dùng",
-                                                pageIndex: 41
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        text: data_module.usersListHome.getID(window.userHomeid).username,
-                                        pageIndex: 4,
-                                        items:[
+                                        tag:"div",
+                                        style:{
+                                            textAlign:"center"
+                                        },
+                                        child:[
                                             {
                                                 tag:"div",
+                                                class:"card-desktop-profile-avatar",
                                                 style:{
-                                                    textAlign:"center"
+                                                    padding:"5px",
+                                                    backgroundImage: "url(./img/avatar/avatar-default.png)",
                                                 },
-                                                child:[
-                                                    {
-                                                        tag:"div",
-                                                        class:"card-desktop-profile-avatar",
-                                                        style:{
-                                                            padding:"5px",
-                                                            backgroundImage: "url(./img/avatar/avatar-default.png)",
-                                                        },
-                                                        props:{
-                                                            id:"user_avatar_img"
-                                                        },
-                                                    }
-                                                ],
-                                                // on:{
-                                                //     click:function(event)
-                                                //     {
-                                                //         formTest.menu.loadPage(41);
-                                                //     }
-                                                // }
-                                            },
-                                            {
-                                                text: "Hồ sơ cá nhân",
-                                                pageIndex: 51
-                                            },
-                                            {
-                                                text: "Đăng xuất",
-                                                pageIndex: 52
+                                                props:{
+                                                    id:"user_avatar_img"
+                                                },
                                             }
-                                        ]
+                                        ],
+                                        // on:{
+                                        //     click:function(event)
+                                        //     {
+                                        //         formTest.menu.loadPage(41);
+                                        //     }
+                                        // }
+                                    },
+                                    {
+                                        text: "Hồ sơ cá nhân",
+                                        pageIndex: 51
+                                    },
+                                    {
+                                        text: "Đăng xuất",
+                                        pageIndex: 52
                                     }
                                 ]
+                            });
                                 
                             // var menuItems = [{
                             //     text: "Quản lý bài kiểm tra",

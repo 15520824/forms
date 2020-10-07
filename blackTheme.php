@@ -15,6 +15,21 @@ blackTheme.reporter_surveys.generateTableDatasurvey = function(host,index = -1,m
         continue;
         if(mode == false&&data_module.survey.items[k].practice == 0)
         continue;
+        if(mode == true&&window.privilege==0)
+        {
+
+            var isVisiable = false;
+            for(var i = 0;i<host.linkUser.length;i++)
+            {
+                if(host.linkUser[i].surveyid == data_module.survey.items[k].id&&host.linkUser[i].userid == window.userid)
+                {
+                    isVisiable = true;
+                    break;
+                }
+            }
+            if(isVisiable == false)
+            continue;
+        }
         celldata = [count++];
         celldata.push({
             text: data_module.survey.items[k].value
@@ -668,18 +683,6 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                 continue;
             }else
             {
-                if(checkLink[data_module.examinations.items[k].id].timestamp.getTime()>0)
-                {
-                    var timestamp = new Date().getTime() - checkLink[data_module.examinations.items[k].id].timestamp.getTime();
-                    if(timestamp>host.surveyLink[data_module.examinations.items[k].id].longtime)
-                        continue;
-                    else
-                    {
-                        setTimeout(() => {
-                            formTest.reporter_examinations_perform_information.redrawTable();
-                        }, host.surveyLink[data_module.examinations.items[k].id].longtime - timestamp);
-                    }
-                }
                 if(checkLink[data_module.examinations.items[k].id].start.getTime()>0)
                 {
                     start = formatDate(checkLink[data_module.examinations.items[k].id].start,true,true);
@@ -690,8 +693,24 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                     end = formatDate(checkLink[data_module.examinations.items[k].id].end,true,true);
                     timeEnd = checkLink[data_module.examinations.items[k].id].end;
                 }
+                if(checkLink[data_module.examinations.items[k].id].timestamp.getTime()>0)
+                {
+                    var timestamp = new Date().getTime() - checkLink[data_module.examinations.items[k].id].timestamp.getTime();
+                    if(timestamp>host.surveyLink[data_module.examinations.items[k].id].longtime)
+                        continue;
+                    else
+                    {
+                        timeEnd = checkLink[data_module.examinations.items[k].id].timestamp.getTime() + host.surveyLink[data_module.examinations.items[k].id].longtime;
+                        end = formatDate(timeEnd,true,true);
+                        setTimeout(() => {
+                            formTest.reporter_examinations_perform_information.redrawTable();
+                        }, host.surveyLink[data_module.examinations.items[k].id].longtime - timestamp);
+                    }
+                }
             }
         }
+        if(timeEnd<new Date())
+        continue;
         celldata = [count++];
         celldata.push({
             text: data_module.examinations.items[k].name
@@ -946,7 +965,6 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                                     clockElement
                                 ]
                             })
-                            console.log(elementThis)
                             newFlipClock.promiseEnd.then(function()
                             {
                                 elementThis.click();

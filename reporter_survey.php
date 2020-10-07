@@ -22,12 +22,16 @@ formTest.reporter_surveys.init = function(host, mode) {
     var promiseAll = [];
     promiseAll.push(data_module.type.load());
     promiseAll.push(data_module.survey.load());
+    if(window.privilege==0)
+    {
+        var tempPromise = data_module.link_survey_user.load();
+        tempPromise.then(function(result){
+            host.linkUser = result;
+        })
+        promiseAll.push(tempPromise);
+    }
     Promise.all(promiseAll).then(function() {
-        var mainFrame = absol.buildDom({
-            tag: 'singlepage',
-            child: [{
-                    class: 'absol-single-page-header',
-                    child: [{
+        var childArrButton = [{
                             tag: "i2flexiconbutton",
                             on: {
                                 click: function(host) {
@@ -46,75 +50,39 @@ formTest.reporter_surveys.init = function(host, mode) {
                                 },
                                 '<span>' + 'Đóng' + '</span>'
                             ]
-                        },
-                        {
-                            tag: "i2flexiconbutton",
-                            on: {
-                                click: function(host) {
-                                    return function() {
-                                        // var containerList = absol.buildDom({
-                                        //     tag: "div",
-                                        //     class: "containerPageView",
-                                        //     child: [{
-                                        //             tag: "div",
-                                        //             class: ["labelTitleClose",
-                                        //                 "quantumWizButtonEl",
-                                        //                 "quantumWizButtonPapericonbuttonLight"
-                                        //             ],
-                                        //             child: [{
-                                        //                 tag: 'i',
-                                        //                 class: ['material-icons',
-                                        //                     'icon-ceneter'
-                                        //                 ],
-                                        //                 props: {
-                                        //                     innerHTML: "close"
-                                        //                 },
-                                        //             }],
-                                        //             on: {
-                                        //                 click: function() {
-                                        //                     document
-                                        //                         .body
-                                        //                         .removeChild(
-                                        //                             temp
-                                        //                         );
-                                        //                 },
-                                        //             }
-                                        //         },
+                        }
+                    ]
 
-                                        //     ]
-                                        // })
-
-                                        // var temp = absol.buildDom({
-                                        //     tag: "modal",
-                                        //     child: [
-                                        //         containerList
-                                        //     ]
-                                        // })
-                                        // document.body.appendChild(temp);
-                                        ModalElement.show_loading();
-                                        data_module.usersList.load().then(function(){
-                                            var temp1 = blackTheme.reporter_surveys.addSurvey(host);
-                                            host.frameList.addChild(temp1);
-                                            host.frameList.activeFrame(temp1);
-                                            ModalElement.close(-1);
-                                        })
-                                        DOMElement.cancelEvent(event);
-                                        // return false;
-                                        // temp.show = true;
-                                    }
-                                }(host)
-                            },
-                            child: [{
-                                    tag: 'i',
-                                    class: 'material-icons',
-                                    props: {
-                                        innerHTML: 'add'
-                                    }
-                                },
-                                '<span>' + 'Thêm' + '</span>'
-                            ]
-                        },
-                        absol.buildDom({
+        if(window.privilege)
+        {
+            childArrButton.push({
+                tag: "i2flexiconbutton",
+                on: {
+                    click: function(host) {
+                        return function() {
+                            ModalElement.show_loading();
+                            data_module.usersList.load().then(function(){
+                                var temp1 = blackTheme.reporter_surveys.addSurvey(host);
+                                host.frameList.addChild(temp1);
+                                host.frameList.activeFrame(temp1);
+                                ModalElement.close(-1);
+                            })
+                            DOMElement.cancelEvent(event);
+                        }
+                    }(host)
+                },
+                child: [{
+                        tag: 'i',
+                        class: 'material-icons',
+                        props: {
+                            innerHTML: 'add'
+                        }
+                    },
+                    '<span>' + 'Thêm' + '</span>'
+                ]
+            });
+        }
+        childArrButton.push(absol.buildDom({
                             tag:"selectmenu",
                             style:{
                                 verticalAlign: "middle",
@@ -133,8 +101,12 @@ formTest.reporter_surveys.init = function(host, mode) {
                                     formTest.reporter_surveys_information.redrawTable(this.value,host)
                                 }
                             }
-                        })
-                    ]
+                        }))
+        var mainFrame = absol.buildDom({
+            tag: 'singlepage',
+            child: [{
+                    class: 'absol-single-page-header',
+                    child: childArrButton
                 },
                 {
                     class: 'absol-single-page-footer'

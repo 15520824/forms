@@ -36,7 +36,6 @@ formTest.reporter_record_information.headMask = function(host,childContainer){
             },
             on:{
                 change: function(event, me){
-                    console.log(me.value)
                     var cloneXmlRequest = {...xmlRequest};
                     ModalElement.show_loading()
                     cloneXmlRequest.readXMLFromDB(me.value,childContainer).then(function(e){

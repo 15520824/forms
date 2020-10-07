@@ -124,19 +124,17 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
                     change: function(event, me) {
                             var finalValueY=[];
                             var timesUpdate = [];
-                            if(me.objectUpdate[me.value].length === 0)
-                            finalValueY = [{text:"Không có mẫu tùy chọn", value: -1}]
-                            else
+                            for(var paramid in me.objectUpdate[me.value])
                             {
-                                for(var paramid in me.objectUpdate[me.value])
-                                {
-                                    finalValueY.push({
-                                        text: me.objectUpdate[me.value][paramid].value,
-                                        value: paramid,
-                                    })
-                                    timesUpdate[paramid] = me.objectUpdate[me.value][paramid].times;
-                                }
-                            }   
+                                console.log(me.objectUpdate[me.value][paramid])
+                                finalValueY.push({
+                                    text: me.objectUpdate[me.value][paramid].value,
+                                    value: paramid,
+                                })
+                                timesUpdate[paramid] = me.objectUpdate[me.value][paramid].times;
+                            }
+                            if(finalValueY.length === 0)
+                            finalValueY = [{text:"Không có mẫu tùy chọn", value: -1}];
                             survey.setObject(finalValueY,timesUpdate);
                     }
                 }
@@ -167,9 +165,6 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
 
             userList = absol.buildDom({
                     tag: "selectmenu",
-                    style:{
-                        pointerEvents: "none"
-                    },
                     props: {
                         enableSearch: true,
                         items: finalValue,
@@ -196,7 +191,10 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
                     }
             });
 
-            
+            if(window.privilege == 0)
+            {
+                userList.style.pointerEvents = "none";
+            }
         
             rowContainer.addChild(absol.buildDom({
                             tag: "div",

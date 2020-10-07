@@ -110,9 +110,11 @@
               tag:"div",
               class:"flipclock",
               props:{
-                  id:"flipclock-1"
+                  id:"flipclock-2"
               }
           })
+          var tempStart = self.host.userLink[self.examinationid].timestamp.getTime()+self.host.surveyLink[self.examinationid].longtime;
+          tempStart = new Date(tempStart);
           var newFlipClock = new FlipClock(clockElement, {
               endDate: tempStart,
               labels: {
@@ -125,9 +127,9 @@
           
           newFlipClock.promiseEnd.then(function()
           {
-              elementThis.click();
+              self.sendButton.click();
           })
-          document.body.appendChild(countDownElement);
+          temp.appendChild(clockElement);
         }
         self.page = temp;
         
@@ -493,7 +495,8 @@
                   {
                     var newXmlDbRecord = {...xmlDbRecord};
                     newXmlDbRecord.examinationid = self.examinationid;
-                    newXmlDbRecord.saveAll(self.arrPage)
+                    newXmlDbRecord.saveAll(self.arrPage);
+                    formTest.reporter_examinations_perform_information.redrawTable();
                   }
               })
               

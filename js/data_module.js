@@ -1664,24 +1664,15 @@ data_module.link_examination_survey.updateEdit = function(data)
 ////////////////////link_survey_user//////////////////////
 
 data_module.link_survey_user.load = function(id, loadAgain = false) {
-  if (data_module.link_survey_user.items && !loadAgain)
-    return Promise.resolve();
   return new Promise(function(resolve, reject) {
-    
     FormClass.api_call({
-      url: "../php/insert/load_survey.php",
-      params: [
-        {
-          name: "id",
-          value: id
-        }
-      ],
+      url: "./php/load/load_link_survey_user.php",
+      params: [],
       func: (success, message) => {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             var st = EncodingClass.string.toVariable(message.substr(2));
-            data_module.link_survey_user.items = st;
-            resolve();
+            resolve(st);
           } else {
             ModalElement.alert({
               message: message

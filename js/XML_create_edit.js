@@ -863,9 +863,13 @@
         var ratherElement = absol.$("input.freebirdFormeditorViewTabTitleEvaluate-3-input",temp);
         var greatElement = absol.$("input.freebirdFormeditorViewTabTitleEvaluate-4-input",temp);
         var userElement = absol.$(".freebirdFormeditorViewTabTitleSelectBox",temp);
-        data_module.link_survey_user.loadBySurvey(xmlComponent.getDataformObject(object, "id")).then(function(result){
+        var id = xmlComponent.getDataformObject(object, "id");
+        if(id!==undefined)
+        data_module.link_survey_user.loadBySurvey(id).then(function(result){
           userElement.values = result;
         })
+        else
+        userElement.values = [window.userid];
         practiceElement.on("change",function(event){
           if(this.checked===true)
           {

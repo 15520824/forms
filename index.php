@@ -212,7 +212,7 @@
             var init = function () {
                 var userid = parseInt("<?php if (isset($_SESSION[$prefix.'userid'])) echo $_SESSION[$prefix.'userid']; else echo 0; ?>", 10);
                 window.userHomeid = parseInt("<?php if (isset($_SESSION[$prefixhome."userid"])) echo $_SESSION[$prefixhome."userid"]; else echo 0; ?>", 10);
-                
+                window.privilege = parseInt("<?php if (isset($_SESSION[$prefix.'privilege'])) echo   $_SESSION[$prefix.'privilege']; else echo 0; ?>", 10);
                 if (userid == 0){
                     ModalElement.alert({
                         message: "Tài khoản không có quyền truy cập ứng dụng này",
