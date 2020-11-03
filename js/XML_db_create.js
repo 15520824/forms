@@ -385,7 +385,6 @@
                                 {
                                     if(!checkIDinArray(id,self.prevAnswer)&&checkIDinArray(id,data_module.question.itemsAnswer[resultQuestion.id])){
                                         data.push({name:"id",value:id});
-
                                         var objectSym=propsAsString(data);
                                         self.prevAnswer.push(objectSym);
                                         if(checkEqualValue(objectSym,data_module.question.itemsAnswer[resultQuestion.id]))
@@ -396,26 +395,53 @@
                                         }
                                     }else
                                     {
+<<<<<<< HEAD
                                         var tempX = data_module.answer.addOne(data);
                                         tempX.then(function(elementID,data){
                                             document.getElementById(elementID).id=data.id;
                                             self.prevAnswer.push(data);
                                         }.bind(null,id));
                                         promiseAll.push(tempX)
+=======
+                                        promiseAll.push(new Promise(function(resolveChild,rejectChild){
+                                            data_module.answer.addOne(data).then(function(elementID,data){
+                                                document.getElementById(elementID).id=data.id;
+                                                self.prevAnswer.push(data);
+                                                resolveChild(data);
+                                            }.bind(null,id))
+                                            .catch(function(error){
+                                                console.log(error);
+                                                rejectChild(error);
+                                            });
+                                        }))
+>>>>>>> 09f6b0bc485654046677f0b7a6746fd099258d14
                                     }
                                    
                                 }else
                                 {
+<<<<<<< HEAD
                                     var tempX = data_module.answer.addOne(data);
                                     tempX.then(function(elementID , data){
                                         document.getElementById(elementID).id=data.id;
                                         self.prevAnswer.push(data);
                                     }.bind(null, id));
                                     promiseAll.push(tempX);
+=======
+                                    promiseAll.push(new Promise(function(resolveChild,rejectChild){
+                                        data_module.answer.addOne(data).then(function(elementID , data){
+                                            document.getElementById(elementID).id=data.id;
+                                            self.prevAnswer.push(data);
+                                            resolveChild(data);
+                                        }.bind(null, id))
+                                        .catch(function(error){
+                                            console.log(error);
+                                            rejectChild(error);
+                                        })
+                                    }));
+>>>>>>> 09f6b0bc485654046677f0b7a6746fd099258d14
                                 }
                             }
                         }
-                        
                         Promise.all(promiseAll).then(function(result){
                             resolve(result);
                         })
@@ -526,11 +552,15 @@
         return xmlDbCreate;
     }
     function checkIDinArray(id,arr){
+<<<<<<< HEAD
         if(arr == undefined)
         {
             arr = [];
             return false;
         }
+=======
+    
+>>>>>>> 09f6b0bc485654046677f0b7a6746fd099258d14
         for(var i=0;i<arr.length;i++){
             if(id==arr[i].id)
             return true;
