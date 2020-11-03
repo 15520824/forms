@@ -64,6 +64,9 @@
                                 if (self.canGetID)
                                     xmlResult += "<id>" + resultAll[0][0].id + "</id>";
                                 xmlResult += "<value>" + resultAll[0][0].value + "</value>";
+                                xmlResult += "<show_result>" + resultAll[0][0].show_result + "</show_result>";
+                                xmlResult += "<show_feedback>" + resultAll[0][0].show_feedback + "</show_feedback>";
+                                xmlResult += "<ramdom>" + resultAll[0][0].ramdom + "</ramdom>";
                                 for (var i = 1; i < resultAll.length; i++) {
                                     xmlResult += resultAll[i];
                                 }

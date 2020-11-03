@@ -36,25 +36,27 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
             })
     childContainer.appendChild(temp);
     var promiseAll=[];
-    promiseAll.push(data_module.record_test.load());
     promiseAll.push(data_module.usersList.load());
     promiseAll.push(data_module.usersListHome.load());
     Promise.all(promiseAll).then(function(record_test){
         var survey,userList;
-        var result = data_module.survey.getTypeFromItems(data_module.record_test.items);
+        var result = data_module.survey.getTypeFromItems(host.record_test);
              var times = absol.buildDom({
                 tag: "selectmenu",
                 on: {
                     change: function(event, me) {
+                        if(this.value == -1)
+                        return;
                         var cloneXmlRequest = {...xmlRequest};
                         host.page = cloneXmlRequest;
+                        cloneXmlRequest.editMode = true;
                         ModalElement.show_loading();
+                        childContainer.classList.add("disabled");
                         cloneXmlRequest.readXMLFromDB(survey.value, childContainer).then(
                             function(e) {
                                 data_module.record.loadByRecordTest([{name:"record_testid",value:me.value}]).then(function(valid){
                                     ModalElement.close(-1);
                                     childContainer.childNodes[1].setAnswer(valid);
-                                    childContainer.classList.add("disabled");
                                     host.prevButton.updateVisiable();
                                     host.nextButton.updateVisiable();
                                 })
@@ -81,7 +83,7 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
                 on: {
                     change: function(event, me) {
                             var finalValueZ=[];
-                            if(me.times[me.value].length === 0)
+                            if(me.times[me.value] == undefined||me.times[me.value].length === 0)
                             finalValueZ = [{text:"Chưa thực hiện lần nào", value: -1}]
                             else
                             {
@@ -126,7 +128,8 @@ formTest.reporter_feedback_information.headMask = function(host, childContainer)
                             var timesUpdate = [];
                             for(var paramid in me.objectUpdate[me.value])
                             {
-                                console.log(me.objectUpdate[me.value][paramid])
+                                if(window.privilege == 0&&me.objectUpdate[me.value][paramid].show_result!==2)
+                                continue;
                                 finalValueY.push({
                                     text: me.objectUpdate[me.value][paramid].value,
                                     value: paramid,

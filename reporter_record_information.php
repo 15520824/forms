@@ -45,6 +45,7 @@ formTest.reporter_record_information.headMask = function(host,childContainer){
             }
         });
     var cloneXmlRequest = {...xmlRequest};
+    cloneXmlRequest.editMode = true;
     ModalElement.show_loading();
     cloneXmlRequest.readXMLFromDB(survey.value,childContainer).then(function(e){
         ModalElement.close(-1);

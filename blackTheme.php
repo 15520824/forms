@@ -676,6 +676,7 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
         end = formatDate(data_module.examinations.items[k].end,true,true);
         timeStart = data_module.examinations.items[k].start;
         timeEnd = data_module.examinations.items[k].end;
+        if(mode == false)
         if(typeof checkLink === "object")
         {
             if(checkLink[data_module.examinations.items[k].id] == undefined)
@@ -709,6 +710,7 @@ blackTheme.reporter_examinations.generateTableDataExaminations = function(host,m
                 }
             }
         }
+        if(mode == false)
         if(timeEnd<new Date())
         continue;
         celldata = [count++];

@@ -31,6 +31,10 @@
     include_once "reporter_examinations_information.php";
     include_once "reporter_examinations_perform.php";
     include_once "reporter_examinations_perform_information.php";
+    include_once "reporter_feedback_examinations.php";
+    include_once "reporter_feedback_examinations_information.php";
+    include_once "reporter_user_examinations.php";
+    include_once "reporter_user_examinations_information.php";
     include_once "languagemodule.php";
     include_once "./old_php/reporter_users.php";
     include_once "./old_php/reporter_users_information.php";
@@ -145,7 +149,11 @@
                 reporter_examinations_perform: {},
                 reporter_examinations_perform_information: {},
                 reporter_users:{},
-                reporter_users_information:{}
+                reporter_users_information:{},
+                reporter_feedback_examinations:{},
+                reporter_feedback_examinations_information:{},
+                reporter_user_examinations:{},
+                reporter_user_examinations_information:{}
             };
             var blackTheme = {
                 reporter_surveys: {},
@@ -186,6 +194,10 @@
         write_reporter_examinations_perform_information_script();
         write_reporter_users_script();
         write_reporter_users_information_script();
+        write_reporter_feedback_examinations_script();
+        write_reporter_feedback_examinations_information_script();
+        write_reporter_user_examinations_script();
+        write_reporter_user_examinations_information_script();
         ?>
         <link rel="icon" href="favicon.ico">
         <link rel="stylesheet" href="css/new_layout.css">

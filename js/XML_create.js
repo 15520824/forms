@@ -1118,7 +1118,7 @@
                             value: 3,
                           },
                           {
-                            text: "Menu thả xuống (nhiều đáp án)",
+                            text: "Trắc nghiệm (nhiều đáp án)",
                             icon: "span.mdi.mdi-checkbox-marked",
                             value: 4,
                           },

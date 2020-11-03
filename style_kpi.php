@@ -91,7 +91,6 @@ function write_kpi_script() {
             ?>
             border-spacing: 0;
             border-collapse: collapse;
-            width: 100%;
         }
 
         .KPIsimpletableclass th {

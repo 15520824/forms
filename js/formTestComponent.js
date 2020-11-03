@@ -527,7 +527,6 @@ formTestComponent.formatDate = function(date)
     return tempString;
 }
 
-
 function I2FlexiconButton(){
 
 }
@@ -535,10 +534,7 @@ function I2FlexiconButton(){
 I2FlexiconButton.tag = 'I2FlexiconButton'.toLowerCase();
 
 I2FlexiconButton.prototype.addChild = function(child){
-    if (child.classList.contains('mdi') ||child.classList.contains('material-icons') ){
-        this.icon = child;
-    }
-    else if (child.tagName == "SPAN"){
+    if (child.tagName == "SPAN"){
         this.text = child.innerHTML;
     }
     else {

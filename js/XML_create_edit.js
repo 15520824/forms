@@ -436,8 +436,8 @@
             value: show_result,
             items: [
               { text: "Không", value: 0 },
-              { text: "Sau khi khảo sát", value: 1 },
-              { text: "Sau khi đánh giá của giảng viên", value: 2 },
+              { text: "Sau khi khảo sát", value: 2 },
+              { text: "Sau khi đánh giá của giảng viên", value: 1 },
             ],
           },
         });
@@ -447,8 +447,8 @@
             value: show_feedback,
             items: [
               { text: "Không", value: 0 },
-              { text: "Sau khi khảo sát", value: 1 },
-              { text: "Sau khi đánh giá của giảng viên", value: 2 },
+              { text: "Sau khi khảo sát", value: 2 },
+              { text: "Sau khi đánh giá của giảng viên", value: 1 },
             ],
           },
         });
@@ -578,53 +578,6 @@
                       child:[
                         {
                           tag:"div",
-                          class: "freebirdFormeditorViewHeaderTopRowContainerTop",
-                          child:[
-                            {
-                              tag: "div",
-                              class: "freebirdFormeditorViewHeaderTopRow",
-                              child: [
-                                {
-                                  tag: "div",
-                                  class: "freebirdFormeditorViewHeaderTopRow-cellName3",
-                                  child: [
-                                    {
-                                      tag: "div",
-                                      class: "freebirdFormeditorViewTabTitleLabel",
-                                      props: {
-                                        innerHTML: "Hiển thị nhận xét trả lời",
-                                      },
-                                    },
-                                    ShowResult,
-                                  ],
-                                },
-                              ],
-                            },
-                            {
-                              tag: "div",
-                              class: "freebirdFormeditorViewHeaderTopRow",
-                              child: [
-                                {
-                                  tag: "div",
-                                  class: "freebirdFormeditorViewHeaderTopRow-cellName2",
-                                  child: [
-                                    {
-                                      tag: "div",
-                                      class: "freebirdFormeditorViewTabTitleLabel",
-                                      props: {
-                                        innerHTML: "Hiện kết quả :",
-                                      },
-                                    },
-                                    ShowFeedback,
-                                  ],
-                                },
-                              ],
-                            },
-                            
-                          ]
-                        },
-                        {
-                          tag:"div",
                           class: "freebirdFormeditorViewHeaderTopRowContainerBottom",
                           child:[
                             {
@@ -649,6 +602,17 @@
                                         id:"check-survey-practice",
                                         checked:practice==1?true:false
                                       },
+                                      on:{
+                                        change:function(event){
+                                          if(this.checked == true)
+                                          {
+                                            absol.$(".freebirdFormeditorViewHeaderTopRowContainerTop",temp).style.display = "";
+                                          }else
+                                          {
+                                            absol.$(".freebirdFormeditorViewHeaderTopRowContainerTop",temp).style.display = "none";
+                                          }
+                                        }
+                                      }
                                     }
                                   ],
                                 },
@@ -709,32 +673,53 @@
                               ],
                             },
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      tag: "div",
-                      class: "freebirdFormeditorViewHeaderTopRowContainerRight",
-                      child: [
+                        },
                         {
-                          tag: "div",
-                          class: "freebirdFormeditorViewHeaderTopRow-cellName4",
-                          child: [
+                          tag:"div",
+                          class: "freebirdFormeditorViewHeaderTopRowContainerTop",
+                          child:[
                             {
                               tag: "div",
-                              class: "freebirdFormeditorViewTabTitleLabel",
-                              props: {
-                                innerHTML: "Tham gia ra đề :",
-                              },
+                              class: "freebirdFormeditorViewHeaderTopRow",
+                              child: [
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName3",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Hiển thị nhận xét trả lời",
+                                      },
+                                    },
+                                    ShowResult,
+                                  ],
+                                },
+                              ],
                             },
                             {
-                              tag:"selectbox",
-                              class: "freebirdFormeditorViewTabTitleSelectBox",
-                              props:{
-                                items:itemsUser,
-                              }
-                            }
-                          ],
+                              tag: "div",
+                              class: "freebirdFormeditorViewHeaderTopRow",
+                              child: [
+                                {
+                                  tag: "div",
+                                  class: "freebirdFormeditorViewHeaderTopRow-cellName2",
+                                  child: [
+                                    {
+                                      tag: "div",
+                                      class: "freebirdFormeditorViewTabTitleLabel",
+                                      props: {
+                                        innerHTML: "Hiện kết quả :",
+                                      },
+                                    },
+                                    ShowFeedback,
+                                  ],
+                                },
+                              ],
+                            },
+                            
+                          ]
                         },
                         {
                           tag: "div",
@@ -841,6 +826,33 @@
                             }
                           ],
                         },
+                      ]
+                    },
+                    {
+                      tag: "div",
+                      class: "freebirdFormeditorViewHeaderTopRowContainerRight",
+                      child: [
+                        {
+                          tag: "div",
+                          class: "freebirdFormeditorViewHeaderTopRow-cellName4",
+                          child: [
+                            {
+                              tag: "div",
+                              class: "freebirdFormeditorViewTabTitleLabel",
+                              props: {
+                                innerHTML: "Tham gia ra đề :",
+                              },
+                            },
+                            {
+                              tag:"selectbox",
+                              class: "freebirdFormeditorViewTabTitleSelectBox",
+                              props:{
+                                items:itemsUser,
+                              }
+                            }
+                          ],
+                        },
+                      
                       ],
                     },
                   ],
@@ -2087,7 +2099,7 @@
               value: 3,
             },
             {
-              text: "Menu thả xuống (nhiều đáp án)",
+              text: "Trắc nghiệm (nhiều đáp án)",
               icon: "span.mdi.mdi-checkbox-marked",
               value: 4,
             },

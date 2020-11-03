@@ -19,9 +19,6 @@ formTest.reporter_surveys_information.tableCreate = function(host) {
         },
         header: [{
                 attrs: {
-                    style: {
-                        width: "80px"
-                    }
                 },
                 text: "STT"
             },
@@ -72,9 +69,6 @@ formTest.reporter_surveys_information.redrawTable = function(index,host) {
         },
         header: [{
                 attrs: {
-                    style: {
-                        width: "80px"
-                    }
                 },
                 text: "STT"
             },

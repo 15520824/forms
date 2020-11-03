@@ -74,11 +74,18 @@ formTest.menu.loadPage = function (taskid) {
             formTest.menu.tabPanel.addChild(holder);
             formTest.menu.showListUser(host);
             break;
-
+        case 31:
+            holder.name = "Báo cáo đợt kiểm tra";
+            formTest.menu.tabPanel.addChild(holder);
+            formTest.reporter_feedback_examinations.init(host, 1);
+            break;
         case 33:
             var promiseAll = [];
             promiseAll.push(data_module.usersListHome.load());
+            if(window.privilege == 0)
             promiseAll.push(data_module.record_test.loadByUserId([{name:"userid",value:window.userid}]));
+            else
+            promiseAll.push(data_module.record_test.load());
             Promise.all(promiseAll).then(function (result) {
                 if(result[1].length == 0)
                 {
@@ -88,9 +95,33 @@ formTest.menu.loadPage = function (taskid) {
                     })
                 }else
                 {
+                    host.record_test = result[1];
                     holder.name = "Xem kết quả bài tập";
                     formTest.menu.tabPanel.addChild(holder);
                     formTest.reporter_feedback.init(host, 1);
+                }
+            });
+            break;
+        case 34:
+            var promiseAll = [];
+            promiseAll.push(data_module.usersListHome.load());
+            if(window.privilege == 0)
+            promiseAll.push(data_module.record_test.loadExaminationsByUserId([{name:"userid",value:window.userid}]));
+            else
+            promiseAll.push(data_module.record_test.loadExamination());
+            Promise.all(promiseAll).then(function (result) {
+                if(result[1].length == 0)
+                {
+                    ModalElement.showWindow({
+                        title:"Chưa tham gia bài kiểm tra",
+                        bodycontent:"Vui lòng thực hiện bài kiểm tra trước khi vào mục báo cáo bài tập"
+                    })
+                }else
+                {
+                    host.record_test = result[1];
+                    holder.name = "Xem kết quả bài kiểm tra";
+                    formTest.menu.tabPanel.addChild(holder);
+                    formTest.reporter_user_examinations.init(host, 1);
                 }
             });
             break;
@@ -221,29 +252,35 @@ formTest.menu.init = function (holder) {
                                             }
                                         ]
                                     });
-                                
+                            var itemReport = []
                             if(window.privilege >= 1)
                             {
-                                menuItems.push(
+                                itemReport.push({
+                                    text: "Đợt kiểm tra",
+                                    pageIndex: 31
+                                })
+                            }
+                            itemReport.push({
+                                text: "Bài tập",
+                                pageIndex: 33
+                            })
+                            itemReport.push({
+                                text: "Bài kiểm tra",
+                                pageIndex: 34
+                            })
+                            if(window.privilege >= 1)
+                            {           
+                                itemReport.push({
+                                    text: "Thí sinh",
+                                    pageIndex: 32
+                                })
+                            }
+                            menuItems.push(
                                 {
                                     text: "Báo cáo",
                                     pageIndex: 2,
-                                    items:[
-                                        {
-                                            text: "Đợt kiểm tra",
-                                            pageIndex: 31
-                                        },
-                                        {
-                                            text: "Bài tập",
-                                            pageIndex: 33
-                                        },
-                                        {
-                                            text: "Thí sinh",
-                                            pageIndex: 32
-                                        }
-                                    ]
+                                    items:itemReport
                                 });
-                            }
 
                             if(window.privilege == 2)
                             {

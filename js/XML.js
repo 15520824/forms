@@ -1,3 +1,21 @@
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 (function(root, UMD) {
   if (typeof define === "function" && define.amd) define([], UMD);
   else if (typeof module === "object" && module.exports) module.exports = UMD();
@@ -70,6 +88,8 @@
             innerHTML: xmlComponent.getDataformObject(object, "value")
           }
         });
+        self.show_feedback = xmlComponent.getDataformObject(object, "show_feedback");
+        self.ramdom = xmlComponent.getDataformObject(object, "ramdom");
         // var closeButton=absol.buildDom({
         //     tag: "div",
         //     class: ["labelTitleClose","quantumWizButtonEl", "quantumWizButtonPapericonbuttonEl", "quantumWizButtonPapericonbuttonLight"],
@@ -496,7 +516,7 @@
                     var newXmlDbRecord = {...xmlDbRecord};
                     newXmlDbRecord.examinationid = self.examinationid;
                     newXmlDbRecord.saveAll(self.arrPage);
-                    formTest.reporter_examinations_perform_information.redrawTable();
+                    // formTest.reporter_examinations_perform_information.redrawTable();
                   }
               })
               
@@ -650,9 +670,14 @@
           }
         });
         if (object.childNodes !== undefined)
+        {
+          if(!(this.editMode == true))
+            if(this.ramdom == 1)
+              shuffle(object.childNodes);
           for (var i = 0; i < object.childNodes.length; i++) {
             temp.appendChild(this.element(object.childNodes[i]));
           }
+        }
         temp.getValue = function() {
           var result = [];
           for (var i = 0; i < temp.childNodes.length; i++) {
@@ -776,6 +801,7 @@
           for(var j=0;j<data.length;j++)
           {
             for(var i=0;i<selector.length;i++)
+            {
               if(data[j][0]==selector[i].id)
               {
                 selector[i].parentNode.parentNode.classList.add("answerChoice");
@@ -791,6 +817,7 @@
                   input[0].setValueFormObject(absol.XML.parse(data[j][1]));
                 }
               }
+            }
           }
           if(self.examinationid == undefined)
           temp.setCorrect();
@@ -798,12 +825,17 @@
         temp.setCorrect = function()
         {
           var extra = temp.getValue();
-          if(extra.score!=0)
+          
+            if(extra.score!=0)
+            {
+              temp.classList.add("correctTrue");
+            }else
+            {
+              temp.classList.add("correctFalse");
+            }
+          if(!(self.show_feedback==2||window.privilege>1))
           {
-            temp.classList.add("correctTrue");
-          }else
-          {
-            temp.classList.add("correctFalse");
+            temp.classList.add("disableFeedback");
           }
           temp.visiableCorrectAnswer();
         }

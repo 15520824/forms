@@ -31,10 +31,15 @@
     display: inline-block;
 }
 
+.freebirdFormeditorViewTabTitleEvaluate-container input{
+    max-width: 100%;
+}
+
 .freebirdFormeditorViewTabTitleEvaluate-container>div{
     display: inline-block;
     width: 25%;
     min-width: 150px;
+    margin-bottom: 3px;
 }
 
 .freebirdFormeditorViewHeaderTopRowContainerBottom>div .freebirdFormeditorViewTabTitleLabel{

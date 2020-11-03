@@ -55,6 +55,33 @@ if (count($search) > 0){
 {
 
 }
+$search = $connection->load($prefix.'link_examination_survey','surveyid='.$id);
+if (count($search) > 0){
+    for($i=0;$i<count($search);$i++)
+    {
+        $search1 = $connection->load($prefix.'link_examination_user','examinationid='.$search[$i]["examinationid"]);
+        if (count($search1) > 0){
+            for($i=0;$i<count($search1);$i++)
+            {
+                $connection->query("DELETE FROM ".$prefix."record WHERE record_testid=".$search1[$i]["id"]);
+            }
+        }
+    }
+    $connection->query("DELETE FROM ".$prefix."link_examination_user WHERE examinationid=".$search[$i]["examinationid"]);
+}
+$connection->query("DELETE FROM ".$prefix."link_examination_survey WHERE surveyid=".$id);
+
+
+$search = $connection->load($prefix.'link_examination_user','surveyid='.$id);
+if (count($search) > 0){
+    for($i=0;$i<count($search);$i++)
+    {
+        $connection->query("DELETE FROM ".$prefix."record WHERE record_testid=".$search[$i]["id"]);
+    }
+}
+$connection->query("DELETE FROM ".$prefix."link_examination_user WHERE surveyid=".$id);
+
+
 $connection->query("DELETE FROM ".$prefix."link_survey_user WHERE surveyid=".$id);
 $connection->query("DELETE FROM ".$prefix."survey WHERE id=".$id);
 

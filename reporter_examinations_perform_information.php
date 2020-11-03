@@ -19,9 +19,6 @@ formTest.reporter_examinations_perform_information.tableCreate = function(host) 
         },
         header: [{
                 attrs: {
-                    style: {
-                        width: "80px"
-                    }
                 },
                 text: "STT"
             },
@@ -133,9 +130,6 @@ formTest.reporter_examinations_perform_information.redrawTable = function() {
             },
             header: [{
                     attrs: {
-                        style: {
-                            width: "80px"
-                        }
                     },
                     text: "STT"
                 },

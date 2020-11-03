@@ -48,6 +48,10 @@ html {
     line-height: 32px;
     color: #673ab7;
   }
+
+  #flipclock-2 ._3-digits{
+    display: none;
+  }
   
   .flipclock {
     display: flex;

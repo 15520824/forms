@@ -1025,6 +1025,10 @@ label.btn input[type=checkbox][class*=filled-in]:checked+label:after {
     display: block;
 }
 
+.correctFalse.disableFeedback .freebirdFormviewerViewItemsItemGradingGradingBox:not(.noFeedBackFalse){
+    display: none;
+}
+
 .correctTrue .answerChoice .freebirdFormeditorViewItemTrueButton{
     display: inline-block;
 }

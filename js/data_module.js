@@ -2091,7 +2091,37 @@ data_module.record_test.load = function(loadAgain = false) {
         if (success) {
           if (message.substr(0, 2) == "ok") {
             var st = EncodingClass.string.toVariable(message.substr(2));
-            data_module.record_test.items = st;
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.record_test.loadExamination = function(loadAgain = false) {
+  if (data_module.record_test.items && !loadAgain) return Promise.resolve();
+  return new Promise(function(resolve, reject) {
+    
+    FormClass.api_call({
+      url: "./php/load/load_recordexaminations.php",
+      params: [],
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
             resolve(st);
           } else {
             ModalElement.alert({
@@ -2116,6 +2146,35 @@ data_module.record_test.loadByUserId = function(data) {
   return new Promise(function(resolve, reject) {
     FormClass.api_call({
       url: "./php/load/load_recordtest_by_userid.php",
+      params: data,
+      func: (success, message) => {
+        if (success) {
+          if (message.substr(0, 2) == "ok") {
+            var st = EncodingClass.string.toVariable(message.substr(2));
+            resolve(st);
+          } else {
+            ModalElement.alert({
+              message: message
+            });
+            reject();
+            return;
+          }
+        } else {
+          ModalElement.alert({
+            message: message
+          });
+          reject();
+          return;
+        }
+      }
+    });
+  });
+};
+
+data_module.record_test.loadExaminationsByUserId = function(data) {
+  return new Promise(function(resolve, reject) {
+    FormClass.api_call({
+      url: "./php/load/load_recordexaminations_by_userid.php",
       params: data,
       func: (success, message) => {
         if (success) {
@@ -2618,6 +2677,42 @@ data_module.examinations.loadLibary = function(data=[]) {
     });
   });
 };
+
+data_module.examinations.getTypeFromItems = function(linkSurvey,linkUser)
+{
+  var valid = [];
+  var checkUser = [];
+  var user;
+  var type;
+  var survey;
+  var examination;
+  var checkExamination = [];
+  for(var i = 0;i<linkSurvey.length;i++)
+  {
+    checkExamination[linkSurvey[i].examinationid] = linkSurvey[i];
+  }
+  for(var i=0;i<linkUser.length;i++){
+    survey = data_module.survey.getByID(checkExamination[linkUser[i].examinationid].surveyid);
+    examination = data_module.examinations.getById(linkUser[i].examinationid);
+    user = linkUser[i].user_id;
+    if(checkUser[user]===undefined)
+    {
+      valid[user] = { ...data_module.usersList.getID(user) };
+      valid[user].examination = {};
+      checkUser[user] = 1;
+    }
+    if(valid[user].examination[examination.id]===undefined)
+    {
+      valid[user].examination[examination.id] =  {};
+      valid[user].examination[examination.id].examination = {...examination};
+      valid[user].examination[examination.id].survey = {...survey};
+      valid[user].examination[examination.id].time = linkUser[i].timestamp;
+      valid[user].examination[examination.id].id = linkUser[i].id;
+    }
+  }
+  console.log(valid)
+  return valid;
+}
 
 data_module.examinations.getById = function(id) {
   for (var i = 0; i < data_module.examinations.items.length; i++) {

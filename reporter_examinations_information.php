@@ -19,9 +19,6 @@ formTest.reporter_examinations_information.tableCreate = function(host) {
         },
         header: [{
                 attrs: {
-                    style: {
-                        width: "80px"
-                    }
                 },
                 text: "STT"
             },
@@ -31,25 +28,16 @@ formTest.reporter_examinations_information.tableCreate = function(host) {
             },
             {
                 attrs: {
-                    style: {
-                        width: "200px"
-                    }
                 },
                 text: 'Bắt đầu'
             },
             {
                 attrs: {
-                    style: {
-                        width: "200px"
-                    }
                 },
                 text: 'Kết thúc'
             },
             {
                 attrs: {
-                    style: {
-                        width: "200px"
-                    }
                 },
                 text: 'Trạng thái'
             },
@@ -90,9 +78,6 @@ formTest.reporter_examinations_information.redrawTable = function() {
         },
         header: [{
                 attrs: {
-                    style: {
-                        width: "80px"
-                    }
                 },
                 text: "STT"
             },
